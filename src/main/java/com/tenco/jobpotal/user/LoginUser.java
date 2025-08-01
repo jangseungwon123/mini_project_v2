@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.user;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ public class LoginUser {
     private String userNickName;
     private String isCompany;
 
+    @Builder
     public LoginUser(Long id, String name, String loginId, String userNickName, String isCompany) {
         this.id = id;
         this.name = name;
