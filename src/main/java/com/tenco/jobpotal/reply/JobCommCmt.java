@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.reply;
 
+import com.tenco.jobpotal.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,9 +21,9 @@ public class JobCommCmt {
 
     // 구직자 커뮤니티 게시글 PK 넣기
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "comp_user_id",nullable = false)
-    // private User user;
+     @ManyToOne(fetch = FetchType.LAZY)
+     @JoinColumn(name = "user_id",nullable = false)
+     private User user;
 
     @Column(nullable = false,length = 500)
     private String content;
