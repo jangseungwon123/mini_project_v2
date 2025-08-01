@@ -18,15 +18,15 @@ public class UserRestController {
     private final UserService userService;
 
     @Operation(summary = "회원가입")
-    @PostMapping("/user/join")
-    public ResponseEntity<?> join(@Valid @RequestBody UserRequest.JoinDTO joinDTO, Errors errors) {
+    @PostMapping("/join")
+    public ResponseEntity<?> userJoin(@Valid @RequestBody UserRequest.JoinDTO joinDTO, Errors errors) {
         UserResponse.JoinDTO joinUser = userService.join(joinDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(joinUser));
     }
 
     @Operation(summary = "로그인")
-    @PostMapping("/user/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserRequest.LoginDTO loginDTO, Errors errors) {
+    @PostMapping("/login")
+    public ResponseEntity<?> userLogin(@Valid @RequestBody UserRequest.LoginDTO loginDTO, Errors errors) {
         String jwtToken = userService.login(loginDTO);
         return ResponseEntity.ok()
                 .header("Authorization", "Bearer " +jwtToken)
@@ -57,8 +57,8 @@ public class UserRestController {
     }
 
     @Operation(summary = "로그아웃")
-    @PostMapping("/user/logout")
-    public ResponseEntity<?> logout() {
+    @PostMapping("/logout")
+    public ResponseEntity<?> userLogout() {
         return ResponseEntity.ok(new ApiUtil<>("로그아웃 성공"));
 
     }
