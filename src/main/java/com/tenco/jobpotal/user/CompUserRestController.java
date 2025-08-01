@@ -24,14 +24,14 @@ public class CompUserRestController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(joinedCompUser));
 	}
 
-	@Operation(summary = "로그인")
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@Valid @RequestBody CompUserRequest.LoginDTO loginDTO, Errors errors) {
-		String jwtToken = compUserService.login(loginDTO);
-		return ResponseEntity.ok()
-				.header(Define.AUTH, Define.BEARER + jwtToken)
-				.body(new ApiUtil<>(jwtToken));
-	}
+//	@Operation(summary = "로그인")
+//	@PostMapping("/login")
+//	public ResponseEntity<?> login(@Valid @RequestBody CompUserRequest.LoginDTO loginDTO, Errors errors) {
+//		String jwtToken = compUserService.login(loginDTO);
+//		return ResponseEntity.ok()
+//				.header(Define.AUTH, Define.BEARER + jwtToken)
+//				.body(new ApiUtil<>(jwtToken));
+//	}
 
 	@Operation(summary = "회원정보조회")
 	@GetMapping("/api/compUsers/{compUserId")
