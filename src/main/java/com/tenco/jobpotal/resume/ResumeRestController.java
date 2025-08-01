@@ -22,7 +22,7 @@ public class ResumeRestController {
                                   @RequestAttribute("sessionUser")LoginUser loginUser) {
 
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>());
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(""));
     }
 
 }

@@ -17,7 +17,7 @@ public class ResumeService {
     public ResumeResponse.SaveDTO save(ResumeRequest.SaveDTO saveDTO, LoginUser loginUser){
         User user = User.builder()
                 .userId(loginUser.getId())
-                .useName(loginUser.getName())
+                .userName(loginUser.getName())
                 .userNickname(loginUser.getUserNickName())
                 .build();
         Resume resume = saveDTO.toEntity(user);
