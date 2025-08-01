@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.*;
 public class CompUserRestController {
 	private final CompUserService compUserService;
 
-	@Operation(summary = "회원가입")
-	@PostMapping("/join")
+	@Operation(summary = "회원가입", operationId = "CompUserJoin")
+	@PostMapping("/api/compUsers/join")
 	public ResponseEntity<?> join(@Valid @RequestBody CompUserRequest.JoinDTO joinDTO, Errors errors) {
 		CompUserResponse.JoinDTO joinedCompUser = compUserService.join(joinDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(joinedCompUser));
 	}
 
-	@Operation(summary = "로그인")
-	@PostMapping("/login")
+	@Operation(summary = "로그인", operationId = "CompUserLogin")
+	@PostMapping("/api/compUsers/login")
 	public ResponseEntity<?> login(@Valid @RequestBody CompUserRequest.LoginDTO loginDTO, Errors errors) {
 		String jwtToken = compUserService.login(loginDTO);
 		return ResponseEntity.ok()
@@ -34,8 +34,8 @@ public class CompUserRestController {
 				.body(new ApiUtil<>(jwtToken));
 	}
 
-	@Operation(summary = "회원정보조회")
-	@GetMapping("/api/compUsers/{compUserId")
+	@Operation(summary = "회원정보조회", operationId = "CompUserDetail")
+	@GetMapping("/api/compUsers/{compUserId}")
 	public ResponseEntity<?> getCompUserInfo(
 			@PathVariable(name = "compUserId") Long compUserId,
 			@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser loginUser) {
@@ -47,7 +47,7 @@ public class CompUserRestController {
 		return ResponseEntity.ok(new ApiUtil<>(compUserDetail));
 	}
 
-	@Operation(summary = "회원정보수정")
+	@Operation(summary = "회원정보수정", operationId = "CompUserUpdate")
 	@PutMapping("/api/compUsers/{compUserId}")
 	public ResponseEntity<?> updateCompUser(
 			@PathVariable(name = "compUserId") Long compUserId,
@@ -61,8 +61,8 @@ public class CompUserRestController {
 		return ResponseEntity.ok().body(new ApiUtil<>(updatedCompUser));
 	}
 
-	@Operation(summary = "로그아웃", description = "로그아웃")
-	@PostMapping("/logout")
+	@Operation(summary = "로그아웃", description = "로그아웃", operationId = "CompUserLogout")
+	@PostMapping("/api/compUsers/logout")
 	public ResponseEntity<?> logout() {
 		return ResponseEntity.ok(new ApiUtil<>("로그아웃 성공"));
 	}
