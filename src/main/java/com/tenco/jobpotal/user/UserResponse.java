@@ -21,7 +21,7 @@ public class UserResponse {
 
         @Builder
         public JoinDTO(User user) {
-            this.useName = user.getUseName();
+            this.useName = user.getUserName();
             this.userLoginId = user.getUserLoginId();
             this.userPassword = user.getUserPassword();
             this.userEmail = user.getUserEmail();
@@ -59,7 +59,7 @@ public class UserResponse {
 
         @Builder
         public UpdateDTO(User user) {
-            this.userName = user.getUseName();
+            this.userName = user.getUserName();
             this.userPassword = user.getUserPassword();
             this.userEmail = user.getUserEmail();
             this.userAddress = user.getUserAddress();
@@ -84,7 +84,7 @@ public class UserResponse {
 
         @Builder
         public DetailDTO(User user) {
-            this.useName = user.getUseName();
+            this.useName = user.getUserName();
             this.userLoginId = user.getUserLoginId();
             this.userPassword = user.getUserPassword();
             this.userEmail = user.getUserEmail();

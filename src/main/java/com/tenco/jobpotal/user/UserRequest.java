@@ -15,7 +15,7 @@ public class UserRequest {
     public static class JoinDTO {
         @NotEmpty(message = "이름을 입력해주세요")
         @Pattern(regexp = "^[가-힣a-zA-Z]{2,20}$", message = "한글/영문 2~20자 이내로 작성해주세요")
-        private String useName;
+        private String userName;
         @NotEmpty(message = "아이디를 입력해주세요")
         @Pattern(regexp = "^[a-zA-Z0-9]{4,20}$", message = "영문/숫자 조합 4~20자 이내로 작성해주세요")
         private String userLoginId;
@@ -46,7 +46,7 @@ public class UserRequest {
 
         public User toEntity() {
             return User.builder()
-                    .useName(useName)
+                    .userName(userName)
                     .userLoginId(userLoginId)
                     .userPassword(userPassword)
                     .userEmail(userEmail)

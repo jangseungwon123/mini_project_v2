@@ -18,7 +18,7 @@ public class User {
     private Long userId;
 
     @Column(nullable = false)
-    private String useName;
+    private String userName;
 
     @Column(unique = true, nullable = false)
     private String userLoginId;
@@ -54,9 +54,9 @@ public class User {
     private Boolean isCompanyUserYn = false;
 
     @Builder
-    public User(Long userId, String useName, String userLoginId, String userPassword, String userEmail, String userAddress, String userPhone, String userBirth, String userGender, String userNickname, String userCivilSerial) {
+    public User(Long userId, String userName, String userLoginId, String userPassword, String userEmail, String userAddress, String userPhone, String userBirth, String userGender, String userNickname, String userCivilSerial) {
         this.userId = userId;
-        this.useName = useName;
+        this.userName = userName;
         this.userLoginId = userLoginId;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
@@ -69,7 +69,7 @@ public class User {
     }
 
     public void update(UserRequest.UpdateDTO updateDTO) {
-        this.useName = updateDTO.getUserName();
+        this.userName = updateDTO.getUserName();
         this.userPassword = updateDTO.getUserPassword();
         this.userEmail = updateDTO.getUserEmail();
         this.userAddress = updateDTO.getUserAddress();

@@ -35,7 +35,7 @@ public class UserService {
                 });
         LoginUser loginUser = LoginUser.builder()
                 .id(user.getUserId())
-                .name(user.getUseName())
+                .name(user.getUserName())
                 .loginId(user.getUserLoginId())
                 .userNickName(user.getUserNickname())
                 .isCompany(false)
