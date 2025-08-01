@@ -2,6 +2,7 @@ package com.tenco.jobpotal.resume;
 
 import com.tenco.jobpotal.user.User;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,10 +24,21 @@ public class Resume {
     private User user;
     // skillListId
     // userSkillListNo
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false,length = 100)
     private String title;
-    @Column(nullable = false, length = 1000)
+    @Column(nullable = false,length = 1000)
     private String content;
+    @Column(nullable = false)
+    private String phone;
+    @Column(nullable = false)
+    private String address;
+    @Column(nullable = false)
+    private String birth;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false,length = 1)
+    private char gender;
+
     @Column(nullable = false, length = 1)
     private char isExperienced;
     @Column(nullable = false, length = 1)
@@ -35,6 +47,19 @@ public class Resume {
     @CreationTimestamp
     private Timestamp instDate;
 
-
-
+    @Builder
+    public Resume(Long resumeId, User user, String title, String content, String phone, String address, String birth, String email, char gender, char isExperienced, char isShow, Timestamp instDate) {
+        this.resumeId = resumeId;
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.phone = phone;
+        this.address = address;
+        this.birth = birth;
+        this.email = email;
+        this.gender = gender;
+        this.isExperienced = isExperienced;
+        this.isShow = isShow;
+        this.instDate = instDate;
+    }
 }
