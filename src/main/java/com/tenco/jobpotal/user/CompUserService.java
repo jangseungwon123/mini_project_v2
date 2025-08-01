@@ -3,6 +3,7 @@ package com.tenco.jobpotal.user;
 import com.tenco.jobpotal._core.errors.exception.Exception400;
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
+import com.tenco.jobpotal._core.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,15 +26,15 @@ public class CompUserService {
 		return new CompUserResponse.JoinDTO(savedUser);
 	}
 
-	// 로그인
-	public String login(CompUserRequest.LoginDTO loginDTO) {
-		CompUser selectedCompUser = compUserJpaRepository
-				.findByCompUserLoginIdAndCompUserPassword(
-						loginDTO.getCompUserLoginId(), loginDTO.getCompUserPassword())
-				.orElseThrow(RuntimeException::new);
-		String jwt = "";
-		return jwt;
-	}
+//	// 로그인
+//	public String login(CompUserRequest.LoginDTO loginDTO) {
+//		LoginUser selectedCompUser = compUserJpaRepository
+//				.findByCompUserLoginIdAndCompUserPassword(
+//						loginDTO.getCompUserLoginId(), loginDTO.getCompUserPassword())
+//				.orElseThrow(RuntimeException::new);
+//		String jwt = JwtUtil.create(selectedCompUser);
+//		return jwt;
+//	}
 
 	// 회원정보조회
 	public CompUserResponse.DetailDTO findCompUserByCompUserId(

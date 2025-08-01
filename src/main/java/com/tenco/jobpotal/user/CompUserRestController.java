@@ -37,7 +37,7 @@ public class CompUserRestController {
 	@GetMapping("/api/compUsers/{compUserId")
 	public ResponseEntity<?> getCompUserInfo(
 			@PathVariable(name = "compUserId") Long compUserId,
-			@RequestAttribute(Define.SESSION_COMP_USER) LoginUser sessionUser) {
+			@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser sessionUser) {
 //		if (sessionUser == null) {
 //			throw new Exception401("로그인 필요");
 //		}
@@ -50,7 +50,7 @@ public class CompUserRestController {
 	@PutMapping("/api/compUsers/{compUserId}")
 	public ResponseEntity<?> updateCompUser(
 			@PathVariable(name = "compUserId") Long compUserId,
-			@RequestAttribute(Define.SESSION_COMP_USER) LoginUser sessionUser,
+			@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser sessionUser,
 			@Valid @RequestBody CompUserRequest.UpdateDTO updateDTO, Errors errors) {
 //		if (sessionUser == null) {
 //			throw new Exception401("로그인 필요");
