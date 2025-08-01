@@ -14,6 +14,7 @@ public interface CompUserJpaRepository  extends JpaRepository<CompUser, Long> {
 																@Param("compUserPassword") String compUserPassword);
 
 	// 기업회원 로그인 아이디로 사용자 조회(중복체크)
-	@Query("select cu from CompUser cu where cu.compUserLoginId = :compUserLoginId")
-	Optional<CompUser> findByCompUserLoginId(@Param("compUserLoginId") String compUserLoginId);
+	@Query("select cu from CompUser cu where cu.compUserLoginId = :compUserLoginId or cu.compUserEmail = :compUserEmail")
+	Optional<CompUser> findByCompUserExists(@Param("compUserLoginId") String compUserLoginId,
+											 @Param("compUserEmail") String compUserEmail);
 }

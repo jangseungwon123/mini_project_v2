@@ -68,12 +68,12 @@ public class User {
         this.userCivilSerial = userCivilSerial;
     }
 
-    public void update() {
-        this.useName = useName;
-        this.userPassword = userPassword;
-        this.userEmail = userEmail;
-        this.userAddress = userAddress;
-        this.userPhone = userPhone;
-        this.userNickname = userNickname;
+    public void update(UserRequest.UpdateDTO updateDTO) {
+        this.useName = updateDTO.getUserName();
+        this.userPassword = updateDTO.getUserPassword();
+        this.userEmail = updateDTO.getUserEmail();
+        this.userAddress = updateDTO.getUserAddress();
+        this.userPhone = updateDTO.getUserPhone();
+        this.userNickname = updateDTO.getUserNickname();
     }
 }
