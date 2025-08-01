@@ -18,14 +18,14 @@ public class UserRestController {
     private final UserService userService;
 
     @Operation(summary = "회원가입")
-    @PostMapping("/join")
+    @PostMapping("/user/join")
     public ResponseEntity<?> join(@Valid @RequestBody UserRequest.JoinDTO joinDTO, Errors errors) {
         UserResponse.JoinDTO joinUser = userService.join(joinDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(joinUser));
     }
 
     @Operation(summary = "로그인")
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserRequest.LoginDTO loginDTO, Errors errors) {
         String jwtToken = userService.login(loginDTO);
         return ResponseEntity.ok()
@@ -33,12 +33,10 @@ public class UserRestController {
                 .body(new ApiUtil<>(null));
     }
 
-
    @Operation(summary = "회원정보 조회")
     @GetMapping("/api/users/{id}")
     public ResponseEntity<?> getUserInfo(@PathVariable(name = "id") Long id,
                                          @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
-        // 인증 체크
         if (loginUser == null) {
             throw new Exception401("인증 정보가 없습니다");
         }
@@ -51,7 +49,6 @@ public class UserRestController {
     public ResponseEntity<?> updateUser(@PathVariable(name = "id") Long id,
                                         @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser,
                                         @Valid @RequestBody UserRequest.UpdateDTO updateDTO, Errors errors) {
-        // 인증 체크
         if (loginUser == null) {
             throw new Exception401("인증 정보가 없습니다");
         }
@@ -59,9 +56,8 @@ public class UserRestController {
         return ResponseEntity.ok().body(new ApiUtil<>(updateUser));
     }
 
-
     @Operation(summary = "로그아웃")
-    @PostMapping("/logout")
+    @PostMapping("/user/logout")
     public ResponseEntity<?> logout() {
         return ResponseEntity.ok(new ApiUtil<>("로그아웃 성공"));
 
