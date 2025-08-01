@@ -1,4 +1,4 @@
-package comp_user;
+package com.tenco.jobpotal.user.comp_user;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-@Table(name = "comp_user")
+@Table(name = "com/tenco/jobpotal/user/comp_user")
 @Entity
 public class CompUser {
 

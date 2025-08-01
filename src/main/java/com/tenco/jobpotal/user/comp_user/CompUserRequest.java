@@ -1,4 +1,4 @@
-package comp_user;
+package com.tenco.jobpotal.user.comp_user;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;
