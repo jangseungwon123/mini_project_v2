@@ -18,8 +18,4 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserExists(@Param("userLoginId") String userLoginId,
                                     @Param("userCivilSerial") String userCivilSerial,
                                     @Param("userEmail") String userEmail);
-
-    // 아이디로 사용자 조회(회원 정보 조회용)
-    @Query("SELECT u FROM User u WHERE u.userLoginId = :userLoginId")
-    Optional<User> findByUserId(@Param("userLoginId") String userLoginId);
 }
