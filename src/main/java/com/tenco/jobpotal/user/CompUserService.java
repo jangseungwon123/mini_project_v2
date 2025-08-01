@@ -15,11 +15,11 @@ public class CompUserService {
 	// 회원가입
 	@Transactional
 	public CompUserResponse.JoinDTO join(CompUserRequest.JoinDTO joinDTO) {
-//		compUserJpaRepository.findByCompUserLoginId(joinDTO.getCompUserLoginId())
+//		compUserJpaRepository.findByCompUserExists(joinDTO.getCompUserLoginId(), joinDTO.getCompUserEmail())
 //				.ifPresent(compUser -> {
 //					throw new Exception400("이미 존재하는 아이디입니다");
 //				});
-		compUserJpaRepository.findByCompUserLoginId(joinDTO.getCompUserLoginId());
+		compUserJpaRepository.findByCompUserExists(joinDTO.getCompUserLoginId(), joinDTO.getCompUserEmail());
 		CompUser savedUser = compUserJpaRepository.save(joinDTO.toEntity());
 		return new CompUserResponse.JoinDTO(savedUser);
 	}
