@@ -1,6 +1,7 @@
 package com.tenco.jobpotal.user;
 
 import com.tenco.jobpotal._core.errors.exception.Exception400;
+import com.tenco.jobpotal._core.errors.exception.Exception401;
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal._core.utils.JwtUtil;
@@ -19,22 +20,29 @@ public class CompUserService {
 	public CompUserResponse.JoinDTO join(CompUserRequest.JoinDTO joinDTO) {
 		compUserJpaRepository.findByCompUserExists(joinDTO.getCompUserLoginId(), joinDTO.getCompUserEmail())
 				.ifPresent(compUser -> {
-					throw new Exception400("이미 존재하는 아이디입니다");
+					throw new Exception400("이미 존재하는 아이디 또는 이메일입니다");
 				});
-		compUserJpaRepository.findByCompUserExists(joinDTO.getCompUserLoginId(), joinDTO.getCompUserEmail());
 		CompUser savedUser = compUserJpaRepository.save(joinDTO.toEntity());
 		return new CompUserResponse.JoinDTO(savedUser);
 	}
 
-//	// 로그인
-//	public String login(CompUserRequest.LoginDTO loginDTO) {
-//		LoginUser selectedCompUser = compUserJpaRepository
-//				.findByCompUserLoginIdAndCompUserPassword(
-//						loginDTO.getCompUserLoginId(), loginDTO.getCompUserPassword())
-//				.orElseThrow(RuntimeException::new);
-//		String jwt = JwtUtil.create(selectedCompUser);
-//		return jwt;
-//	}
+	// 로그인
+	public String login(CompUserRequest.LoginDTO loginDTO) {
+		CompUser user = compUserJpaRepository
+				.findByCompUserLoginIdAndCompUserPassword(
+						loginDTO.getCompUserLoginId(), loginDTO.getCompUserPassword())
+				.orElseThrow(() -> new Exception401("아이디 또는 비밀번호가 일치하지 않습니다."));
+		LoginUser loginUser = LoginUser.builder()
+				.id(user.getCompUserId())
+				.name(user.getCompUserName())
+				.loginId(user.getCompUserLoginId())
+				.userNickName(user.getCompUserNickname())
+				.isCompany(false)
+				.build();
+
+		String jwt = JwtUtil.create(loginUser);
+		return jwt;
+	}
 
 	// 회원정보조회
 	public CompUserResponse.DetailDTO findCompUserByCompUserId(

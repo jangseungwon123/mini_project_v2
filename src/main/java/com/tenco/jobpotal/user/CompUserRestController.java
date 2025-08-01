@@ -1,6 +1,7 @@
 package com.tenco.jobpotal.user;
 
 import com.tenco.jobpotal._core.common.ApiUtil;
+import com.tenco.jobpotal._core.errors.exception.Exception401;
 import com.tenco.jobpotal._core.utils.Define;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,25 +25,25 @@ public class CompUserRestController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(joinedCompUser));
 	}
 
-//	@Operation(summary = "로그인")
-//	@PostMapping("/login")
-//	public ResponseEntity<?> login(@Valid @RequestBody CompUserRequest.LoginDTO loginDTO, Errors errors) {
-//		String jwtToken = compUserService.login(loginDTO);
-//		return ResponseEntity.ok()
-//				.header(Define.AUTH, Define.BEARER + jwtToken)
-//				.body(new ApiUtil<>(jwtToken));
-//	}
+	@Operation(summary = "로그인")
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@Valid @RequestBody CompUserRequest.LoginDTO loginDTO, Errors errors) {
+		String jwtToken = compUserService.login(loginDTO);
+		return ResponseEntity.ok()
+				.header(Define.AUTH, Define.BEARER + jwtToken)
+				.body(new ApiUtil<>(jwtToken));
+	}
 
 	@Operation(summary = "회원정보조회")
 	@GetMapping("/api/compUsers/{compUserId")
 	public ResponseEntity<?> getCompUserInfo(
 			@PathVariable(name = "compUserId") Long compUserId,
-			@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser sessionUser) {
-//		if (sessionUser == null) {
-//			throw new Exception401("로그인 필요");
-//		}
+			@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser loginUser) {
+		if (loginUser == null) {
+			throw new Exception401("로그인이 필요합니다");
+		}
 		CompUserResponse.DetailDTO compUserDetail =
-				compUserService.findCompUserByCompUserId(compUserId, sessionUser.getId());
+				compUserService.findCompUserByCompUserId(compUserId, loginUser.getId());
 		return ResponseEntity.ok(new ApiUtil<>(compUserDetail));
 	}
 
@@ -50,13 +51,13 @@ public class CompUserRestController {
 	@PutMapping("/api/compUsers/{compUserId}")
 	public ResponseEntity<?> updateCompUser(
 			@PathVariable(name = "compUserId") Long compUserId,
-			@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser sessionUser,
+			@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser loginUser,
 			@Valid @RequestBody CompUserRequest.UpdateDTO updateDTO, Errors errors) {
-//		if (sessionUser == null) {
-//			throw new Exception401("로그인 필요");
-//		}
+		if (loginUser == null) {
+			throw new Exception401("로그인이 필요합니다");
+		}
 		CompUserResponse.UpdateDTO updatedCompUser =
-				compUserService.updateById(compUserId, sessionUser.getId(), updateDTO);
+				compUserService.updateById(compUserId, loginUser.getId(), updateDTO);
 		return ResponseEntity.ok().body(new ApiUtil<>(updatedCompUser));
 	}
 
