@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-@Table(name = "com/tenco/jobpotal/user/comp_user")
+@Table(name = "comp_user")
 @Entity
 public class CompUser {
 
