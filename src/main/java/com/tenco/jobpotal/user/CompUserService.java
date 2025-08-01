@@ -1,0 +1,64 @@
+package com.tenco.jobpotal.user;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class CompUserService {
+	private final CompUserJpaRepository compUserJpaRepository;
+
+	//TODO : Exception 만들기!
+
+	// 회원가입
+	@Transactional
+	public CompUserResponse.JoinDTO join(CompUserRequest.JoinDTO joinDTO) {
+//		compUserJpaRepository.findByCompUserLoginId(joinDTO.getCompUserLoginId())
+//				.ifPresent(compUser -> {
+//					throw new Exception400("이미 존재하는 아이디입니다");
+//				});
+		compUserJpaRepository.findByCompUserLoginId(joinDTO.getCompUserLoginId());
+		CompUser savedUser = compUserJpaRepository.save(joinDTO.toEntity());
+		return new CompUserResponse.JoinDTO(savedUser);
+	}
+
+	// TODO : JwtUtil 만들기!
+
+	// 로그인
+	public String login(CompUserRequest.LoginDTO loginDTO) {
+		CompUser selectedCompUser = compUserJpaRepository
+				.findByCompUserLoginIdAndCompUserPassword(
+						loginDTO.getCompUserLoginId(), loginDTO.getCompUserPassword())
+				.orElseThrow(RuntimeException::new);
+		String jwt = "";
+		return jwt;
+	}
+
+//	// 회원정보조회
+//	public CompUserResponse.DetailDTO findCompUserByCompUserId(
+//			Long requestCompUserId, Long sessionCompUserId) {
+//		if (!requestCompUserId.equals(sessionCompUserId)) {
+//			throw new Exception403("접근권한이 없습니다");
+//		}
+//		CompUser selectedCompUser = compUserJpaRepository.findById(requestCompUserId)
+//				.orElseThrow(() -> new Exception404("존재하지 않는 회원입니다"));
+//		return new CompUserResponse.DetailDTO(selectedCompUser);
+//	}
+//
+//	// 회원정보수정
+//	@Transactional
+//	public CompUserResponse.UpdateDTO updateById(
+//			Long requestCompUserId, Long sessionCompUserId, CompUserRequest.UpdateDTO updateDTO) {
+//		if (!requestCompUserId.equals(sessionCompUserId)) {
+//			throw new Exception403("접근권한이 없습니다");
+//		}
+//		CompUser selectedCompUser = compUserJpaRepository.findById(requestCompUserId)
+//				.orElseThrow(() -> new Exception404("존재하지 않는 회원입니다"));
+//		selectedCompUser.update(updateDTO);
+//		return new CompUserResponse.UpdateDTO(selectedCompUser);
+//	}
+
+
+}
