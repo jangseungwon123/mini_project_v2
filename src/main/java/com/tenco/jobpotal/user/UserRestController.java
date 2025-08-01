@@ -1,6 +1,8 @@
 package com.tenco.jobpotal.user;
 
 import com.tenco.jobpotal._core.common.ApiUtil;
+import com.tenco.jobpotal._core.errors.exception.Exception401;
+import com.tenco.jobpotal._core.utils.Define;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,30 +34,30 @@ public class UserRestController {
     }
 
 
-//   @Operation(summary = "회원정보 조회")
-//    @GetMapping("/api/users/{id}")
-//    public ResponseEntity<?> getUserInfo(@PathVariable(name = "id") Long id,
-//                                         @RequestAttribute(Define.SESSION_USER) LoginUser loginUser) {
-//        // 인증 체크
-//        if (loginUser == null) {
-//            throw new Exception401("인증 정보가 없습니다");
-//        }
-//        UserResponse.DetailDTO userDetail = userService.findById(id, loginUser.getId());
-//        return ResponseEntity.ok(new ApiUtil<>(userDetail));
-//    }
-//
-//    @Operation(summary = "회원정보 수정")
-//    @PutMapping("/api/users/{id}")
-//    public ResponseEntity<?> updateUser(@PathVariable(name = "id") Long id,
-//                                        @RequestAttribute(Define.SESSION_USER) LoginUser loginUser,
-//                                        @Valid @RequestBody UserRequest.UpdateDTO updateDTO, Errors errors) {
-//        // 인증 체크
-//        if (loginUser == null) {
-//            throw new Exception401("인증 정보가 없습니다");
-//        }
-//        UserResponse.UpdateDTO updateUser = userService.updateById(id, loginUser.getId(), updateDTO);
-//        return ResponseEntity.ok().body(new ApiUtil<>(updateUser));
-//    }
+   @Operation(summary = "회원정보 조회")
+    @GetMapping("/api/users/{id}")
+    public ResponseEntity<?> getUserInfo(@PathVariable(name = "id") Long id,
+                                         @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
+        // 인증 체크
+        if (loginUser == null) {
+            throw new Exception401("인증 정보가 없습니다");
+        }
+        UserResponse.DetailDTO userDetail = userService.findById(id, loginUser.getId());
+        return ResponseEntity.ok(new ApiUtil<>(userDetail));
+    }
+
+    @Operation(summary = "회원정보 수정")
+    @PutMapping("/api/users/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable(name = "id") Long id,
+                                        @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser,
+                                        @Valid @RequestBody UserRequest.UpdateDTO updateDTO, Errors errors) {
+        // 인증 체크
+        if (loginUser == null) {
+            throw new Exception401("인증 정보가 없습니다");
+        }
+        UserResponse.UpdateDTO updateUser = userService.updateById(id, loginUser.getId(), updateDTO);
+        return ResponseEntity.ok().body(new ApiUtil<>(updateUser));
+    }
 
 
     @Operation(summary = "로그아웃")

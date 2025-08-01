@@ -49,7 +49,7 @@ public class UserResponse {
 
     // 회원 정보 수정 후 응답 DTO
     @Data
-    public static class UpdateDTO {
+    public static class  UpdateDTO {
         private String userName;
         private String userPassword;
         private String userEmail;
