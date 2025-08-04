@@ -11,4 +11,7 @@ public interface CompInfoJpaRepository extends JpaRepository<CompInfo, Long> {
     //@Query("SELECT c FROM CompInfo c JOIN FETCH b.user u ORDER BY b.id DESC")
     @Query("SELECT c FROM CompInfo c ORDER BY c.id DESC")
     Page<CompInfo> findAllCompInfo(Pageable pageable);
+
+    @Query("SELECT c FROM CompInfo c WHERE c.companyName like %:keyword% ORDER BY c.id DESC")
+    Page<CompInfo> findAllCompInfoByKeyword(Pageable pageable, String keyword);
 }

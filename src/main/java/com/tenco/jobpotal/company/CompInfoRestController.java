@@ -1,107 +1,84 @@
 package com.tenco.jobpotal.company;
 
 import com.tenco.jobpotal._core.common.ApiUtil;
+import com.tenco.jobpotal._core.common.PageLink;
+import com.tenco.jobpotal._core.errors.exception.Exception400;
+import com.tenco.jobpotal._core.errors.exception.Exception403;
+import com.tenco.jobpotal._core.errors.exception.Exception404;
+import com.tenco.jobpotal._core.errors.exception.Exception500;
+import com.tenco.jobpotal._core.utils.Define;
+import com.tenco.jobpotal.user.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class CompInfoRestController {
 
 
     private static final Logger log = LoggerFactory.getLogger(CompInfoRestController.class);
+    private final UserService userService;
     private final CompInfoService companyService;
-    //private final UserService userService;
+    private final CompUserService compUserService;
     
 
     //전체 게시글 조회 and 제목 검색한 게시글 조회
     @GetMapping("/company/list")
-    public ResponseEntity<ApiUtil<List<CompInfoResponse.MainDTO>>> companyInfoList(HttpSession session,
+    public ResponseEntity<?> companyInfoList(
+                                  @RequestParam(required = false) String type, // todo 검색 시 회사 종류도 선택해서 처리 추가할지 고민필요
                                   @RequestParam(required = false) String keyword,
                                   @RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "10") int size) {
-        //LoginUser loginUser = (LoginUser) session.getAttribute("sessionUser");
-        /*
-        if (keyword == null) {
-            log.info(">> 기업정보 목록 조회 시작 << ");
-            if (loginUser != null) {
-                CompanyInfo canWrite = companyService.findCompanyInfoByUserId(loginUser.getId());
-                if (canWrite == null) {
-                    model.addAttribute("isCompanyInfoWritable", true);
-                }
-            }
-            companyInfoPage = companyService.findAllCompanyInfo(pageable);
+
+        List<CompInfoResponse.MainDTO> compInfoPage;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            log.info("keyword 값 확인 : {}", keyword);
+
+            compInfoPage = companyService.findAllCompanyInfo(page, size, keyword);
+
+            return ResponseEntity.ok(new ApiUtil<>(compInfoPage));
         } else {
-            companyInfoPage = companyService.findCompanyNamesByKeyword(keyword, pageable);
+            compInfoPage = companyService.findAllCompanyInfo(page, size, keyword);
+            return ResponseEntity.ok(new ApiUtil<>(compInfoPage));
         }
-
-        CompanyInfoViewHelper.populateModel(model, keyword, companyInfoPage);
-        */
-
-        List<CompInfoResponse.MainDTO> compInfoPage = companyService.findAllCompanyInfo(page, size);
-
-        return ResponseEntity.ok(new ApiUtil<>(compInfoPage));
     }
 
-    /*
+
     @GetMapping("/company/{id}")
-    public String companyInfoDetail(@PathVariable(name = "id") Long id, Model model, HttpSession session) {
+    public ResponseEntity<?> companyInfoDetail(@PathVariable(name = "id") Long id,
+                                               @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
-        log.info(">> 기업 상세정보 화면이동 및 조회 시작 << ");
+        log.info(">> 기업 상세정보 조회 시작 << ");
 
-        LoginUser user = (LoginUser) session.getAttribute("sessionUser");
-        CompanyInfo companyInfoDetail = companyService.findCompanyInfoById(id);
+        CompInfoResponse.DetailDTO companyInfoDetail = companyService.findCompanyInfoById(id, loginUser);
 
-        if (user != null) {
-            // 등록 버튼 표시여부 (기업정보가 이미 등록 되어 있을 시 버튼 표시 삭제)
-            if (companyInfoDetail.getCompUser().getCompUserId().equals(user.getId())) {
-                model.addAttribute("isCompanyInfoUpdateAndDeleteYn", true);
-            }
-        }
-
-        model.addAttribute("companyInfo", companyInfoDetail);
-
-        return "company/company_detail";
+        return ResponseEntity.ok(new ApiUtil<>(companyInfoDetail));
     }
 
-    @GetMapping("/company/form")
-    public String companyInfoForm(HttpSession session) {
-
-        LoginUser user = (LoginUser) session.getAttribute("sessionUser");
-
-        if (!user.isCompany()) {
-            throw new Exception403("기업 회원만 등록 할 수 있습니다.");
-        }
-
-        CompanyInfo searchCompanyInfoByCompUserId = companyService.findCompanyInfoByUserId(user.getId());
-
-        if (searchCompanyInfoByCompUserId != null) {
-            throw new Exception400("기업정보 등록한 기업 회원 당 하나만 작성 가능합니다.");
-        }
-
-        log.info(">> 기업정보 작성화면 이동 << ");
-
-        return "company/company_form";
-    }
 
     @PostMapping("/company/form")
-    public String companyInfoInsert(CompanyRequest.SaveDTO saveDTO, HttpSession session) {
+    public String companyInfoInsert(@RequestBody CompInfoRequest.SaveDTO saveDTO,
+                                    @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
         log.info(">> 기업정보 등록 시작 << ");
 
-        // CompUser 객체에 세션유저 id 담아줌.
-        LoginUser user = (LoginUser) session.getAttribute("sessionUser");
-        CompUser compUser = userService.findCompUserById(user.getId());
+        // 존재하는 유저인지 확인
+        CompUser compUser = compUserService.findCompUserByCompUserId(loginUser.getId()).toEntity();
 
-        CompanyInfo companyInfo = companyService.companyInfoInsert(saveDTO.toEntity(compUser));
+        // 등록 처리
+        CompInfo companyInfo = companyService.companyInfoInsert(compUser, saveDTO);
 
         if (companyInfo == null) {
             throw new Exception500("등록 처리 중 에러가 발생했습니다.");
@@ -110,6 +87,7 @@ public class CompInfoRestController {
         return "redirect:/company/list";
     }
 
+    /*
     @GetMapping("/company/{id}/update")
     public String companyInfoUpdateForm(@PathVariable(name = "id") Long id, Model model, HttpSession session) {
 

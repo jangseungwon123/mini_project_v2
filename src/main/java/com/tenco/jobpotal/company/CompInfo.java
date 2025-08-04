@@ -46,6 +46,14 @@ public class CompInfo {
     @CreationTimestamp
     private Timestamp instDate;
 
+    @Transient
+    private boolean isBoardOwner;
+
+    // 게시글에 소유자를 직접 확인하는 기능을 만들자
+    public boolean isOwner(Long checkUserId) {
+        return this.compUser.getCompUserId().equals(checkUserId);
+    }
+
     @Builder
     public CompInfo(Long compId, CompUser compUser, String companyName, String companyDesc, String companyCeoName, String homepageUrl, String phoneNumber, String companyEmail, String companyAddress, String instId, Timestamp instDate) {
         this.compId = compId;

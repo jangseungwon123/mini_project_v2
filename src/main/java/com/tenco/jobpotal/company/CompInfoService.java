@@ -1,5 +1,11 @@
 package com.tenco.jobpotal.company;
 
+import com.tenco.jobpotal._core.errors.exception.Exception400;
+import com.tenco.jobpotal._core.errors.exception.Exception404;
+import com.tenco.jobpotal.user.CompUser;
+import com.tenco.jobpotal.user.CompUserResponse;
+import com.tenco.jobpotal.user.CompUserService;
+import com.tenco.jobpotal.user.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,24 +25,20 @@ import java.util.List;
 public class CompInfoService {
 
     private static final Logger log = LoggerFactory.getLogger(CompInfoService.class);
+
     private final CompInfoJpaRepository compInfoJpaRepository;
-    //private final CompanyReviewJpaRepository companyReviewJpaRepository;
-
-    //검색기능 - 제목
-    /*
-    public Page<CompanyInfo> findCompanyNamesByKeyword(String keyword,Pageable pageable) {
-        log.info("==== 검색기능-제목 서비스 시작 ====");
-        Page<CompanyInfo> searchToCompanyName = companyJpaRepository.findCompanyNamesByKeyword(keyword, pageable);
-        return companyJpaRepository.findCompanyNamesByKeyword(keyword,pageable);
-    }
-     */
-
 
     //기업목록 조회(페이지)
-    public List<CompInfoResponse.MainDTO> findAllCompanyInfo(int page, int size) {
+    public List<CompInfoResponse.MainDTO> findAllCompanyInfo(int page, int size, String keyword) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<CompInfo> compInfosPage = compInfoJpaRepository.findAllCompInfo(pageable);
+        Page<CompInfo> compInfosPage;
+        if (keyword != null && !keyword.trim().isEmpty()){
+            compInfosPage = compInfoJpaRepository.findAllCompInfoByKeyword(pageable, keyword);
+        } else {
+            compInfosPage = compInfoJpaRepository.findAllCompInfo(pageable);
+        }
+
         List<CompInfoResponse.MainDTO> compInfoList = new ArrayList<>();
 
         for (CompInfo compInfo : compInfosPage.getContent()) {
@@ -46,24 +48,24 @@ public class CompInfoService {
         return compInfoList;
     }
 
-    /*
-    public CompanyInfo findCompanyInfoById(Long id) {
+    // 기업정보 상세조회
+    public CompInfoResponse.DetailDTO findCompanyInfoById(Long id, LoginUser loginUser) {
 
-        CompanyInfo companyInfo = companyJpaRepository.findById(id).orElseThrow(() ->
+        CompInfo companyInfo = compInfoJpaRepository.findById(id).orElseThrow(() ->
                 new Exception404("해당 게시물이 존재하지 않습니다.")
         );
 
-        return companyInfo;
+        return new CompInfoResponse.DetailDTO(companyInfo, loginUser);
     }
 
+    // 기업정보 insert
     @Transactional
-    public CompanyInfo companyInfoInsert(CompanyInfo companyInfo) {
+    public CompInfo companyInfoInsert(CompUser compUser, CompInfoRequest.SaveDTO saveDTO) {
 
-        CompanyInfo savedCompanyInfo = companyJpaRepository.save(companyInfo);
-
-        return savedCompanyInfo;
+        return compInfoJpaRepository.save(saveDTO.toEntity(compUser));
     }
 
+    /*
     @Transactional
     public CompanyInfo companyInfoUpdate(Long id, CompanyInfo companyInfo) {
 
