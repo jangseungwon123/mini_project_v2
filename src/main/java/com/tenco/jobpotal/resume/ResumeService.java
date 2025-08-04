@@ -26,10 +26,19 @@ public class ResumeService {
         return new ResumeResponse.SaveDTO(saveResume);
     }
 
-//    public ResumeResponse.UpdateDTO update(Long id,ResumeRequest.UpdateDTO updateDTO,
-//                                           LoginUser loginUser) {
-//        Resume resume = resumeJpaRepository.findByIdJoinUser(id).orElseThrow(() ->
-//                new Exception404("해당 이력서가 존재하지 않습니다"));
-//        r
-//    }
+    @Transactional
+    public ResumeResponse.UpdateDTO update(Long id,ResumeRequest.UpdateDTO updateDTO,
+                                           LoginUser loginUser) {
+        Resume resume = resumeJpaRepository.findByIdJoinUser(id).orElseThrow(() ->
+                new Exception404("해당 이력서가 존재하지 않습니다"));
+        resume.update(updateDTO);
+        return new ResumeResponse.UpdateDTO(resume);
+    }
+
+    @Transactional
+    public void deleteById(Long id,LoginUser loginUser) {
+        Resume resume = resumeJpaRepository.findById(id).orElseThrow(() ->
+                new Exception404("삭제 하려는 게시글이 없습니다"));
+        resumeJpaRepository.deleteById(id);
+    }
 }
