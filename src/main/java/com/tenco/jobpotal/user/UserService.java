@@ -46,11 +46,8 @@ public class UserService {
     }
 
     // 회원 정보 조회
-    public UserResponse.DetailDTO findById(Long requestUserId, Long loginUserId) {
-        if (!requestUserId.equals(loginUserId)) {
-            throw new Exception403("본인 정보만 조회 가능합니다");
-        }
-        User selectedUser = userJpaRepository.findById(requestUserId).orElseThrow(() -> {
+    public UserResponse.DetailDTO findById( Long loginUserId) {
+        User selectedUser = userJpaRepository.findById(loginUserId).orElseThrow(() -> {
             throw new Exception404("사용자를 찾을 수 없습니다");
         });
         return new UserResponse.DetailDTO(selectedUser);

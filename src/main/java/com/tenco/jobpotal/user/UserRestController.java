@@ -2,6 +2,7 @@ package com.tenco.jobpotal.user;
 
 import com.tenco.jobpotal._core.common.ApiUtil;
 import com.tenco.jobpotal._core.errors.exception.Exception401;
+import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.utils.Define;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -40,7 +41,10 @@ public class UserRestController {
         if (loginUser == null) {
             throw new Exception401("인증 정보가 없습니다");
         }
-        UserResponse.DetailDTO userDetail = userService.findById(id, loginUser.getId());
+       if (!id.equals(loginUser.getId())) {
+           throw new Exception403("본인 정보만 조회 가능합니다");
+       }
+        UserResponse.DetailDTO userDetail = userService.findById(loginUser.getId());
         return ResponseEntity.ok(new ApiUtil<>(userDetail));
     }
 
