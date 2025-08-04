@@ -81,7 +81,7 @@ public class CompInfoRestController {
         CompInfo companyInfo = companyService.companyInfoInsert(compUser, saveDTO);
 
         if (companyInfo == null) {
-            throw new Exception500("등록 처리 중 에러가 발생했습니다.");
+            throw new Exception500("등록 처리 중 에러가 발생했습니다. 관리자에게 문의 하세요.");
         }
 
         return "redirect:/company/list";
