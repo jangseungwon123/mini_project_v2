@@ -1,6 +1,7 @@
 package com.tenco.jobpotal.resume;
 
 import com.tenco.jobpotal._core.common.ApiUtil;
+import com.tenco.jobpotal._core.utils.Define;
 import com.tenco.jobpotal.user.LoginUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ResumeRestController {
 
+    private final ResumeService resumeService;
+
     @PostMapping("/api/resumes")
     public ResponseEntity<?> save(@Valid @RequestBody ResumeRequest.SaveDTO saveDTO,
                                   Errors errors,
-                                  @RequestAttribute("sessionUser")LoginUser loginUser) {
+                                  @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser) {
 
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(""));
+        ResumeResponse.SaveDTO saveResume = resumeService.save(saveDTO,loginUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(saveResume));
     }
 
 }

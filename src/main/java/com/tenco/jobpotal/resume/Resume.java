@@ -36,8 +36,8 @@ public class Resume {
     private String birth;
     @Column(nullable = false)
     private String email;
-    @Column(nullable = false,length = 1)
-    private char gender;
+    @Column(nullable = false,columnDefinition = "CHAR(1)")
+    private String gender;
 
     @Column(nullable = false, length = 1)
     private char isExperienced;
@@ -48,7 +48,7 @@ public class Resume {
     private Timestamp instDate;
 
     @Builder
-    public Resume(Long resumeId, User user, String title, String content, String phone, String address, String birth, String email, char gender, char isExperienced, char isShow, Timestamp instDate) {
+    public Resume(Long resumeId, User user, String title, String content, String phone, String address, String birth, String email, String gender, char isExperienced, char isShow, Timestamp instDate) {
         this.resumeId = resumeId;
         this.user = user;
         this.title = title;

@@ -1,6 +1,7 @@
 package com.tenco.jobpotal.resume;
 
 
+import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.User;
 import lombok.RequiredArgsConstructor;
@@ -24,4 +25,11 @@ public class ResumeService {
         Resume saveResume = resumeJpaRepository.save(resume);
         return new ResumeResponse.SaveDTO(saveResume);
     }
+
+//    public ResumeResponse.UpdateDTO update(Long id,ResumeRequest.UpdateDTO updateDTO,
+//                                           LoginUser loginUser) {
+//        Resume resume = resumeJpaRepository.findByIdJoinUser(id).orElseThrow(() ->
+//                new Exception404("해당 이력서가 존재하지 않습니다"));
+//        r
+//    }
 }

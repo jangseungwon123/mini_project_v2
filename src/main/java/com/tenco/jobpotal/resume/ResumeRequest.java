@@ -32,8 +32,9 @@ public class ResumeRequest {
         )
         private String email;
         @NotEmpty(message = "성별은 필수입니다")
-        @Size(min = 1, max = 1)
-        private char gender;
+        private String gender;
+        private char isExperienced;
+        private char isShow;
 
         public Resume toEntity(User user) {
             return Resume.builder()
@@ -45,10 +46,13 @@ public class ResumeRequest {
                     .birth(this.birth)
                     .email(this.email)
                     .gender(this.gender)
+                    .isExperienced(this.isExperienced)
+                    .isShow(this.isShow)
                     .build();
         }
     }
     // 이력서 수정 DTO
+    @Data
     public static class UpdateDTO {
         @NotEmpty(message = "제목은 필수입니다")
         @Size(min = 1, max = 100, message = "제목은 1~100자 이내로 작성해주세요")
@@ -71,8 +75,9 @@ public class ResumeRequest {
         )
         private String email;
         @NotEmpty(message = "성별은 필수입니다")
-        @Size(min = 1, max = 1)
-        private char gender;
+        private String gender;
+        private char isExperienced;
+        private char isShow;
 
     }
 

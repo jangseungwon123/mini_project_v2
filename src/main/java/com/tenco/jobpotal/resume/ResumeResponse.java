@@ -12,7 +12,9 @@ public class ResumeResponse {
         private String address;
         private String birth;
         private String email;
-        private char gender;
+        private String gender;
+        private char isExperienced;
+        private char isShow;
 
         public SaveDTO(Resume resume) {
             this.title = resume.getTitle();
@@ -22,6 +24,8 @@ public class ResumeResponse {
             this.birth = resume.getBirth();
             this.email = resume.getEmail();
             this.gender = resume.getGender();
+            this.isExperienced = resume.getIsExperienced();
+            this.isShow = resume.getIsShow();
         }
     }
 
@@ -33,7 +37,9 @@ public class ResumeResponse {
         private String address;
         private String birth;
         private String email;
-        private char gender;
+        private String gender;
+        private char isExperienced;
+        private char isShow;
 
         public UpdateDTO(Resume resume) {
             this.title = resume.getTitle();
@@ -43,6 +49,8 @@ public class ResumeResponse {
             this.birth = resume.getBirth();
             this.email = resume.getEmail();
             this.gender = resume.getGender();
+            this.isExperienced = resume.getIsExperienced();
+            this.isShow = resume.getIsShow();
         }
     }
 }
