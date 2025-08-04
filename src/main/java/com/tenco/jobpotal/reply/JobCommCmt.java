@@ -1,6 +1,6 @@
 package com.tenco.jobpotal.reply;
 
-import com.tenco.jobpotal.user.User;
+import com.tenco.jobpotal.user.normal.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

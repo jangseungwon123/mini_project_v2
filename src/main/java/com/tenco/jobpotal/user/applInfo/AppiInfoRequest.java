@@ -1,9 +1,9 @@
 //package com.tenco.jobpotal.user.appl_info;
 //
 //import com.tenco.jobpotal._core.errors.exception.Exception400;
-//import com.tenco.jobpotal.user.CompUser;
+//import com.tenco.jobpotal.user.comp.CompUser;
 //import com.tenco.jobpotal.user.LoginUser;
-//import com.tenco.jobpotal.user.User;
+//import com.tenco.jobpotal.user.normal.User;
 //import lombok.AllArgsConstructor;
 //import lombok.Builder;
 //import lombok.Data;

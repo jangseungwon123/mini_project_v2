@@ -1,9 +1,6 @@
 package com.tenco.jobpotal.company.compSub;
 
-import com.tenco.jobpotal._core.errors.exception.Exception403;
-import com.tenco.jobpotal.company.CompInfo;
-import com.tenco.jobpotal.user.CompUser;
-import com.tenco.jobpotal.user.User;
+import com.tenco.jobpotal.user.comp.CompUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package com.tenco.jobpotal.user;
+package com.tenco.jobpotal.user.comp;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;

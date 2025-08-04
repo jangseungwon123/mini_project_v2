@@ -1,10 +1,10 @@
 //package com.tenco.jobpotal.company.comp_rating;
 //
 //import com.tenco.jobpotal._core.errors.exception.Exception404;
-//import com.tenco.jobpotal.user.CompUser;
-//import com.tenco.jobpotal.user.CompUserJpaRepository;
+//import com.tenco.jobpotal.user.comp.CompUser;
+//import com.tenco.jobpotal.user.comp.CompUserJpaRepository;
 //import com.tenco.jobpotal.user.LoginUser;
-//import com.tenco.jobpotal.user.User;
+//import com.tenco.jobpotal.user.normal.User;
 //import com.tenco.jobpotal.user.appl_info.AppiInfo;
 //import com.tenco.jobpotal.user.appl_info.AppiInfoJpaRepository;
 //import com.tenco.jobpotal.user.appl_info.AppiInfoResponse;

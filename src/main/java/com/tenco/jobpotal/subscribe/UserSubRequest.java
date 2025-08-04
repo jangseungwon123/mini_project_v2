@@ -1,7 +1,5 @@
 package com.tenco.jobpotal.subscribe;
 
-import com.tenco.jobpotal.company.CompInfo;
-import com.tenco.jobpotal.user.User;
 import lombok.Data;
 
 public class UserSubRequest {

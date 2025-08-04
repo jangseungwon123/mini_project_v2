@@ -1,8 +1,7 @@
 package com.tenco.jobpotal.company.compSub;
 
-import com.tenco.jobpotal.company.CompInfo;
-import com.tenco.jobpotal.user.CompUser;
-import com.tenco.jobpotal.user.User;
+import com.tenco.jobpotal.user.comp.CompUser;
+import com.tenco.jobpotal.user.normal.User;
 import lombok.Data;
 
 public class CompSubRequest {
