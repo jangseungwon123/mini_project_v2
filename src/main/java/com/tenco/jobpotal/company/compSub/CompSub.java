@@ -2,6 +2,7 @@ package com.tenco.jobpotal.company.compSub;
 
 import com.tenco.jobpotal._core.utils.MyDateUtil;
 import com.tenco.jobpotal.company.CompInfo;
+import com.tenco.jobpotal.user.CompUser;
 import com.tenco.jobpotal.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,12 +30,12 @@ public class CompSub {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comp_info_id")
-    private CompInfo compInfo;
+    private CompUser compUser;
 
     @CreationTimestamp
     private Timestamp compSubDate;
 
-    public boolean isOwner(Long checkUserId){return this.compInfo.getCompId().equals(checkUserId);}
+    public boolean isOwner(Long checkUserId){return this.compUser.getCompUserId().equals(checkUserId);}
 
     public String getTime() {return MyDateUtil.timestampFormat(compSubDate);}
 }

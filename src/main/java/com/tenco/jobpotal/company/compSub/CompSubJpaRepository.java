@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface CompSubJpaRepository extends JpaRepository<CompSub, Long> {
 
-    @Query("SELECT cs FROM CompSub cs JOIN FETCH cs.user u JOIN FETCH cs.compInfo c WHERE c.id = :id")
+    @Query("SELECT cs FROM CompSub cs JOIN FETCH cs.user u JOIN FETCH cs.compUser c WHERE c.id = :id")
     List<CompSub> findAllByUserAndCompId(@Param("id") Long id);
 
-    @Query("select count(*) > 0 from CompSub cs where cs.compInfo.id = :compId and cs.user.id = :userId")
-    boolean existsByCompanyIdAndUserId(Long companyId, Long userId);
+//    @Query("select count(*) > 0 from CompSub cs where cs.compInfo.id = :compId and cs.user.id = :userId")
+//    boolean existsByCompanyIdAndUserId(Long companyId, Long userId);
 
 }
