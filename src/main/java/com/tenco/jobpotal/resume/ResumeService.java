@@ -3,7 +3,7 @@ package com.tenco.jobpotal.resume;
 
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal.user.LoginUser;
-import com.tenco.jobpotal.user.User;
+import com.tenco.jobpotal.user.normal.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

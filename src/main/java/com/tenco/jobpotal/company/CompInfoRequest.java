@@ -2,7 +2,7 @@ package com.tenco.jobpotal.company;
 
 
 
-import com.tenco.jobpotal.user.CompUser;
+import com.tenco.jobpotal.user.comp.CompUser;
 import lombok.Data;
 
 public class CompInfoRequest {

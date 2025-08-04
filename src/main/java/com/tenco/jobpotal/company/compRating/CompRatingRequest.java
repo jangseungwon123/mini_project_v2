@@ -1,7 +1,7 @@
 //package com.tenco.jobpotal.company.comp_rating;
 //
 //import com.tenco.jobpotal._core.errors.exception.Exception400;
-//import com.tenco.jobpotal.user.User;
+//import com.tenco.jobpotal.user.normal.User;
 //import com.tenco.jobpotal.user.appl_info.AppiInfo;
 //import lombok.Data;
 //

@@ -1,4 +1,4 @@
-package com.tenco.jobpotal.user;
+package com.tenco.jobpotal.user.comp;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

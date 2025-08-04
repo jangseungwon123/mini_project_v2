@@ -1,4 +1,4 @@
-package com.tenco.jobpotal.user;
+package com.tenco.jobpotal.user.normal;
 
 import lombok.Builder;
 import lombok.Data;

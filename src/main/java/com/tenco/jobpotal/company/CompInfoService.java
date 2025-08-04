@@ -1,10 +1,7 @@
 package com.tenco.jobpotal.company;
 
-import com.tenco.jobpotal._core.errors.exception.Exception400;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
-import com.tenco.jobpotal.user.CompUser;
-import com.tenco.jobpotal.user.CompUserResponse;
-import com.tenco.jobpotal.user.CompUserService;
+import com.tenco.jobpotal.user.comp.CompUser;
 import com.tenco.jobpotal.user.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

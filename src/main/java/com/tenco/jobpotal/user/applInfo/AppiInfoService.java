@@ -3,7 +3,7 @@
 //
 //import com.tenco.jobpotal._core.errors.exception.Exception403;
 //import com.tenco.jobpotal._core.errors.exception.Exception404;
-//import com.tenco.jobpotal.user.CompUserJpaRepository;
+//import com.tenco.jobpotal.user.comp.CompUserJpaRepository;
 //import com.tenco.jobpotal.user.LoginUser;
 //import lombok.RequiredArgsConstructor;
 //import org.slf4j.Logger;

@@ -1,9 +1,10 @@
-package com.tenco.jobpotal.user;
+package com.tenco.jobpotal.user.normal;
 
 import com.tenco.jobpotal._core.common.ApiUtil;
 import com.tenco.jobpotal._core.errors.exception.Exception401;
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.utils.Define;
+import com.tenco.jobpotal.user.LoginUser;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

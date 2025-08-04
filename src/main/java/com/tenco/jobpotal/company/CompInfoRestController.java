@@ -1,24 +1,18 @@
 package com.tenco.jobpotal.company;
 
 import com.tenco.jobpotal._core.common.ApiUtil;
-import com.tenco.jobpotal._core.common.PageLink;
-import com.tenco.jobpotal._core.errors.exception.Exception400;
-import com.tenco.jobpotal._core.errors.exception.Exception403;
-import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal._core.errors.exception.Exception500;
 import com.tenco.jobpotal._core.utils.Define;
 import com.tenco.jobpotal.user.*;
-import jakarta.servlet.http.HttpSession;
+import com.tenco.jobpotal.user.comp.CompUser;
+import com.tenco.jobpotal.user.comp.CompUserService;
+import com.tenco.jobpotal.user.normal.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor

@@ -1,11 +1,9 @@
-package com.tenco.jobpotal.user;
+package com.tenco.jobpotal.user.normal;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @NoArgsConstructor
 @Data

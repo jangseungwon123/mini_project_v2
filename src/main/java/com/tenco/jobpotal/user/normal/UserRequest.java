@@ -1,6 +1,5 @@
-package com.tenco.jobpotal.user;
+package com.tenco.jobpotal.user.normal;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
