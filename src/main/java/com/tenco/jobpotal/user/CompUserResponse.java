@@ -101,5 +101,16 @@ public class CompUserResponse {
 			this.compUserNickname = compUser.getCompUserNickname();
 			this.compRegNumber = compUser.getCompRegNumber();
 		}
+		public CompUser toEntity() {
+			return CompUser.builder()
+					.compUserId(this.getCompUserId())
+					.compUserLoginId(this.getCompUserLoginId())
+					.compUserName(this.getCompUserName())
+					.compUserPhone(this.getCompUserPhone())
+					.compUserEmail(this.getCompUserEmail())
+					.compUserNickname(this.getCompUserNickname())
+					.compRegNumber(this.getCompRegNumber())
+					.build();
+		}
 	}
 }
