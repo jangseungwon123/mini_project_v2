@@ -1,4 +1,4 @@
-package com.tenco.jobpotal.company.compSub;
+package com.tenco.jobpotal.subscribe;
 
 import com.tenco.jobpotal._core.utils.MyDateUtil;
 import com.tenco.jobpotal.company.CompInfo;
@@ -17,12 +17,12 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table
+@Table(name = "comp_sub")
 @Entity
 public class CompSub {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long compSubId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -30,12 +30,12 @@ public class CompSub {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comp_info_id")
-    private CompUser compUser;
+    private CompInfo compInfo;
 
     @CreationTimestamp
     private Timestamp compSubDate;
 
-    public boolean isOwner(Long checkUserId){return this.compUser.getCompUserId().equals(checkUserId);}
+    public boolean isOwner(Long checkUserId){return this.compInfo.getCompId().equals(checkUserId);}
 
     public String getTime() {return MyDateUtil.timestampFormat(compSubDate);}
 }
