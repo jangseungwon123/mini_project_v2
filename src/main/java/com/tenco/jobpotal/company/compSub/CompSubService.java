@@ -1,6 +1,9 @@
 package com.tenco.jobpotal.company.compSub;
 
+import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal.company.CompInfo;
+import com.tenco.jobpotal.user.CompUser;
+import com.tenco.jobpotal.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +18,9 @@ public class CompSubService {
     private final CompSubJpaRepository compSubJpaRepository;
 
     @Transactional
-    public CompSubResponse.SaveDTO save(CompSubRequest.SaveDTO saveDTO, CompInfo compInfo) {
-        CompSub cSub = saveDTO.toEntity(compInfo);
-       //compSubJpaRepository.save(cSub);
+    public CompSubResponse.SaveDTO save(CompSubRequest.SaveDTO saveDTO) {
+        CompUser compUser = saveDTO.getCompUser();
+        CompSub cSub= compSubJpaRepository.save(saveDTO.toEntity(compUser));
         return new CompSubResponse.SaveDTO(cSub);
     }
 
