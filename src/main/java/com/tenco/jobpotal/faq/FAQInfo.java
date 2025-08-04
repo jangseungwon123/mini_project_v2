@@ -17,7 +17,6 @@ public class FAQInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long faqId;
 
-
     private String title;
     private String content;
 
