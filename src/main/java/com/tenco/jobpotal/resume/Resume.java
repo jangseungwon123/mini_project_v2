@@ -20,13 +20,13 @@ public class Resume {
     private Long resumeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
     // skillListId
     // userSkillListNo
-    @Column(nullable = false,length = 100)
+    @Column(nullable = false, length = 100)
     private String title;
-    @Column(nullable = false,length = 1000)
+    @Column(nullable = false, length = 1000)
     private String content;
     @Column(nullable = false)
     private String phone;
@@ -36,7 +36,7 @@ public class Resume {
     private String birth;
     @Column(nullable = false)
     private String email;
-    @Column(nullable = false,columnDefinition = "CHAR(1)")
+    @Column(nullable = false, columnDefinition = "CHAR(1)")
     private String gender;
 
     @Column(nullable = false, length = 1)
@@ -62,4 +62,18 @@ public class Resume {
         this.isShow = isShow;
         this.instDate = instDate;
     }
+
+    public void update(ResumeRequest.UpdateDTO updateDTO) {
+
+        this.title = updateDTO.getTitle();
+        this.content = updateDTO.getContent();
+        this.phone = updateDTO.getPhone();
+        this.address = updateDTO.getAddress();
+        this.birth = updateDTO.getBirth();
+        this.email = updateDTO.getEmail();
+        this.gender = updateDTO.getGender();
+        this.isExperienced = updateDTO.getIsExperienced();
+        this.isShow = updateDTO.getIsShow();
+    }
+
 }
