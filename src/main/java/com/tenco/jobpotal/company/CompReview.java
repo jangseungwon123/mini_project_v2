@@ -2,7 +2,8 @@ package com.tenco.jobpotal.company;
 
 
 import com.tenco.jobpotal._core.utils.MyDateUtil;
-import com.tenco.jobpotal.user.User;
+
+import com.tenco.jobpotal.user.normal.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
