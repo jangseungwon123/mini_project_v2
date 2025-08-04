@@ -42,7 +42,7 @@ public class CompUserRestController {
 //			throw new Exception401("로그인 필요");
 //		}
 		CompUserResponse.DetailDTO compUserDetail =
-				compUserService.findCompUserByCompUserId(compUserId, sessionUser.getId());
+				compUserService.findCompUserByCompUserId(sessionUser.getId());
 		return ResponseEntity.ok(new ApiUtil<>(compUserDetail));
 	}
 

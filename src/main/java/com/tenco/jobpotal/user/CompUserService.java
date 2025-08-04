@@ -36,13 +36,11 @@ public class CompUserService {
 //		return jwt;
 //	}
 
-	// 회원정보조회
+	// 회원정보조회 //Long requestCompUserId,
 	public CompUserResponse.DetailDTO findCompUserByCompUserId(
-			Long requestCompUserId, Long sessionCompUserId) {
-		if (!requestCompUserId.equals(sessionCompUserId)) {
-			throw new Exception403("접근권한이 없습니다");
-		}
-		CompUser selectedCompUser = compUserJpaRepository.findById(requestCompUserId)
+			 Long sessionCompUserId) {
+
+		CompUser selectedCompUser = compUserJpaRepository.findById(sessionCompUserId)
 				.orElseThrow(() -> new Exception404("존재하지 않는 회원입니다"));
 		return new CompUserResponse.DetailDTO(selectedCompUser);
 	}
