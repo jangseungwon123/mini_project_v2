@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class UserRestController {
 
     private final UserService userService;
@@ -35,7 +36,7 @@ public class UserRestController {
     }
 
    @Operation(summary = "회원정보 조회")
-    @GetMapping("/api/users/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserInfo(@PathVariable(name = "id") Long id,
                                          @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
         if (loginUser == null) {
@@ -49,7 +50,7 @@ public class UserRestController {
     }
 
     @Operation(summary = "회원정보 수정")
-    @PutMapping("/api/users/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<?> updateUser(@PathVariable(name = "id") Long id,
                                         @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser,
                                         @Valid @RequestBody UserRequest.UpdateDTO updateDTO, Errors errors) {
