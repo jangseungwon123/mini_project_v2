@@ -24,6 +24,8 @@ public class Resume {
     private User user;
     // skillListId
     // userSkillListNo
+    @Column(nullable = false)
+    private String name;
     @Column(nullable = false, length = 100)
     private String title;
     @Column(nullable = false, length = 1000)
@@ -47,9 +49,12 @@ public class Resume {
     @CreationTimestamp
     private Timestamp instDate;
 
+
+
     @Builder
-    public Resume(Long resumeId, User user, String title, String content, String phone, String address, String birth, String email, String gender, char isExperienced, char isShow, Timestamp instDate) {
+    public Resume(Long resumeId,String name, User user, String title, String content, String phone, String address, String birth, String email, String gender, char isExperienced, char isShow, Timestamp instDate) {
         this.resumeId = resumeId;
+        this.name = name;
         this.user = user;
         this.title = title;
         this.content = content;
@@ -64,7 +69,7 @@ public class Resume {
     }
 
     public void update(ResumeRequest.UpdateDTO updateDTO) {
-
+        this.name = updateDTO.getName();
         this.title = updateDTO.getTitle();
         this.content = updateDTO.getContent();
         this.phone = updateDTO.getPhone();
