@@ -11,6 +11,8 @@ public class ResumeRequest {
     // 이력서 저장 DTO
     @Data
     public static class SaveDTO {
+        @NotEmpty(message = "이름은 필수입니다")
+        private String name;
         @NotEmpty(message = "제목은 필수입니다")
         @Size(min = 1, max = 100, message = "제목은 1~100자 이내로 작성해주세요")
         private String title;
@@ -38,6 +40,7 @@ public class ResumeRequest {
 
         public Resume toEntity(User user) {
             return Resume.builder()
+                    .name(this.name)
                     .title(this.title)
                     .user(user)
                     .content(this.content)
@@ -54,6 +57,8 @@ public class ResumeRequest {
     // 이력서 수정 DTO
     @Data
     public static class UpdateDTO {
+        @NotEmpty(message = "이름은 필수입니다")
+        private String name;
         @NotEmpty(message = "제목은 필수입니다")
         @Size(min = 1, max = 100, message = "제목은 1~100자 이내로 작성해주세요")
         private String title;
