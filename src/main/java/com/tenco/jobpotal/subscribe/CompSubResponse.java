@@ -1,14 +1,12 @@
 package com.tenco.jobpotal.subscribe;
 
-import com.tenco.jobpotal.company.CompInfo;
-import com.tenco.jobpotal.user.CompUser;
-import com.tenco.jobpotal.user.User;
+import com.tenco.jobpotal.user.comp.CompUser;
+import com.tenco.jobpotal.user.normal.User;
 import lombok.Data;
-
-import java.sql.Timestamp;
 
 public class CompSubResponse {
 
+    @Data
     public static class SubListDTO{
         private Long compId;
         private CompUser compUser;
