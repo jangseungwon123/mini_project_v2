@@ -11,11 +11,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class ResumeRestController {
 
     private final ResumeService resumeService;
+
+    @GetMapping("/")
+    public ResponseEntity<ApiUtil<List<ResumeResponse.ResumeListResponseDTO>>> resumeList(
+            @RequestParam(name = "page",defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5")int size){
+
+        List<ResumeResponse.ResumeListResponseDTO> resumeList = resumeService.list(page,size);
+        return ResponseEntity.ok(new ApiUtil<>(resumeList));
+    }
+
+
+    @Operation(summary = "이력서 상세보기")
+    @GetMapping("/api/resumes/{id}/detail")
+    public ResponseEntity<ApiUtil<ResumeResponse.DetailDTO>> detail(
+            @PathVariable(name = "id")Long id,@RequestAttribute(value = Define.LOGIN_USER,required = false)LoginUser loginUser) {
+
+        ResumeResponse.DetailDTO detailDTO = resumeService.detail(id,loginUser);
+        return ResponseEntity.ok(new ApiUtil<>(detailDTO));
+    }
+
 
     @Operation(summary = "이력서 작성")
     @PostMapping("/api/resumes")
@@ -46,5 +68,7 @@ public class ResumeRestController {
         resumeService.deleteById(id, loginUser);
         return ResponseEntity.ok(new ApiUtil<>("이력서 삭제 성공"));
     }
+
+
 
 }
