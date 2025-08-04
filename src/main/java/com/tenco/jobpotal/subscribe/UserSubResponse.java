@@ -1,0 +1,50 @@
+package com.tenco.jobpotal.subscribe;
+
+import com.tenco.jobpotal.company.CompInfo;
+import lombok.Data;
+
+public class UserSubResponse {
+
+    @Data
+    public static class SubListDTO {
+        private Long userSubId;
+        private Long compInfoId;
+        private String companyName;
+        private String companyDesc;
+        private String companyCeoName;
+        private String homepageUrl;
+        private String phoneNumber;
+        private String companyEmail;
+        private String companyAddress;
+        private String companyImageId;
+        private String userSubDate;
+
+        public SubListDTO(UserSub userSub) {
+            CompInfo compInfo = userSub.getCompInfo();
+            this.userSubId = userSub.getUserSubId();
+            this.compInfoId = compInfo.getCompId();
+            this.companyName = compInfo.getCompanyName();
+            this.companyDesc = compInfo.getCompanyDesc();
+            this.companyCeoName = compInfo.getCompanyCeoName();
+            this.homepageUrl = compInfo.getHomepageUrl();
+            this.phoneNumber = compInfo.getPhoneNumber();
+            this.companyEmail = compInfo.getCompanyEmail();
+            this.companyAddress = compInfo.getCompanyAddress();
+            this.companyImageId = compInfo.getCompanyImageId();
+            this.userSubDate = userSub.getTime();
+        }
+    }
+
+    @Data
+    public static class SaveDTO {
+        private Long userSubId;
+        private Long userId;
+        private Long compInfoId;
+
+        public SaveDTO(UserSub userSub) {
+            this.userSubId = userSub.getUserSubId();
+            this.userId = userSub.getUser().getUserId();
+            this.compInfoId = userSub.getCompInfo().getCompId();
+        }
+    }
+}
