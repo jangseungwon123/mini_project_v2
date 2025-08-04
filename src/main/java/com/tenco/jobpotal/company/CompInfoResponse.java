@@ -61,5 +61,18 @@ public class CompInfoResponse {
             this.companyImageId = compInfo.getCompanyImageId();
             this.isCompInfoOwner = loginUser != null && compInfo.isOwner(loginUser.getId());
         }
+
+        public CompInfo toEntity() {
+            return CompInfo.builder()
+                    .compId(this.compId)
+                    .companyName(this.companyName)
+                    .companyDesc(this.companyDesc)
+                    .homepageUrl(this.homepageUrl)
+                    .phoneNumber(this.phoneNumber)
+                    .companyEmail(this.companyEmail)
+                    .companyAddress(this.companyEmail)
+                    .companyImageId(this.companyImageId)
+                    .build();
+        }
     } // END OF INNER CLASS
 }

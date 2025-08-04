@@ -65,35 +65,43 @@ public class CompInfoService {
         return compInfoJpaRepository.save(saveDTO.toEntity(compUser));
     }
 
-    /*
-    @Transactional
-    public CompanyInfo companyInfoUpdate(Long id, CompanyInfo companyInfo) {
 
-        CompanyInfo updateCompanyInfo = findCompanyInfoById(id);
+    // 기업정보 업데이트
+    @Transactional
+    public CompInfo companyInfoUpdate(Long id, CompInfoRequest.UpdateDTO updateDTO, LoginUser loginUser) {
+
+        CompInfo updateCompanyInfo = compInfoJpaRepository.findById(id).orElseThrow(() ->
+                new Exception404("해당 게시물이 존재하지 않습니다.")
+        );
+
+        log.info("updateCompanyInfo 값 확인 : {}", updateCompanyInfo);
+
+        if (!updateCompanyInfo.getCompUser().getCompUserId().equals(loginUser.getId())) {
+            throw new Exception400("해당 기업정보를 등록한 기업회원만 수정 할 수 있습니다.");
+        }
 
         // 더티체킹 사용.
-        updateCompanyInfo.setCompanyName(companyInfo.getCompanyName());
-        updateCompanyInfo.setCompanyDesc(companyInfo.getCompanyDesc());
-        updateCompanyInfo.setCompanyCeoName(companyInfo.getCompanyCeoName());
-        updateCompanyInfo.setHomepageUrl(companyInfo.getHomepageUrl());
-        updateCompanyInfo.setPhoneNumber(companyInfo.getPhoneNumber());
-        updateCompanyInfo.setCompanyEmail(companyInfo.getCompanyEmail());
-        updateCompanyInfo.setCompanyAddress(companyInfo.getCompanyAddress());
+        updateCompanyInfo.update(updateDTO);
 
         return updateCompanyInfo;
     }
 
     @Transactional
-    public void companyInfoDelete(Long id) {
+    public void companyInfoDelete(LoginUser loginUser, Long id) {
 
         log.info("게시글 삭제 서비스 시작 - ID {}", id);
-        CompanyInfo companyInfo = companyJpaRepository.findById(id).orElseThrow(() ->
+        CompInfo companyInfo = compInfoJpaRepository.findById(id).orElseThrow(() ->
                 new Exception404("삭제하려는 게시글이 없습니다")
         );
 
-        companyJpaRepository.deleteById(id);
+        if (!companyInfo.getCompUser().getCompUserId().equals(loginUser.getId())) {
+            throw new Exception400("해당 기업정보를 등록한 기업회원만 삭제할 수 있습니다.");
+        }
+
+        compInfoJpaRepository.deleteById(id);
     }
 
+    /*
     public Page<CompanyReview> findCompanyReviewByCompanyId(Pageable pageable, Long companyId) {
 
         log.info("기업 리뷰 조회 서비스 시작");
