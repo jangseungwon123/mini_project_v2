@@ -26,7 +26,7 @@ public class UserSubRestController {
     }
 
     @GetMapping("/api/user_sub/list")
-    public ResponseEntity<?> list(@org.jetbrains.annotations.NotNull @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
+    public ResponseEntity<?> list(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
       List<UserSubResponse.SubListDTO> userSubList = userSubService.findAllByUserAndCompanyId(loginUser.getId());
       return ResponseEntity.ok(new ApiUtil<>(userSubList));
     }

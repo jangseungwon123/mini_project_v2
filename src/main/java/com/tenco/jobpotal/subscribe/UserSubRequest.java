@@ -8,7 +8,7 @@ public class UserSubRequest {
 
     @Data
     public static class SaveDTO {
-        private Long compId;
+        private Long compInfoId;
     }
     @Data
     public static class SubListDTO {
