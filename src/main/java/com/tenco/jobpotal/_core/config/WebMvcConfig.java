@@ -23,6 +23,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 // 공개 API는 제외 처리
                 .excludePathPatterns(
                         "/api/boards/{id:\\d+}/detail" // 게시글 상세보기 누구나 응답 허용
+                        , "/api/compUsers/join"
+                        , "/api/compUsers/login"
                         , "/api/company/list"
                         , "/api/company/{id:\\d+}"
                 );

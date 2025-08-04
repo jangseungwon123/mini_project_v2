@@ -67,9 +67,9 @@ public class CompInfoRestController {
         return ResponseEntity.ok(new ApiUtil<>(companyInfoDetail));
     }
 
-
+    // 기업정보 등록
     @PostMapping("/company/form")
-    public String companyInfoInsert(@RequestBody CompInfoRequest.SaveDTO saveDTO,
+    public ResponseEntity<?> companyInfoInsert(@RequestBody CompInfoRequest.SaveDTO saveDTO,
                                     @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
         log.info(">> 기업정보 등록 시작 << ");
@@ -84,53 +84,35 @@ public class CompInfoRestController {
             throw new Exception500("등록 처리 중 에러가 발생했습니다. 관리자에게 문의 하세요.");
         }
 
-        return "redirect:/company/list";
+        return ResponseEntity.ok(new ApiUtil<>("기업 등록이 완료 되었습니다."));
     }
 
-    /*
-    @GetMapping("/company/{id}/update")
-    public String companyInfoUpdateForm(@PathVariable(name = "id") Long id, Model model, HttpSession session) {
-
-        log.info(">> 기업정보 수정 화면이동 및 조회 시작 << ");
-
-        LoginUser user = (LoginUser) session.getAttribute("sessionUser");
-        CompanyInfo companyInfoDetail = companyService.findCompanyInfoById(id);
-
-        if (!companyInfoDetail.getCompUser().getCompUserId().equals(user.getId())) {
-            throw new Exception403("해당 기업의 회원만 수정 할 수 있습니다.");
-        }
-
-        model.addAttribute("companyInfo", companyInfoDetail);
-
-        return "company/company_update";
-    }
-
-    @PostMapping("/company/{id}/update")
-    public String companyInfoUpdate(@PathVariable(name = "id") Long id, CompanyRequest.SaveDTO saveDTO, HttpSession session) {
+    // 기업정보 수정
+    @PutMapping("/company/{id}/update")
+    public ResponseEntity<?> companyInfoUpdate(@PathVariable(name = "id") Long id, @RequestBody CompInfoRequest.UpdateDTO updateDTO,
+                                    @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
         log.info(">> 기업정보 수정 시작 << ");
 
-        // CompUser 객체에 세션유저 id 담아줌.
-        LoginUser user = (LoginUser) session.getAttribute("sessionUser");
-        CompUser compUser = userService.findCompUserById(user.getId());
+        CompInfo companyInfo = companyService.companyInfoUpdate(id, updateDTO, loginUser);
 
-        CompanyInfo companyInfo = companyService.companyInfoUpdate(id, saveDTO.toEntity(compUser));
         if (companyInfo == null) {
             throw new Exception500("수정 처리 중 에러가 발생했습니다.");
         }
 
-        return "redirect:/company/"+id;
+        return ResponseEntity.ok(new ApiUtil<>("기업정보 수정이 완료 되었습니다."));
     }
 
-    @PostMapping("/company/{id}/delete")
-    public String companyInfoDelete(@PathVariable(name = "id") Long id) {
+    @DeleteMapping("/company/{id}/delete")
+    public ResponseEntity<?> companyInfoDelete(@PathVariable(name = "id") Long id, @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
         log.info(">> 기업정보 삭제 시작 << ");
 
-        companyService.companyInfoDelete(id);
-        return "redirect:/company/list";
+        companyService.companyInfoDelete(loginUser, id);
+        return ResponseEntity.ok(new ApiUtil<>("기업 정보 삭제를 완료 하었습니다."));
     }
 
+    /*
     // 전체 리뷰 목록
     @GetMapping("/company/{id}/reviews")
     public String companyReview(@PathVariable(name = "id") Long companyId,

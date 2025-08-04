@@ -3,6 +3,7 @@ package com.tenco.jobpotal.company;
 
 import com.tenco.jobpotal._core.utils.MyDateUtil;
 import com.tenco.jobpotal.user.CompUser;
+import com.tenco.jobpotal.user.CompUserRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -55,7 +56,7 @@ public class CompInfo {
     }
 
     @Builder
-    public CompInfo(Long compId, CompUser compUser, String companyName, String companyDesc, String companyCeoName, String homepageUrl, String phoneNumber, String companyEmail, String companyAddress, String instId, Timestamp instDate) {
+    public CompInfo(Long compId, CompUser compUser, String companyName, String companyDesc, String companyCeoName, String homepageUrl, String phoneNumber, String companyEmail, String companyAddress, String companyImageId, String instId, Timestamp instDate, boolean isBoardOwner) {
         this.compId = compId;
         this.compUser = compUser;
         this.companyName = companyName;
@@ -65,9 +66,23 @@ public class CompInfo {
         this.phoneNumber = phoneNumber;
         this.companyEmail = companyEmail;
         this.companyAddress = companyAddress;
+        this.companyImageId = companyImageId;
         this.instId = instId;
         this.instDate = instDate;
+        this.isBoardOwner = isBoardOwner;
     }
+
+    public void update(CompInfoRequest.UpdateDTO updateDTO) {
+        this.companyName = updateDTO.getCompanyName();
+        this.companyDesc = updateDTO.getCompanyDesc();
+        this.companyCeoName = updateDTO.getCompanyCeoName();
+        this.homepageUrl = updateDTO.getHomepageUrl();
+        this.phoneNumber = updateDTO.getPhoneNumber();
+        this.companyEmail = updateDTO.getCompanyEmail();
+        this.companyAddress = updateDTO.getCompanyAddress();
+        this.companyImageId = updateDTO.getCompanyImageId();
+    }
+
 
     public String getTime() {
         return MyDateUtil.timestampFormat(instDate);
