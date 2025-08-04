@@ -15,10 +15,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class ResumeRestController {
 
     private final ResumeService resumeService;
 
+    @Operation(summary = "이력서 목록조회")
     @GetMapping("/")
     public ResponseEntity<ApiUtil<List<ResumeResponse.ResumeListResponseDTO>>> resumeList(
             @RequestParam(name = "page",defaultValue = "0") int page,
@@ -29,8 +31,8 @@ public class ResumeRestController {
     }
 
 
-    @Operation(summary = "이력서 상세보기")
-    @GetMapping("/api/resumes/{id}/detail")
+    @Operation(summary = "이력서 상세조회")
+    @GetMapping("/resumes/{id}/detail")
     public ResponseEntity<ApiUtil<ResumeResponse.DetailDTO>> detail(
             @PathVariable(name = "id")Long id,@RequestAttribute(value = Define.LOGIN_USER,required = false)LoginUser loginUser) {
 
@@ -40,7 +42,7 @@ public class ResumeRestController {
 
 
     @Operation(summary = "이력서 작성")
-    @PostMapping("/api/resumes")
+    @PostMapping("/resumes")
     public ResponseEntity<?> save(@Valid @RequestBody ResumeRequest.SaveDTO saveDTO,
                                   Errors errors,
                                   @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser) {
@@ -50,7 +52,7 @@ public class ResumeRestController {
     }
 
     @Operation(summary = "이력서 수정")
-    @PostMapping("/api/resumes/{id}")
+    @PostMapping("/resumes/{id}")
     public ResponseEntity<?> update(@Valid @PathVariable(name = "id")Long id,
                                     @RequestBody ResumeRequest.UpdateDTO updateDTO,
                                     Errors errors,
@@ -61,7 +63,7 @@ public class ResumeRestController {
     }
 
     @Operation(summary = "이력서 삭제")
-    @DeleteMapping("/api/resumes/{id}")
+    @DeleteMapping("/resumes/{id}")
     public ResponseEntity<ApiUtil<String>> delete(
             @PathVariable(name = "id") Long id,
             @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
