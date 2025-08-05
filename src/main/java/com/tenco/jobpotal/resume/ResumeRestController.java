@@ -41,7 +41,7 @@ public class ResumeRestController {
     }
 
 
-    @Operation(summary = "이력서 작성")
+    @Operation(summary = "이력서 저장")
     @PostMapping("/resumes")
     public ResponseEntity<?> save(@Valid @RequestBody ResumeRequest.SaveDTO saveDTO,
                                   Errors errors,
