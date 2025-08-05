@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.user.comp;
 
+import com.tenco.jobpotal.company.CompInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +18,5 @@ public interface CompUserJpaRepository  extends JpaRepository<CompUser, Long> {
 	@Query("select cu from CompUser cu where cu.compUserLoginId = :compUserLoginId or cu.compUserEmail = :compUserEmail")
 	Optional<CompUser> findByCompUserExists(@Param("compUserLoginId") String compUserLoginId,
 											 @Param("compUserEmail") String compUserEmail);
+
 }
