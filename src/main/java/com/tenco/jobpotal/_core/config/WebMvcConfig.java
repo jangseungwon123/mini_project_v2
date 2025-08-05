@@ -27,6 +27,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         , "/api/compUsers/login"
                         , "/api/company/list"
                         , "/api/company/{id:\\d+}"
+                        ,"/api/login"
+                        ,"/api/logout"
+                        ,"/api/join"
                 );
 
     }
