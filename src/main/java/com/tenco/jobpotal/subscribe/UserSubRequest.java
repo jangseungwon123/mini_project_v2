@@ -8,9 +8,5 @@ public class UserSubRequest {
     public static class SaveDTO {
         private Long compInfoId;
     }
-    @Data
-    public static class SubListDTO {
-        private Long userId;
-    }
 
 }

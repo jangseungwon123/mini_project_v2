@@ -1,5 +1,7 @@
 package com.tenco.jobpotal.job_post;
 
+import com.tenco.jobpotal._core.utils.Define;
+import com.tenco.jobpotal.user.LoginUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -31,7 +33,7 @@ public class JobPostController {
 
     // 상세 보기 조회
     @GetMapping("/{recruitId}")
-    public ResponseEntity<JobPostResponseDTO> getJobPostById(@PathVariable Integer recruitId) {
+    public ResponseEntity<JobPostResponseDTO> getJobPostById(@PathVariable Long recruitId) {
         JobPost jobPost = jobPostService.getJobPostById(recruitId); // 이 메서드는 예외 던지므로 Optional 아님
         return ResponseEntity.ok(new JobPostResponseDTO(jobPost));
     }
@@ -39,15 +41,16 @@ public class JobPostController {
 
     // 게시글 등록
     @PostMapping("/save")
-    public ResponseEntity<JobPostResponseDTO> createJobPost(@RequestBody @Valid JobPostRequestDTO requestDTO) {
-        JobPostResponseDTO created = jobPostService.createJobPost(requestDTO);
+    public ResponseEntity<JobPostResponseDTO> createJobPost(@RequestBody @Valid JobPostRequestDTO requestDTO,
+                                                            @RequestAttribute(value = Define.LOGIN_USER, required = false)LoginUser loginUser) {
+        JobPostResponseDTO created = jobPostService.createJobPost(requestDTO, loginUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     // 게시글 수정
     @PutMapping("/update/{recruitId}")
     public ResponseEntity<JobPostResponseDTO> updateJobPost(
-            @PathVariable Integer recruitId,
+            @PathVariable Long recruitId,
             @RequestBody @Valid JobPostRequestDTO requestDTO) {
 
         JobPostResponseDTO updated = jobPostService.updateJobPost(recruitId, requestDTO);
@@ -57,7 +60,7 @@ public class JobPostController {
 
     // 게시글 삭제
     @DeleteMapping("/delete/{recruitId}")
-    public ResponseEntity<Void> deleteJobPost(@PathVariable Integer recruitId) {
+    public ResponseEntity<Void> deleteJobPost(@PathVariable Long recruitId) {
         jobPostService.deleteJobPost(recruitId);
         return ResponseEntity.noContent().build();
     }

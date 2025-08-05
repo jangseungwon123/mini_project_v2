@@ -43,6 +43,7 @@ public class JobPost {
 
     private LocalDateTime deadline;
 
+    @Builder
     public JobPost(Long recruitId, CompInfo compInfo, String title, String content,
                    String requireCareerYears, String employmentType, String instId,
                    LocalDateTime instDate, LocalDateTime postedAt, LocalDateTime deadline) {

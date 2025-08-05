@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class JobPostResponseDTO {
-    private Integer recruitId;
-    private Integer compId;
+    private Long recruitId;
+    private Long compId;
     private String title;
     private String content;
     private String requireCareerYears;
@@ -21,7 +21,7 @@ public class JobPostResponseDTO {
 
     public JobPostResponseDTO(JobPost jobPost) {
         this.recruitId = jobPost.getRecruitId();
-        this.compId = jobPost.getCompId();
+        this.compId = jobPost.getCompInfo().getCompId();
         this.title = jobPost.getTitle();
         this.content = jobPost.getContent();
         this.requireCareerYears = jobPost.getRequireCareerYears();

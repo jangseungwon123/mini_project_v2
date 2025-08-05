@@ -1,5 +1,8 @@
 package com.tenco.jobpotal.job_post;
 
+import com.tenco.jobpotal.company.CompInfo;
+import com.tenco.jobpotal.user.LoginUser;
+import com.tenco.jobpotal.user.comp.CompUser;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Future;
@@ -13,7 +16,7 @@ import java.time.LocalDateTime;
 public class JobPostRequestDTO {
 
     @NotNull(message = "회사 ID는 필수입니다.")
-    private Integer compId;
+    private Long compId;
 
     @NotBlank(message = "제목은 비어 있을 수 없습니다.")
     private String title;
@@ -27,13 +30,23 @@ public class JobPostRequestDTO {
     @NotBlank(message = "고용 형태는 비어 있을 수 없습니다.")
     private String employmentType;
 
-    @NotBlank(message = "기관 ID는 비어 있을 수 없습니다.")
-    private String instId;
-
     @NotNull(message = "게시일은 필수입니다.")
     private LocalDateTime postedAt;
 
     @NotNull(message = "마감일은 필수입니다.")
     @Future(message = "마감일은 미래여야 합니다.")
     private LocalDateTime deadline;
+
+    public JobPost toEntity(CompInfo compInfo, LoginUser loginUser) {
+        return JobPost.builder()
+                .compInfo(compInfo)
+                .title(this.title)
+                .content(this.content)
+                .requireCareerYears(this.requireCareerYears)
+                .employmentType(this.employmentType)
+                .instId(loginUser.getLoginId())
+                .postedAt(this.postedAt)
+                .deadline(this.deadline)
+        .build();
+    }
 }

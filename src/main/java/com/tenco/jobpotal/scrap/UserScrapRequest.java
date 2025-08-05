@@ -8,9 +8,6 @@ public class UserScrapRequest {
     public static class SaveDTO {
         private Long recruitId;
     }
-    @Data
-    public static class ScrapListDTO {
-        private Long userId;
-    }
+
 
 }

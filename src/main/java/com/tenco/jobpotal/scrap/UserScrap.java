@@ -1,7 +1,6 @@
 package com.tenco.jobpotal.scrap;
 
 import com.tenco.jobpotal._core.utils.MyDateUtil;
-import com.tenco.jobpotal.company.CompInfo;
 import com.tenco.jobpotal.job_post.JobPost;
 import com.tenco.jobpotal.user.normal.User;
 import jakarta.persistence.*;
