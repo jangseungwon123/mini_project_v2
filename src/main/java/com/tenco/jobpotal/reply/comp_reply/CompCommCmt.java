@@ -1,4 +1,4 @@
-package com.tenco.jobpotal.reply;
+package com.tenco.jobpotal.reply.comp_reply;
 
 import com.tenco.jobpotal.user.comp.CompUser;
 import jakarta.persistence.*;
