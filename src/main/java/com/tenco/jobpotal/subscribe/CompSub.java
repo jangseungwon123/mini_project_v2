@@ -28,7 +28,7 @@ public class CompSub {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comp_info_id")
+    @JoinColumn(name = "comp_id")
     private CompInfo compInfo;
 
     @CreationTimestamp

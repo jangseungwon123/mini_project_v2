@@ -24,10 +24,10 @@ public class CompSubService {
 
     @Transactional
     public CompSubResponse.SaveDTO save(CompSubRequest.SaveDTO saveDTO, LoginUser loginUser) {
-        if (compSubJpaRepository.existsByCompanyIdAndUserId(saveDTO.getUserId(), loginUser.getId())){
+        if (compSubJpaRepository.existsByCompanyIdAndUserId(saveDTO.getCompId(), loginUser.getId())){
             throw new Exception403("이미 구독했습니다");
         }
-        User user = userJpaRepository.findById(saveDTO.getUserId()).orElseThrow(() ->
+        User user = userJpaRepository.findById(saveDTO.getCompId()).orElseThrow(() ->
                 new Exception404("존재하지 않는 사용자입니다"));
         CompInfo compInfo = compInfoJpaRepository.findById(loginUser.getId()).orElseThrow(() ->
                 new Exception404("존재하지 않는 기업입니다."));
