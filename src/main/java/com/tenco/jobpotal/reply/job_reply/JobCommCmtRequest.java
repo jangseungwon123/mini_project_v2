@@ -3,6 +3,7 @@ package com.tenco.jobpotal.reply.job_reply;
 import com.tenco.jobpotal.community.community1.Community;
 import com.tenco.jobpotal.user.normal.User;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ public class JobCommCmtRequest {
 
     @Data
     public static class SaveDTO {
-        @NotBlank(message = "게시물 ID가 필요합니다.")
+        @NotNull(message = "게시물 ID가 필요합니다.")
         private Long postId;
 
         @NotBlank(message = "내용을 입력 해주세요.")

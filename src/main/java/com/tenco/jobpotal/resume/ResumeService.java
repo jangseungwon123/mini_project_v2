@@ -22,7 +22,8 @@ public class ResumeService {
     private final ResumeJpaRepository resumeJpaRepository;
 
     @Transactional
-    public ResumeResponse.SaveDTO save(ResumeRequest.SaveDTO saveDTO, LoginUser loginUser){
+    public ResumeResponse.SaveDTO save(
+            ResumeRequest.SaveDTO saveDTO, LoginUser loginUser){
         User user = User.builder()
                 .userId(loginUser.getId())
                 .userName(loginUser.getName())
