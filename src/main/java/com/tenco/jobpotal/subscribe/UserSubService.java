@@ -24,12 +24,12 @@ public class UserSubService {
     // 구독
     @Transactional
     public UserSubResponse.SaveDTO save(UserSubRequest.SaveDTO saveDTO, LoginUser loginUser) {
-        if (userSubJpaRepository.existsByCompanyIdAndUserId(saveDTO.getCompInfoId(), loginUser.getId())) {
+        if (userSubJpaRepository.existsByCompIdAndUserId(saveDTO.getCompId(), loginUser.getId())) {
             throw new Exception403("이미 구독했습니다");
         }
         User user = userJpaRepository.findById(loginUser.getId()).orElseThrow(() ->
                 new Exception404("존재하지 않는 사용자입니다"));
-        CompInfo compInfo = compInfoJpaRepository.findById(saveDTO.getCompInfoId()).orElseThrow(() ->
+        CompInfo compInfo = compInfoJpaRepository.findById(saveDTO.getCompId()).orElseThrow(() ->
                 new Exception404("존재하지 않는 기업입니다."));
 
         UserSub userSub = UserSub.builder()
@@ -44,7 +44,7 @@ public class UserSubService {
 
     // 구독목록 조회 서비스
     public List<UserSubResponse.SubListDTO> findAllByUserAndCompanyId(Long userId) {
-        List<UserSubResponse.SubListDTO> userSubList = userSubJpaRepository.findAllByUserAndCompanyId(userId);
+        List<UserSubResponse.SubListDTO> userSubList = userSubJpaRepository.findAllByUserAndCompId(userId);
         return userSubList;
     }
 

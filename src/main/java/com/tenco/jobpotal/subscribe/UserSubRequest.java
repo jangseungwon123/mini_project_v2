@@ -6,7 +6,7 @@ public class UserSubRequest {
 
     @Data
     public static class SaveDTO {
-        private Long compInfoId;
+        private Long compId;
     }
 
 }

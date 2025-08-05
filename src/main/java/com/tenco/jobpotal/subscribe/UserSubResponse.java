@@ -8,7 +8,7 @@ public class UserSubResponse {
     @Data
     public static class SubListDTO {
         private Long userSubId;
-        private Long compInfoId;
+        private Long compId;
         private String companyName;
         private String companyDesc;
         private String companyCeoName;
@@ -22,7 +22,7 @@ public class UserSubResponse {
         public SubListDTO(UserSub userSub) {
             CompInfo compInfo = userSub.getCompInfo();
             this.userSubId = userSub.getUserSubId();
-            this.compInfoId = compInfo.getCompId();
+            this.compId = compInfo.getCompId();
             this.companyName = compInfo.getCompanyName();
             this.companyDesc = compInfo.getCompanyDesc();
             this.companyCeoName = compInfo.getCompanyCeoName();
