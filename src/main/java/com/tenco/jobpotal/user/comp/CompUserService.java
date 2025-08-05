@@ -38,7 +38,7 @@ public class CompUserService {
 				.name(user.getCompUserName())
 				.loginId(user.getCompUserLoginId())
 				.userNickName(user.getCompUserNickname())
-				.isCompany(false)
+				.isCompany(true)
 				.build();
 
 		String jwt = JwtUtil.create(loginUser);
