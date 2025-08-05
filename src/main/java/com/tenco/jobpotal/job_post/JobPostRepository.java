@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
+public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 
 
     // 제목이나 내용에 키워드가 포함된 공고 검색

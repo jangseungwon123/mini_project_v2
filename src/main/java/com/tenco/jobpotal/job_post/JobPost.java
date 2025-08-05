@@ -1,6 +1,7 @@
 package com.tenco.jobpotal.job_post;
 
 
+import com.tenco.jobpotal.company.CompInfo;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,9 +20,11 @@ public class JobPost {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer recruitId;
+    private Long recruitId;
 
-    private Integer compId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comp_id")
+    private CompInfo compInfo;
 
     private String title;
 
@@ -40,11 +43,11 @@ public class JobPost {
 
     private LocalDateTime deadline;
 
-    public JobPost(Integer recruitId, Integer compId, String title, String content,
+    public JobPost(Long recruitId, CompInfo compInfo, String title, String content,
                    String requireCareerYears, String employmentType, String instId,
                    LocalDateTime instDate, LocalDateTime postedAt, LocalDateTime deadline) {
         this.recruitId = recruitId;
-        this.compId = compId;
+        this.compInfo = compInfo;
         this.title = title;
         this.content = content;
         this.requireCareerYears = requireCareerYears;
