@@ -28,8 +28,8 @@ public class UserScrapRestController {
 
     @GetMapping("/user_scrap/list")
     public ResponseEntity<?> list(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
-      List<UserScrapResponse.ScrapListDTO> userSubList = userScrapService.findAllByUserAndJobPostId(loginUser.getId());
-      return ResponseEntity.ok(new ApiUtil<>(userSubList));
+      List<UserScrapResponse.ScrapListDTO> userScrapList = userScrapService.findAllByUserAndJobPostId(loginUser.getId());
+      return ResponseEntity.ok(new ApiUtil<>(userScrapList));
     }
 
 

@@ -2,7 +2,7 @@ package com.tenco.jobpotal.scrap;
 
 import com.tenco.jobpotal._core.utils.MyDateUtil;
 import com.tenco.jobpotal.company.CompInfo;
-import com.tenco.jobpotal.user.normal.User;
+import com.tenco.jobpotal.resume.Resume;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,31 +16,31 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "user_sub")
+@Table(name = "comp_Scrap")
 @Entity
 public class CompScrap {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userSubId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long compScrapId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comp_id")
     private CompInfo compInfo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resume_id")
+    private Resume resume;
+
     @CreationTimestamp
-    private Timestamp userSubDate;
+    private Timestamp compScrapDate;
 
     public boolean isOwner(Long checkUserId){
-        return this.user.getUserId().equals(checkUserId);
+        return this.compInfo.getCompUser().getCompUserId().equals(checkUserId);
     }
 
     public String getTime() {
-        return MyDateUtil.timestampFormat(userSubDate);
+        return MyDateUtil.timestampFormat(compScrapDate);
     }
 
 }

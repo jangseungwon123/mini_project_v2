@@ -6,7 +6,7 @@ public class CompScrapRequest {
 
     @Data
     public static class SaveDTO {
-        private Long compId;
+        private Long resumeId;
     }
 
 }

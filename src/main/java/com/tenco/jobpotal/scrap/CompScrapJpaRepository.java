@@ -7,11 +7,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CompScrapJpaRepository extends JpaRepository<CompScrap, Long> {
+//
+//    @Query("SELECT cs FROM CompScrap cs JOIN FETCH cs.compInfo c JOIN FETCH cs.resume r WHERE c.compId = :compId")
+//    List<CompScrapResponse.ScrapListDTO> findAllByResumeAndCompId(@Param("compId") Long compId);
 
-    @Query("SELECT us FROM UserSub us JOIN FETCH us.user u JOIN FETCH us.compInfo c WHERE u.userId = :userId")
-    List<CompScrapResponse.SubListDTO> findAllByUserAndCompId(@Param("userId") Long userId);
+    @Query("SELECT count(*) > 0 FROM CompScrap cs WHERE cs.resume.resumeId = :resumeId AND cs.compInfo.compId = :compId")
+    boolean existsByResumeIdAndCompId(@Param("resumeId") Long resumeId, @Param("compId") Long compId);
 
-    @Query("select count(*) > 0 from UserSub us where us.compInfo.id = :compId and us.user.userId = :userId")
-    boolean existsByCompIdAndUserId(@Param("compId") Long compId, @Param("userId")Long userId);
+    @Query("SELECT cs FROM CompScrap cs JOIN FETCH cs.resume r JOIN FETCH cs.compInfo ci WHERE ci.compUser.compUserId = :compUserId")
+    List<CompScrap> findAllByCompUserId(@Param("compUserId") Long compUserId);
 
 }

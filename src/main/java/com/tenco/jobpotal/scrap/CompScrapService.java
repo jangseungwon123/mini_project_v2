@@ -4,58 +4,66 @@ import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal.company.CompInfo;
 import com.tenco.jobpotal.company.CompInfoJpaRepository;
+import com.tenco.jobpotal.resume.Resume;
+import com.tenco.jobpotal.resume.ResumeJpaRepository;
 import com.tenco.jobpotal.user.LoginUser;
-import com.tenco.jobpotal.user.normal.User;
-import com.tenco.jobpotal.user.normal.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class CompScrapService {
     private final CompScrapJpaRepository compScrapJpaRepository;
-    private final UserJpaRepository userJpaRepository;
+    private final ResumeJpaRepository resumeJpaRepository;
     private final CompInfoJpaRepository compInfoJpaRepository;
 
-    // 구독
+    // 이력서 스크랩
     @Transactional
     public CompScrapResponse.SaveDTO save(CompScrapRequest.SaveDTO saveDTO, LoginUser loginUser) {
-        if (compScrapJpaRepository.existsByCompIdAndUserId(saveDTO.getCompId(), loginUser.getId())) {
-            throw new Exception403("이미 구독했습니다");
-        }
-        User user = userJpaRepository.findById(loginUser.getId()).orElseThrow(() ->
-                new Exception404("존재하지 않는 사용자입니다"));
-        CompInfo compInfo = compInfoJpaRepository.findById(saveDTO.getCompId()).orElseThrow(() ->
+
+        CompInfo compInfo = compInfoJpaRepository.findByCompInfo(loginUser.getId()).orElseThrow(() ->
                 new Exception404("존재하지 않는 기업입니다."));
+        if (compScrapJpaRepository.existsByResumeIdAndCompId(saveDTO.getResumeId(), compInfo.getCompId())) {
+            throw new Exception403("이미 저장한 이력서 입니다.");
+        }
+        Resume resume = resumeJpaRepository.findById(saveDTO.getResumeId()).orElseThrow(() ->
+                new Exception404("존재하지 않는 이력서입니다."));
 
         CompScrap compScrap = CompScrap.builder()
-                .user(user)
                 .compInfo(compInfo)
+                .resume(resume)
                 .build();
-
 
         CompScrap savedCompScrap = compScrapJpaRepository.save(compScrap);
         return new CompScrapResponse.SaveDTO(savedCompScrap);
     }
 
-    // 구독목록 조회 서비스
-    public List<CompScrapResponse.SubListDTO> findAllByUserAndCompanyId(Long userId) {
-        List<CompScrapResponse.SubListDTO> userSubList = compScrapJpaRepository.findAllByUserAndCompId(userId);
-        return userSubList;
+    // 이력서 스크랩 목록 조회 서비스
+    public List<CompScrapResponse.ScrapListDTO> findAllByCompUserId(Long compUserId) {
+        List<CompScrap> compScrapList = compScrapJpaRepository.findAllByCompUserId(compUserId);
+        return compScrapList.stream()
+                .map(CompScrapResponse.ScrapListDTO::new)
+                .collect(Collectors.toList());
     }
 
-    // 구독 삭제
+//    public List<CompScrapResponse.ScrapListDTO> findAllByUserAndCompanyId(Long companyId) {
+//        List<CompScrapResponse.ScrapListDTO> compScrapList = compScrapJpaRepository.findAllByResumeAndCompId(companyId);
+//        return compScrapList;
+//    }
+
+    // 이력서 삭제
     @Transactional
-    public void deleteById(Long userSubId, LoginUser loginUser) {
-        CompScrap compScrap = compScrapJpaRepository.findById(userSubId).orElseThrow(() ->
-                new Exception404("삭제하려는 구독이 없습니다"));
+    public void deleteById(Long compScrapId, LoginUser loginUser) {
+        CompScrap compScrap = compScrapJpaRepository.findById(compScrapId).orElseThrow(() ->
+                new Exception404("삭제하려는 이력서가 없습니다"));
         if (!compScrap.isOwner(loginUser.getId())) {
-            throw new Exception403("본인의 구독만 취소할 수 있습니다");
+            throw new Exception403("본인이 저장한 이력서만 삭제할 수 있습니다");
         }
-        compScrapJpaRepository.deleteById(userSubId);
+        compScrapJpaRepository.deleteById(compScrapId);
     }
 }

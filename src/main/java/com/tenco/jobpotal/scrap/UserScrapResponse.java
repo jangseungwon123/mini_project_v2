@@ -1,9 +1,7 @@
 package com.tenco.jobpotal.scrap;
 
-import com.tenco.jobpotal.company.CompInfo;
 import com.tenco.jobpotal.job_post.JobPost;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
