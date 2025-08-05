@@ -1,11 +1,13 @@
 package com.tenco.jobpotal.user.normal;
 
+import com.tenco.jobpotal._core.errors.exception.Exception400;
 import com.tenco.jobpotal._core.errors.exception.Exception401;
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal._core.utils.JwtUtil;
 import com.tenco.jobpotal.user.LoginUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,14 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserJpaRepository userJpaRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 회원가입
     @Transactional
     public UserResponse.JoinDTO join(UserRequest.JoinDTO joinDTO) {
         userJpaRepository.findByUserExists(joinDTO.getUserLoginId(), joinDTO.getUserCivilSerial(), joinDTO.getUserEmail())
                 .ifPresent(user1 -> {
-                    //  throw new Exception400("이미 존재하는 사용자입니다");
+                      throw new Exception400("이미 존재하는 사용자입니다");
                 });
+
+        String hashedPassword = passwordEncoder.encode(joinDTO.getUserPassword());
+        joinDTO.setUserPassword(hashedPassword);
+
         User savedUser = userJpaRepository.save(joinDTO.toEntity());
         return new UserResponse.JoinDTO(savedUser);
     }
@@ -30,10 +37,14 @@ public class UserService {
     // 로그인
     public String login(UserRequest.LoginDTO loginDTO) {
         User user = userJpaRepository
-                .findByUserIdAndPassword(loginDTO.getUserLoginId(), loginDTO.getUserPassword())
+                .findByUserLoginId(loginDTO.getUserLoginId())
                 .orElseThrow(() -> {
-                    throw new Exception401("사용자명 또는 비밀번호가 틀렸어요");
+                    throw new Exception401("아이디 또는 비밀번호가 틀렸어요");
                 });
+        if (!passwordEncoder.matches(loginDTO.getUserPassword(), user.getUserPassword())) {
+            throw new Exception401("아이디 또는 비밀번호가 틀렸어요");
+        }
+
         LoginUser loginUser = LoginUser.builder()
                 .id(user.getUserId())
                 .name(user.getUserName())
@@ -58,11 +69,16 @@ public class UserService {
     @Transactional
     public UserResponse.UpdateDTO updateById(Long requestUserId, Long loginUserId, UserRequest.UpdateDTO updateDTO) {
         if (!requestUserId.equals(loginUserId)) {
-            throw new Exception403("본인 정보만 조회 가능합니다");
+            throw new Exception403("본인 정보만 수정 가능합니다");
         }
         User selectedUser = userJpaRepository.findById(requestUserId).orElseThrow(() -> {
             throw new Exception404("사용자를 찾을 수 없습니다");
         });
+
+        String hashedPassword = passwordEncoder.encode(updateDTO.getUserPassword());
+        updateDTO.setUserPassword(hashedPassword);
+
+
         selectedUser.update(updateDTO);
         return new UserResponse.UpdateDTO(selectedUser);
     }
