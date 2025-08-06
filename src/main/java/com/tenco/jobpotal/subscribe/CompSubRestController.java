@@ -24,13 +24,13 @@ public class CompSubRestController {
     @Operation(summary = "구독저장", operationId = "CompSubSave")
     @PostMapping("/comp_sub")
     public ResponseEntity<?> save(@Valid @RequestBody CompSubRequest.SaveDTO saveDTO, Errors error,
-                                  @RequestAttribute(Define.LOGIN_COMP_USER)LoginUser loginUser) {
+                                  @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser) {
         CompSubResponse.SaveDTO responseDTO = compSubService.save(saveDTO, loginUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(responseDTO));
     }
 
     @GetMapping("/comp_sub/list")
-    public ResponseEntity<?> list(@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser loginUser) {
+    public ResponseEntity<?> list(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
         List<CompSubResponse.SubListDTO> userSubList = compSubService.findAllByUserAndCompanyId(loginUser.getId());
         return ResponseEntity.ok(new ApiUtil<>(userSubList));
     }
