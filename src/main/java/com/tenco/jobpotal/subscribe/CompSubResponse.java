@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.subscribe;
 
+import com.tenco.jobpotal.company.CompInfo;
 import com.tenco.jobpotal.user.comp.CompUser;
 import com.tenco.jobpotal.user.normal.User;
 import lombok.Data;
@@ -9,7 +10,7 @@ public class CompSubResponse {
     @Data
     public static class SubListDTO{
         private Long compId;
-        private CompUser compUser;
+        private Long compUserId;
         private String companyDesc;
         private String companyCeoName;
         private String homepageUrl;
@@ -20,9 +21,8 @@ public class CompSubResponse {
         private String compSubDate;
 
         public SubListDTO(CompSub compSub) {
-            User user = compSub.getUser();
-            this.compId = compSub.getCompSubId();
-            this.compUser = compSub.getCompInfo().getCompUser();
+            this.compId = compSub.getCompInfo().getCompId();
+            this.compUserId = compSub.getUser().getUserId();
             this.companyDesc = compSub.getCompInfo().getCompanyDesc();
             this.companyCeoName = compSub.getCompInfo().getCompanyCeoName();
             this.homepageUrl = compSub.getCompInfo().getHomepageUrl();
