@@ -44,7 +44,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             // request.setAttribute 는 요청 단위로 데이터를 저장하고 소멸 함
             // 즉, 해당 데이터는 요청이 처리된 후 사라지며, 서버에 세션 메모리에 저장되지 않음.
             request.setAttribute(Define.LOGIN_USER, loginUser);
-
+            request.setAttribute(Define.LOGIN_COMP_USER,loginUser);
             return true;
 
         } catch (TokenExpiredException e) {

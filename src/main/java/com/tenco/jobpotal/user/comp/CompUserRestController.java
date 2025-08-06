@@ -2,6 +2,7 @@ package com.tenco.jobpotal.user.comp;
 
 import com.tenco.jobpotal._core.common.ApiUtil;
 import com.tenco.jobpotal._core.errors.exception.Exception401;
+import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.utils.Define;
 import com.tenco.jobpotal.user.LoginUser;
 import io.swagger.v3.oas.annotations.Operation;

@@ -64,6 +64,7 @@ public class CompUserService {
 		CompUser selectedCompUser = compUserJpaRepository.findById(requestCompUserId)
 				.orElseThrow(() -> new Exception404("존재하지 않는 회원입니다"));
 		selectedCompUser.update(updateDTO);
+
 		return new CompUserResponse.UpdateDTO(selectedCompUser);
 	}
 }

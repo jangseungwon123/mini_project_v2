@@ -25,6 +25,9 @@ repositories {
 
 dependencies {
 
+	// Spring Boot 애플리케이션에 보안 기능을 추가
+//	implementation "org.springframework.boot:spring-boot-starter-security:3.4.5"
+
 	// Swagger (SpringDoc OpenAPI 3) 추가
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 

@@ -4,7 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 public interface CompInfoJpaRepository extends JpaRepository<CompInfo, Long> {
 
@@ -14,4 +15,8 @@ public interface CompInfoJpaRepository extends JpaRepository<CompInfo, Long> {
 
     @Query("SELECT c FROM CompInfo c WHERE c.companyName like %:keyword% ORDER BY c.id DESC")
     Page<CompInfo> findAllCompInfoByKeyword(Pageable pageable, String keyword);
+
+    @Query("SELECT ci FROM CompInfo ci WHERE ci.compUser.compUserId = :compUserId")
+    Optional<CompInfo> findByCompInfo(Long compUserId);
+
 }

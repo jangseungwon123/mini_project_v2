@@ -6,6 +6,7 @@ import com.tenco.jobpotal.user.LoginUser;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -41,7 +42,7 @@ public class ResumeRestController {
     }
 
 
-    @Operation(summary = "이력서 작성")
+    @Operation(summary = "이력서 저장")
     @PostMapping("/resumes")
     public ResponseEntity<?> save(@Valid @RequestBody ResumeRequest.SaveDTO saveDTO,
                                   Errors errors,

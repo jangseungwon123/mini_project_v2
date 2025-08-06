@@ -50,12 +50,12 @@ public class UserScrapService {
 
     // 채용공고 삭제
     @Transactional
-    public void deleteById(Long userSubId, LoginUser loginUser) {
-        UserScrap userScrap = userScrapJpaRepository.findById(userSubId).orElseThrow(() ->
+    public void deleteById(Long userScarpId, LoginUser loginUser) {
+        UserScrap userScrap = userScrapJpaRepository.findById(userScarpId).orElseThrow(() ->
                 new Exception404("삭제하려는 채용공고가 없습니다"));
         if (!userScrap.isOwner(loginUser.getId())) {
-            throw new Exception403("본인의 저장한 채용공고만 삭제할 수 있습니다");
+            throw new Exception403("본인이 저장한 채용공고만 삭제할 수 있습니다");
         }
-        userScrapJpaRepository.deleteById(userSubId);
+        userScrapJpaRepository.deleteById(userScarpId);
     }
 }
