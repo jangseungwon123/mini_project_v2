@@ -24,7 +24,7 @@ public class CompUserRestController {
 	@PostMapping("/api/compUsers/join")
 	public ResponseEntity<?> join(@Valid @RequestBody CompUserRequest.JoinDTO joinDTO, Errors errors) {
 		CompUserResponse.JoinDTO joinedCompUser = compUserService.join(joinDTO);
-		return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(joinedCompUser));
+		return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>("회원 가입 완료"));
 	}
 
 	@Operation(summary = "로그인", operationId = "CompUserLogin")
