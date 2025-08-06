@@ -37,6 +37,7 @@ public class JwtUtil {
                 .withClaim("username", user.getName())
                 .withClaim("loginId", user.getLoginId())
                 .withClaim("userNickName", user.getUserNickName())
+                .withClaim("isCompany", user.isCompany())
                 .withIssuedAt(new Date())
                 .sign(Algorithm.HMAC512(SECRET_KEY));
         return jwt;
@@ -58,12 +59,14 @@ public class JwtUtil {
         String name = decodedJWT.getClaim("name").asString();
         String loginId = decodedJWT.getClaim("loginId").asString();
         String userNickName = decodedJWT.getClaim("userNickName").asString();
+        boolean isCompany = decodedJWT.getClaim("isCompany").asBoolean();
 
         return LoginUser.builder()
                 .id(id)
                 .name(name)
                 .loginId(loginId)
                 .userNickName(userNickName)
+                .isCompany(isCompany)
                 .build();
     }
 

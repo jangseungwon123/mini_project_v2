@@ -49,12 +49,13 @@ public class CompInfoRestController {
         }
     }
 
-
+    // 기업정보 상세
     @GetMapping("/company/{id}")
     public ResponseEntity<?> companyInfoDetail(@PathVariable(name = "id") Long id,
                                                @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
         log.info(">> 기업 상세정보 조회 시작 << ");
+
 
         CompInfoResponse.DetailDTO companyInfoDetail = companyService.findCompanyInfoById(id, loginUser);
 
@@ -67,6 +68,7 @@ public class CompInfoRestController {
                                     @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
         log.info(">> 기업정보 등록 시작 << ");
+        log.info(">> jwt 유저 정보 확인 : {} << ", loginUser);
 
         // 존재하는 유저인지 확인
         CompUser compUser = compUserService.findCompUserByCompUserId(loginUser.getId()).toEntity();
