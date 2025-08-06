@@ -40,7 +40,7 @@ public class CompUserRestController {
 	@GetMapping("/api/compUsers/{compUserId}")
 	public ResponseEntity<?> getCompUserInfo(
 			@PathVariable(name = "compUserId") Long compUserId,
-			@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser loginUser) {
+			@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
 		if (loginUser == null) {
 			throw new Exception401("로그인이 필요합니다");
 		}
@@ -53,7 +53,7 @@ public class CompUserRestController {
 	@PutMapping("/api/compUsers/{compUserId}")
 	public ResponseEntity<?> updateCompUser(
 			@PathVariable(name = "compUserId") Long compUserId,
-			@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser loginUser,
+			@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser,
 			@Valid @RequestBody CompUserRequest.UpdateDTO updateDTO, Errors errors) {
 		if (loginUser == null) {
 			throw new Exception401("로그인이 필요합니다");
