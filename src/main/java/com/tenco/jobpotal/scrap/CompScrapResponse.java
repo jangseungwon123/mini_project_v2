@@ -10,6 +10,7 @@ public class CompScrapResponse {
     @Data
     public static class ScrapListDTO {
         private Long compScrapId;
+        private Long compId;
         private Long resumeId;
         private String name;
         private String title;
@@ -27,6 +28,7 @@ public class CompScrapResponse {
         public ScrapListDTO(CompScrap compScrap) {
             Resume resume = compScrap.getResume();
             this.compScrapId = compScrap.getCompScrapId();
+            this.compId = compScrap.getCompInfo().getCompId();
             this.resumeId = resume.getResumeId();
             this.name = resume.getName();
             this.title = resume.getTitle();
@@ -47,11 +49,13 @@ public class CompScrapResponse {
     public static class SaveDTO {
         private Long compScrapId;
         private Long compId;
+        private Long compUserId;
         private Long resumeId;
 
         public SaveDTO(CompScrap compScrap) {
             this.compScrapId = compScrap.getCompScrapId();
             this.compId = compScrap.getCompInfo().getCompId();
+            this.compUserId = compScrap.getCompInfo().getCompUser().getCompUserId();
             this.resumeId = compScrap.getResume().getResumeId();
         }
     }

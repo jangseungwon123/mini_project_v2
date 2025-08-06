@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,10 +52,19 @@ public class CompScrapService {
                 .collect(Collectors.toList());
     }
 
-//    public List<CompScrapResponse.ScrapListDTO> findAllByUserAndCompanyId(Long companyId) {
-//        List<CompScrapResponse.ScrapListDTO> compScrapList = compScrapJpaRepository.findAllByResumeAndCompId(companyId);
-//        return compScrapList;
-//    }
+//    이력서 스크랩 목록 조회 서비스
+//    public List<CompScrapResponse.ScrapListDTO> findAllByCompUserId(Long compUserId) {
+//        // 1. 데이터베이스에서 기업의 스크랩 목록을 조회합니다.
+//        List<CompScrap> compScrapList = compScrapJpaRepository.findAllByCompUserId(compUserId);
+//
+//        // 2. 변환된 DTO 객체를 담을 새로운 리스트를 생성합니다.
+//        List<CompScrapResponse.ScrapListDTO> responseDTOs = new ArrayList<>();
+//
+//        // 3. 조회된 스크랩 목록을 하나씩 순회합니다.
+//        for (CompScrap compScrap : compScrapList) {
+//            // 4. 각 CompScrap 엔티티를 ScrapListDTO로 변환하여 리스트에 추가합니다.
+//            responseDTOs.add(new CompScrapResponse.ScrapListDTO(compScrap));
+//        }
 
     // 이력서 삭제
     @Transactional
