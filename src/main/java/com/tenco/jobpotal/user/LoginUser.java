@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.user;
 
+import com.tenco.jobpotal.user.comp.CompUser;
 import com.tenco.jobpotal.user.normal.User;
 import lombok.Builder;
 import lombok.Data;
@@ -32,5 +33,15 @@ public class LoginUser {
                 .userNickname(this.userNickName)
                 .isCompanyUserYn(this.isCompany)
                 .build();
+    }
+
+    public CompUser toCompUser() {
+        return CompUser.builder()
+                .compUserId(this.id)
+                .compUserName(this.name)
+                .compUserLoginId(this.loginId)
+                .compUserNickname(this.userNickName)
+                .build();
+
     }
 }

@@ -10,7 +10,7 @@ public interface UserCommunityRepository extends JpaRepository<UserCommunity, Lo
 
     Page<UserCommunity> findAll(Pageable pageable);
     
-    // 유저 정보를 함께 페치 조인으로 가져오는 메서드 추가
+    // 유저 정보를 조인 페치로 가져옴
     @Query("SELECT c FROM UserCommunity c LEFT JOIN FETCH c.user u")
     Page<UserCommunity> findAllWithUser(Pageable pageable);
     

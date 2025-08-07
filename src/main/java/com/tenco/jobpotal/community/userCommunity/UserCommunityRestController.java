@@ -85,7 +85,7 @@ public class UserCommunityRestController {
 
     // 게시글 삭제
     @DeleteMapping("/community/{id}/delete")
-    public ResponseEntity<?> deleteCommunity(@PathVariable Long postId,
+    public ResponseEntity<?> deleteCommunity(@PathVariable(name = "id") Long postId,
                                              @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
         userCommunityService.deletePost(postId);
         return ResponseEntity.ok(new ApiUtil<>("삭제 완료"));
