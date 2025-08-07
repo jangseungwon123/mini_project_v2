@@ -1,6 +1,6 @@
 package com.tenco.jobpotal.reply.job_reply;
 
-import com.tenco.jobpotal.community.community1.Community;
+import com.tenco.jobpotal.community.userCommunity.UserCommunity;
 import com.tenco.jobpotal.user.normal.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -27,7 +27,7 @@ public class JobCommCmt {
 
     @ManyToOne(fetch = FetchType.LAZY) // 성능상의 문제로 프로젝트에선 LAZY 전략만 사용
     @JoinColumn(name = "post_id", nullable = false)
-    private Community community;
+    private UserCommunity userCommunity;
 
 
     @Column(nullable = false,length = 500)
@@ -37,10 +37,10 @@ public class JobCommCmt {
     private Timestamp createdAt;
 
     @Builder
-    public JobCommCmt(Long jobCommCmtId, User user, Community community, String content, Timestamp createdAt) {
+    public JobCommCmt(Long jobCommCmtId, User user, UserCommunity userCommunity, String content, Timestamp createdAt) {
         this.jobCommCmtId = jobCommCmtId;
         this.user = user;
-        this.community = community;
+        this.userCommunity = userCommunity;
         this.content = content;
         this.createdAt = createdAt;
     }
@@ -51,4 +51,13 @@ public class JobCommCmt {
     public boolean isOwner(Long loginUserId) {
         return this.user.getUserId().equals(loginUserId);
     }
+
+    public String getWriterName() {
+        return this.user.getUserName();
+    }
+
+    public void update(JobCommCmtRequest.UpdateDTO updateDTO) {
+        this.content = updateDTO.getContent();
+    }
+
 }

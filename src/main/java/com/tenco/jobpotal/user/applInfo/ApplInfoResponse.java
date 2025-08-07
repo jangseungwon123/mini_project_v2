@@ -1,9 +1,9 @@
-//package com.tenco.jobpotal.user.appl_info;
+//package com.tenco.jobpotal.user.applInfo;
 //
 //import com.tenco.jobpotal.resume.Resume;
 //import lombok.Data;
 //
-//public class AppiInfoResponse {
+//public class ApplInfoResponse {
 //
 //
 //    @Data

@@ -31,13 +31,13 @@ public class CompSubRestController {
 
     @GetMapping("/comp_sub/list")
     public ResponseEntity<?> list(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
-        List<CompSubResponse.SubListDTO> userSubList = compSubService.findAllByUserAndCompanyId(loginUser.getId());
+        List<CompSubResponse.SubListDTO> userSubList = compSubService.findAllByUserAndCompanyId(loginUser);
         return ResponseEntity.ok(new ApiUtil<>(userSubList));
     }
 
 
-    @PostMapping("/comp_sub/{id}/delete")
-    public ResponseEntity<ApiUtil<String>> delete(@PathVariable(name = "id") Long id,
+    @DeleteMapping("/comp_sub/{id}")
+    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id,
                                                   @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
         compSubService.deleteById(id, loginUser);
         return ResponseEntity.ok(new ApiUtil<>("구독 삭제 완료"));

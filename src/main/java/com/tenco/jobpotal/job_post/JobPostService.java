@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.job_post;
 
+import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal.company.CompInfo;
 import com.tenco.jobpotal.company.CompInfoJpaRepository;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +39,7 @@ public class JobPostService {
     }
 
     // 게시글 등록
+    @Transactional
     public JobPostResponseDTO createJobPost(JobPostRequestDTO requestDTO, LoginUser loginUser) {
         CompInfo companyInfo = compInfoJpaRepository.findById(requestDTO.getCompId()).orElseThrow(() ->
                 new Exception404("해당 게시물이 존재하지 않습니다.")
@@ -49,10 +53,17 @@ public class JobPostService {
     }
 
     // 게시글 수정 (예외 처리 포함)
-    public JobPostResponseDTO updateJobPost(Long recruitId, JobPostRequestDTO requestDTO) {
+    @Transactional
+    public JobPostResponseDTO updateJobPost(Long recruitId, JobPostRequestDTO requestDTO, LoginUser loginUser) {
         JobPost jobPost = jobPostRepository.findById(recruitId)
                 .orElseThrow(() -> new Exception404("존재하지 않는 게시글입니다."));
 
+        // [보안 강화] 공고 작성자와 로그인한 사용자가 동일한지 확인
+        if (!jobPost.getInstId().equals(loginUser.getLoginId())) {
+            throw new Exception403("게시글을 수정할 권한이 없습니다.");
+        }
+
+        // DTO의 데이터로 엔티티를 업데이트합니다. (더티 체킹)
         jobPost.setTitle(requestDTO.getTitle());
         jobPost.setContent(requestDTO.getContent());
         jobPost.setRequireCareerYears(requestDTO.getRequireCareerYears());
@@ -60,16 +71,20 @@ public class JobPostService {
         jobPost.setPostedAt(requestDTO.getPostedAt());
         jobPost.setDeadline(requestDTO.getDeadline());
 
-        JobPost updated = jobPostRepository.save(jobPost);
-        return new JobPostResponseDTO(updated);
+        return new JobPostResponseDTO(jobPost);
     }
 
     // 게시글 삭제 (예외 처리 포함)
-    public void deleteJobPost(Long recruitId) {
-        if (!jobPostRepository.existsById(recruitId)) {
-            throw new Exception404("해당 게시글이 존재하지 않습니다.");
+    @Transactional
+    public void deleteJobPost(Long recruitId, LoginUser loginUser) {
+        JobPost jobPost = jobPostRepository.findById(recruitId)
+                .orElseThrow(() -> new Exception404("해당 게시글이 존재하지 않습니다."));
+
+        //  공고 작성자와 로그인한 사용자가 동일한지 확인
+        if (!jobPost.getInstId().equals(loginUser.getLoginId())) {
+            throw new Exception403("게시글을 삭제할 권한이 없습니다.");
         }
-        jobPostRepository.deleteById(recruitId);
+        jobPostRepository.delete(jobPost);
     }
 
     // 페이징 처리

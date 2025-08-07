@@ -52,7 +52,7 @@ public class User {
     private Boolean isCompanyUserYn = false;
 
     @Builder
-    public User(Long userId, String userName, String userLoginId, String userPassword, String userEmail, String userAddress, String userPhone, String userBirth, String userGender, String userNickname, String userCivilSerial) {
+    public User(Boolean isCompanyUserYn, Long userId, String userName, String userLoginId, String userPassword, String userEmail, String userAddress, String userPhone, String userBirth, String userGender, String userNickname, String userCivilSerial) {
         this.userId = userId;
         this.userName = userName;
         this.userLoginId = userLoginId;
@@ -64,6 +64,7 @@ public class User {
         this.userGender = userGender;
         this.userNickname = userNickname;
         this.userCivilSerial = userCivilSerial;
+        this.isCompanyUserYn = isCompanyUserYn;
     }
 
     public void update(UserRequest.UpdateDTO updateDTO) {

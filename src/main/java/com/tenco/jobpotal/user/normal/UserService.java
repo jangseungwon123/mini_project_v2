@@ -51,8 +51,8 @@ public class UserService {
                 .loginId(user.getUserLoginId())
                 .userNickName(user.getUserNickname())
                 .isCompany(false)
+                .isAdmin(false)
                 .build();
-
         String jwt = JwtUtil.create(loginUser);
         return jwt;
     }

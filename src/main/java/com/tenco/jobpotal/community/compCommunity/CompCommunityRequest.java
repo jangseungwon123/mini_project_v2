@@ -1,8 +1,9 @@
-package com.tenco.jobpotal.community.community1;
+package com.tenco.jobpotal.community.compCommunity;
 
+import com.tenco.jobpotal.user.comp.CompUser;
 import lombok.Data;
 
-public class CommunityRequest {
+public class CompCommunityRequest {
 
     @Data
     public static class SaveDTO {
@@ -11,8 +12,9 @@ public class CommunityRequest {
         private String instId;
         private String postPassword;
 
-        public Community toEntity() {
-            return Community.builder()
+        public CompCommunity toEntity(CompUser compUser) {
+            return CompCommunity.builder()
+                    .compUser(compUser)
                     .title(title)
                     .content(content)
                     .instId(instId)
@@ -28,8 +30,8 @@ public class CommunityRequest {
         private String instId;
         private String postPassword;
 
-        public Community toEntity() {
-            return Community.builder()
+        public CompCommunity toEntity() {
+            return CompCommunity.builder()
                     .title(title)
                     .content(content)
                     .instId(instId)

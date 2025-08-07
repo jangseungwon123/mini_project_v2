@@ -24,7 +24,7 @@ public class UserRestController {
     @PostMapping("/join")
     public ResponseEntity<?> userJoin(@Valid @RequestBody UserRequest.JoinDTO joinDTO, Errors errors) {
         UserResponse.JoinDTO joinUser = userService.join(joinDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(joinUser));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>("회원가입 완료 되었습니다."));
     }
 
     @Operation(summary = "로그인")

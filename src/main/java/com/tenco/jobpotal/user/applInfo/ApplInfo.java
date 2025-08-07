@@ -1,5 +1,6 @@
-//package com.tenco.jobpotal.user.appl_info;
+//package com.tenco.jobpotal.user.applInfo;
 //import com.tenco.jobpotal._core.utils.MyDateUtil;
+//import com.tenco.jobpotal.job_post.JobPost;
 //import com.tenco.jobpotal.resume.Resume;
 //import jakarta.persistence.*;
 //import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@
 //@Data
 //@Entity
 //@Table(name = "appl_info")
-//public class AppiInfo {
+//public class ApplInfo {
 //
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +27,10 @@
 //    @JoinColumn(name = "resume_id")
 //    private Resume resume;
 //
-//    //TODO jop_post 테이블 설계되면 활성화
-////    @ManyToOne(fetch = FetchType.LAZY)
-////    @JoinColumn(name = "jop_post_id")
-////    private JopPost jopPost;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "jop_post_id")
+//    private JobPost jopPost;
 //
 //
 //    @Column(nullable = false)
