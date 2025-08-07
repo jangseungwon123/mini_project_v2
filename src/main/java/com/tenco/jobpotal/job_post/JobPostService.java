@@ -3,6 +3,8 @@ package com.tenco.jobpotal.job_post;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal.company.CompInfo;
 import com.tenco.jobpotal.company.CompInfoJpaRepository;
+import com.tenco.jobpotal.resume.SkillListJpaRepository;
+import com.tenco.jobpotal.skill.SkillList;
 import com.tenco.jobpotal.user.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class JobPostService {
     private final JobPostRepository jobPostRepository;
     private final CompInfoJpaRepository compInfoJpaRepository;
+    private final SkillListJpaRepository skillListJpaRepository;
 
 
     // 전체 목록 조회
@@ -37,7 +40,11 @@ public class JobPostService {
         CompInfo companyInfo = compInfoJpaRepository.findById(requestDTO.getCompId()).orElseThrow(() ->
                 new Exception404("해당 게시물이 존재하지 않습니다.")
         );
-        JobPost savedJobPost = jobPostRepository.save(requestDTO.toEntity(companyInfo, loginUser));
+        SkillList skillList = skillListJpaRepository.findBySkillId(requestDTO.getSkillId()).orElseThrow(() ->
+                new Exception404("해당 스킬정보가 존재하지 않습니다.")
+        );
+
+        JobPost savedJobPost = jobPostRepository.save(requestDTO.toEntity(companyInfo, skillList, loginUser));
         return new JobPostResponseDTO(savedJobPost);
     }
 
