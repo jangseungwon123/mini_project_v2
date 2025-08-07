@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.job_post;
 
+import com.tenco.jobpotal.skill.SkillList;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 public class JobPostResponseDTO {
     private Long recruitId;
     private Long compId;
+    private SkillList skillList;
     private String title;
     private String content;
     private String requireCareerYears;
@@ -22,6 +24,7 @@ public class JobPostResponseDTO {
     public JobPostResponseDTO(JobPost jobPost) {
         this.recruitId = jobPost.getRecruitId();
         this.compId = jobPost.getCompInfo().getCompId();
+        this.skillList = jobPost.getSkillList();
         this.title = jobPost.getTitle();
         this.content = jobPost.getContent();
         this.requireCareerYears = jobPost.getRequireCareerYears();

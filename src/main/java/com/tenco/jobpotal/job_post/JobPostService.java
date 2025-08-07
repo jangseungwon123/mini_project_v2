@@ -8,6 +8,7 @@ import com.tenco.jobpotal.resume.SkillListJpaRepository;
 import com.tenco.jobpotal.skill.SkillList;
 import com.tenco.jobpotal.user.LoginUser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class JobPostService {
@@ -26,7 +28,9 @@ public class JobPostService {
 
     // 전체 목록 조회
     public List<JobPostResponseDTO> getAllJobPosts() {
-        List<JobPost> jobPosts = jobPostRepository.findAll();
+        List<JobPost> jobPosts = jobPostRepository.findAllWithUser();
+        log.info("jobPost 확인 : {}", jobPosts.toString());
+
         return jobPosts.stream()
                 .map(JobPostResponseDTO::new)
                 .collect(Collectors.toList());
@@ -49,6 +53,8 @@ public class JobPostService {
         );
 
         JobPost savedJobPost = jobPostRepository.save(requestDTO.toEntity(companyInfo, skillList, loginUser));
+
+        log.info("savedJobPost 값 확인 : {}",savedJobPost);
         return new JobPostResponseDTO(savedJobPost);
     }
 
@@ -58,6 +64,10 @@ public class JobPostService {
         JobPost jobPost = jobPostRepository.findById(recruitId)
                 .orElseThrow(() -> new Exception404("존재하지 않는 게시글입니다."));
 
+        SkillList skillList = skillListJpaRepository.findBySkillId(requestDTO.getSkillId()).orElseThrow(() ->
+                new Exception404("해당 스킬정보가 존재하지 않습니다.")
+        );
+
         // [보안 강화] 공고 작성자와 로그인한 사용자가 동일한지 확인
         if (!jobPost.getInstId().equals(loginUser.getLoginId())) {
             throw new Exception403("게시글을 수정할 권한이 없습니다.");
@@ -66,6 +76,7 @@ public class JobPostService {
         // DTO의 데이터로 엔티티를 업데이트합니다. (더티 체킹)
         jobPost.setTitle(requestDTO.getTitle());
         jobPost.setContent(requestDTO.getContent());
+        jobPost.setSkillList(skillList);
         jobPost.setRequireCareerYears(requestDTO.getRequireCareerYears());
         jobPost.setEmploymentType(requestDTO.getEmploymentType());
         jobPost.setPostedAt(requestDTO.getPostedAt());
