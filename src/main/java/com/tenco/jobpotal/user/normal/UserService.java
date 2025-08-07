@@ -82,4 +82,13 @@ public class UserService {
         selectedUser.update(updateDTO);
         return new UserResponse.UpdateDTO(selectedUser);
     }
+
+    // 유저가 관심 등록한 기업의 채용공고 리스트 스킬 매칭 조회
+    public UserResponse.JobPostMatchListDTO jobMatchList(Long id) {
+
+
+        return null;
+    }
+
+
 }

@@ -85,4 +85,29 @@ public class UserResponse {
         }
     }
 
+    // 회원과 관심기업 매칭 공고 조회 응답 DTO
+    @Data
+    public static class JobPostMatchListDTO {
+        private String userName;
+        private String userLoginId;
+        private String userEmail;
+        private String userAddress;
+        private String userPhone;
+        private String userBirth;
+        private String userGender;
+        private String userNickname;
+
+        @Builder
+        public JobPostMatchListDTO(User user) {
+            this.userName = user.getUserName();
+            this.userLoginId = user.getUserLoginId();
+            this.userEmail = user.getUserEmail();
+            this.userAddress = user.getUserAddress();
+            this.userPhone = user.getUserPhone();
+            this.userBirth = user.getUserBirth();
+            this.userGender = user.getUserGender();
+            this.userNickname = user.getUserNickname();
+        }
+    }
+
 }
