@@ -7,8 +7,15 @@ import com.tenco.jobpotal.community.userCommunity.UserCommunityRepository;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.normal.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +24,28 @@ public class JobCommCmtService {
 
     private final JobCommCmtJPARepository jobCommCmtJPARepository;
     private final UserCommunityRepository userCommunityRepository;
+
+
+    public List<JobCommCmtResponse.JobCommCmtListDTO> list(int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<JobCommCmt> jobCommCmtPage = jobCommCmtJPARepository.findAllJoinCommunity(pageable);
+        List<JobCommCmtResponse.JobCommCmtListDTO> jobCommCmtList = new ArrayList<>();
+
+        for (JobCommCmt jobCommCmt : jobCommCmtPage.getContent()) {
+            JobCommCmtResponse.JobCommCmtListDTO jobCommCmtListDTO = new JobCommCmtResponse.JobCommCmtListDTO(jobCommCmt);
+            jobCommCmtList.add(jobCommCmtListDTO);
+        }
+        return jobCommCmtList;
+    }
+
+    public JobCommCmtResponse.DetailDTO detail(Long id, LoginUser loginUser) {
+
+        JobCommCmt jobCommCmt = jobCommCmtJPARepository.findByIdJoinCommunity(id).orElseThrow(
+                () -> new Exception404("댓글을 찾을 수 없습니다"));
+
+        return new JobCommCmtResponse.DetailDTO(jobCommCmt, loginUser);
+    }
 
     @Transactional
     public JobCommCmtResponse.SaveDTO save(JobCommCmtRequest.SaveDTO saveDTO, LoginUser loginUser) {
@@ -36,6 +65,7 @@ public class JobCommCmtService {
         return new JobCommCmtResponse.SaveDTO(jobCommCmt);
     }
 
+
     @Transactional
     public void deleteById(Long jobCommCmtId, LoginUser loginUser) {
 
@@ -47,5 +77,19 @@ public class JobCommCmtService {
         }
 
         jobCommCmtJPARepository.deleteById(jobCommCmtId);
+    }
+
+    @Transactional
+    public JobCommCmtResponse.UpdateDTO update(Long id, JobCommCmtRequest.UpdateDTO updateDTO, LoginUser loginUser) {
+
+        JobCommCmt jobCommCmt = jobCommCmtJPARepository.findByIdJoinCommunity(id).orElseThrow(() ->
+                new Exception404("해당 댓글이 존재하지 않습니다"));
+
+        if (!jobCommCmt.isOwner(loginUser.getId())) {
+            throw new Exception403("본인이 작성하신 댓글만 수정 가능");
+        }
+        jobCommCmt.update(updateDTO);
+
+        return new JobCommCmtResponse.UpdateDTO(jobCommCmt);
     }
 }

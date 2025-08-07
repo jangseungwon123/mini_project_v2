@@ -51,4 +51,13 @@ public class JobCommCmt {
     public boolean isOwner(Long loginUserId) {
         return this.user.getUserId().equals(loginUserId);
     }
+
+    public String getWriterName() {
+        return this.user.getUserName();
+    }
+
+    public void update(JobCommCmtRequest.UpdateDTO updateDTO) {
+        this.content = updateDTO.getContent();
+    }
+
 }
