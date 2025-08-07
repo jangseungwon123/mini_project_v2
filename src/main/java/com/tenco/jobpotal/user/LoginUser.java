@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.user;
 
+import com.tenco.jobpotal.user.normal.User;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +22,15 @@ public class LoginUser {
         this.loginId = loginId;
         this.userNickName = userNickName;
         this.isCompany = isCompany;
+    }
+
+    public User toUser() {
+        return User.builder()
+                .userId(this.id)
+                .userName(this.name)
+                .userLoginId(this.loginId)
+                .userNickname(this.userNickName)
+                .isCompanyUserYn(this.isCompany)
+                .build();
     }
 }

@@ -85,8 +85,9 @@ public class CompInfoRestController {
 
     // 기업정보 수정
     @PutMapping("/company/{id}/update")
-    public ResponseEntity<?> companyInfoUpdate(@PathVariable(name = "id") Long id, @RequestBody CompInfoRequest.UpdateDTO updateDTO,
-                                    @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
+    public ResponseEntity<?> companyInfoUpdate(@PathVariable(name = "id") Long id,
+                                               @RequestBody CompInfoRequest.UpdateDTO updateDTO,
+                                               @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
         log.info(">> 기업정보 수정 시작 << ");
 
@@ -100,7 +101,8 @@ public class CompInfoRestController {
     }
 
     @DeleteMapping("/company/{id}/delete")
-    public ResponseEntity<?> companyInfoDelete(@PathVariable(name = "id") Long id, @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
+    public ResponseEntity<?> companyInfoDelete(@PathVariable(name = "id") Long id,
+                                               @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
         log.info(">> 기업정보 삭제 시작 << ");
 

@@ -1,5 +1,6 @@
-package com.tenco.jobpotal.community.community1;
+package com.tenco.jobpotal.community.userCommunity;
 
+import com.tenco.jobpotal.user.normal.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -11,13 +12,17 @@ import java.sql.Timestamp;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "community_post_info")
-public class Community {
+@Table(name = "comm_post_info")
+public class UserCommunity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long postId;
+
+    @JoinColumn(name = "user_id", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user; // 게시글 작성자 정보
 
     @Column(length = 8)
     private String postPassword;
@@ -38,17 +43,25 @@ public class Community {
     private Timestamp instDate;
 
     @Builder
-    public Community(String title, String content, String instId, String postPassword) {
+    public UserCommunity(Long postId,String title, String content, String instId, String postPassword,User user) {
+        this.postId = postId;
         this.title = title;
         this.content = content;
         this.instId = instId;
         this.postPassword = postPassword;
+        this.user = user;
     }
-
-    public void update(CommunityRequest.UpdateDTO updateDTO) {
+    public void update(UserCommunityRequest.UpdateDTO updateDTO){
         this.title = updateDTO.getTitle();
         this.content = updateDTO.getContent();
+        this.instId = updateDTO.getInstId();
+        this.postPassword = updateDTO.getPostPassword();
+
     }
 
+    // 게시글 소유자 확인 기능./
+    public boolean isOwner(Long checkUserId) {
+        return this.user.getUserId().equals(checkUserId);
 
-}
+
+}}
