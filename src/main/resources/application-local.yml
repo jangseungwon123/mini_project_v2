@@ -28,7 +28,7 @@
 #    console:
 #      enabled: true
 #
-#  spring:
+##  spring:
 #    sql:
 #      init:
 #        # 2.5 이상 버전부터 명시를 해야 insert 처리 됨
@@ -39,8 +39,8 @@
 #  # JPA 설정
 #  jpa:
 #    open-in-view: false  # 기본값 true
-#    hibernate:
-#      # create: 애플리케이션 시작시 테이블을 새로 생성
+#    hibernate: update
+#: 애플리케이션 시작시 테이블을 새로 생성
 #      # 기존 데이터는 모두 삭제됨 (개발용)
 #      ddl-auto: create
 #    show-sql: true
@@ -71,8 +71,8 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password:
+    username: root
+    password: asd1234
 
   h2:
     console:

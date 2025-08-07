@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.job_post;
 
+import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.utils.Define;
 import com.tenco.jobpotal.user.LoginUser;
 import jakarta.validation.Valid;
@@ -42,26 +43,31 @@ public class JobPostController {
     // 게시글 등록
     @PostMapping("/save")
     public ResponseEntity<JobPostResponseDTO> createJobPost(@RequestBody @Valid JobPostRequestDTO requestDTO,
-                                                            @RequestAttribute(value = Define.LOGIN_USER, required = false)LoginUser loginUser) {
+                                                            @RequestAttribute(value = Define.LOGIN_USER) LoginUser loginUser) {
+        // [보안 강화] 기업 회원만 공고를 등록할 수 있도록 확인
+        if (!loginUser.isCompany()) {
+            throw new Exception403("기업회원만 채용공고를 등록할 수 있습니다.");
+        }
         JobPostResponseDTO created = jobPostService.createJobPost(requestDTO, loginUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     // 게시글 수정
     @PutMapping("/update/{recruitId}")
-    public ResponseEntity<JobPostResponseDTO> updateJobPost(
-            @PathVariable Long recruitId,
-            @RequestBody @Valid JobPostRequestDTO requestDTO) {
-
-        JobPostResponseDTO updated = jobPostService.updateJobPost(recruitId, requestDTO);
+        public ResponseEntity<JobPostResponseDTO> updateJobPost(@PathVariable Long recruitId,
+                                                                @RequestBody @Valid JobPostRequestDTO requestDTO,
+        @RequestAttribute(value = Define.LOGIN_USER)LoginUser loginUser){
+            JobPostResponseDTO updated = jobPostService.updateJobPost(recruitId, requestDTO, loginUser);
         return ResponseEntity.ok(updated);
     }
 
 
     // 게시글 삭제
     @DeleteMapping("/delete/{recruitId}")
-    public ResponseEntity<Void> deleteJobPost(@PathVariable Long recruitId) {
-        jobPostService.deleteJobPost(recruitId);
+    public ResponseEntity<Void> deleteJobPost(@PathVariable Long recruitId,
+                                              @RequestAttribute(value = Define.LOGIN_USER) LoginUser loginUser) {
+        // 서비스 계층에 로그인 정보를 넘겨 권한을 확인하도록 합니다.
+        jobPostService.deleteJobPost(recruitId, loginUser);
         return ResponseEntity.noContent().build();
     }
 

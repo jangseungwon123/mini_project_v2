@@ -1,18 +1,9 @@
 INSERT INTO job_post
-(comp_id, recruit_id, deadline, inst_date, posted_at, content, employment_type, inst_id, require_career_years, title)
+(comp_id, deadline, inst_date, posted_at, content, employment_type, inst_id, require_career_years, title)
 VALUES
-(1, 101, DATEADD('DAY', 30, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Java 백엔드 개발', '정규직', 'HR001', 3, '백엔드 개발자 모집'),
-(2, 102, DATEADD('DAY', 45, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'React 기반 프론트 개발', '계약직', 'HR002', 2, '프론트엔드 개발자'),
-(3, 103, DATEADD('DAY', 60, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'AWS 클라우드 인프라 운영', '정규직', 'HR003', 4, 'DevOps 엔지니어 채용'),
-(4, 104, DATEADD('DAY', 35, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '머신러닝 모델 개발', '정규직', 'HR004', 1, 'AI 엔지니어'),
-(5, 105, DATEADD('DAY', 50, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Kotlin 앱 개발', '계약직', 'HR005', 2, '안드로이드 앱 개발자'),
-(6, 106, DATEADD('DAY', 42, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Swift 기반 iOS 앱 개발', '정규직', 'HR006', 3, 'iOS 앱 개발자'),
-(7, 107, DATEADD('DAY', 55, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게임 클라이언트 Unity 개발', '계약직', 'HR007', 2, 'Unity 개발자'),
-(8, 108, DATEADD('DAY', 38, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'DB 설계 및 운영', '정규직', 'HR008', 5, '데이터베이스 관리자'),
-(9, 109, DATEADD('DAY', 48, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '보안 점검 및 모니터링', '정규직', 'HR009', 4, '보안 엔지니어'),
-(10, 110, DATEADD('DAY', 40, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '데이터 분석 및 시각화', '계약직', 'HR010', 2, '데이터 분석가'),
-(11, 111, DATEADD('DAY', 45, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'IT 프로젝트 관리 경험자 우대', '정규직', 'HR011', 6, '프로젝트 매니저(PM)'),
-(12, 112, DATEADD('DAY', 37, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'UX 설계 및 UI 시안 제작', '정규직', 'HR012', 1, 'UI/UX 디자이너'),
-(13, 113, DATEADD('DAY', 43, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '기술 문서 작성 업무', '계약직', 'HR013', 1, '테크니컬 라이터'),
-(14, 114, DATEADD('DAY', 60, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '블록체인 스마트 계약 개발', '정규직', 'HR014', 3, '블록체인 개발자'),
-(15, 115, DATEADD('DAY', 39, CURRENT_TIMESTAMP), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 자동화 및 QA', '계약직', 'HR015', 2, 'QA 엔지니어');
+(1, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 30 DAY), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Java 백엔드 개발', '정규직', 'HR001', '3', '백엔드 개발자 모집'),
+(2, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 45 DAY), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'React 프론트엔드 개발', '계약직', 'HR002', '2', '프론트엔드 개발자'),
+(3, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 60 DAY), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'AWS 클라우드 인프라 운영', '정규직', 'HR003', '4', 'DevOps 엔지니어'),
+(4, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 35 DAY), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '머신러닝 모델 개발', '정규직', 'HR004', '1', 'AI 엔지니어'),
+(5, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 50 DAY), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Kotlin 앱 개발', '계약직', 'HR005', '2', '안드로이드 앱 개발자'),
+(9, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 40 DAY), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '데이터 분석 및 시각화', '계약직', 'HR009', '2', '데이터 분석가');
