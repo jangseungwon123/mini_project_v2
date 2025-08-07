@@ -17,7 +17,7 @@ public class JobCommCmtResponse {
             this.content = jobCommCmt.getContent();
             this.author = jobCommCmt.getUser().getUserName();
             this.createdAt = jobCommCmt.getCreatedAt().toString();
-            this.postId = jobCommCmt.getCommunity().getPostId();
+            this.postId = jobCommCmt.getUserCommunity().getPostId();
         }
     }
 }

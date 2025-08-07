@@ -30,6 +30,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         ,"/api/login"
                         ,"/api/logout"
                         ,"/api/join"
+                        ,"/api/community/list"
+                        ,"/api/comp-community/list"
                 );
 
     }

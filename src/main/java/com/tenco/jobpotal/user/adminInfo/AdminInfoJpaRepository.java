@@ -10,14 +10,13 @@ import java.util.Optional;
 
 public interface AdminInfoJpaRepository extends JpaRepository<AdminInfo, Long> {
 
-    // 관리자 로그인 아이디와 비밀번호로 사용자 조회(로그인)
-    @Query("select cu from CompUser cu where cu.compUserLoginId = :compUserLoginId and cu.compUserPassword = :compUserPassword")
-    Optional<CompUser> findByAdminInfoLoginIdAndAdminInfoPassword(@Param("compUserLoginId") String compUserLoginId,
-                                                                @Param("compUserPassword") String compUserPassword);
+    // 관리자 로그인 아이디로 사용자를 조회(로그인 중복체크 모두사용 가능)
+    @Query("SELECT a FROM AdminInfo a WHERE a.adminLoginId = :adminLoginId ")
+    Optional<AdminInfo> findByAdminLoginId(@Param("adminLoginId") String adminLoginId);
 
-    // 관리자 회원 로그인 아이디로 사용자 조회(중복체크)
-    @Query("select cu from CompUser cu where cu.compUserLoginId = :compUserLoginId or cu.compUserEmail = :compUserEmail")
-    Optional<CompUser> findByAdminInfoExists(@Param("AdminInfoLoginId") String AdminInfoLoginId,
-                                            @Param("AdminInfoEmail") String AdminInfoEmail);
-
+    // 아이디, 이름, 이메일로 사용자 조회(중복 체크용)
+    @Query("SELECT a FROM AdminInfo a WHERE a.adminLoginId = :adminLoginId OR a.adminName = :adminName OR a.adminEmail = :adminEmail")
+    Optional<User> findByUserExists(@Param("adminLoginId") String adminLoginId,
+                                    @Param("adminName") String adminName,
+                                    @Param("adminEmail") String adminEmail);
 }

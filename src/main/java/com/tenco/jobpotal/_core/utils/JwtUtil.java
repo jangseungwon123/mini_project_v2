@@ -38,6 +38,7 @@ public class JwtUtil {
                 .withClaim("loginId", user.getLoginId())
                 .withClaim("userNickName", user.getUserNickName())
                 .withClaim("isCompany", user.isCompany())
+                .withClaim("isAdmin", user.isAdmin())
                 .withIssuedAt(new Date())
                 .sign(Algorithm.HMAC512(SECRET_KEY));
         return jwt;

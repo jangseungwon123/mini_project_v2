@@ -21,13 +21,13 @@ public class CompScrapRestController {
 
     @PostMapping("/comp_scrap")
     public ResponseEntity<?> save(@Valid @RequestBody CompScrapRequest.SaveDTO saveDTO, Errors errors,
-                                  @RequestAttribute(Define.LOGIN_COMP_USER) LoginUser loginUser) {
+                                  @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
         CompScrapResponse.SaveDTO responseDTO = compScrapService.save(saveDTO, loginUser);
         return ResponseEntity.ok(new ApiUtil<>(responseDTO));
     }
 
     @GetMapping("/comp_scrap/list")
-    public ResponseEntity<?> list(@RequestAttribute(Define.LOGIN_COMP_USER) LoginUser loginUser) {
+    public ResponseEntity<?> list(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
       List<CompScrapResponse.ScrapListDTO> compScrapList = compScrapService.findAllByCompUserId(loginUser.getId());
       return ResponseEntity.ok(new ApiUtil<>(compScrapList));
     }
@@ -35,7 +35,7 @@ public class CompScrapRestController {
 
     @PostMapping("/comp_scrap/{id}/delete")
     public ResponseEntity<ApiUtil<String>> delete(@PathVariable(name = "id") Long id,
-                                                  @RequestAttribute(Define.LOGIN_COMP_USER) LoginUser loginUser) {
+                                                  @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
         compScrapService.deleteById(id, loginUser);
         return ResponseEntity.ok(new ApiUtil<>("스크랩 삭제 완료"));
     }

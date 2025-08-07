@@ -2,8 +2,8 @@ package com.tenco.jobpotal.reply.job_reply;
 
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
-import com.tenco.jobpotal.community.community1.Community;
-import com.tenco.jobpotal.community.community1.CommunityRepository;
+import com.tenco.jobpotal.community.userCommunity.UserCommunity;
+import com.tenco.jobpotal.community.userCommunity.UserCommunityRepository;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.normal.User;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class JobCommCmtService {
 
     private final JobCommCmtJPARepository jobCommCmtJPARepository;
-    private final CommunityRepository communityRepository;
+    private final UserCommunityRepository userCommunityRepository;
 
     @Transactional
     public JobCommCmtResponse.SaveDTO save(JobCommCmtRequest.SaveDTO saveDTO, LoginUser loginUser) {
 
-        Community community = communityRepository.findById(saveDTO.getPostId())
+        UserCommunity userCommunity = userCommunityRepository.findById(saveDTO.getPostId())
                 .orElseThrow(() -> new Exception404("존재하지 않는 게시글에는 댓글을 작성할 수 없습니다."));
 
         User user = User.builder()
@@ -30,7 +30,7 @@ public class JobCommCmtService {
                 .userEmail(loginUser.getUserNickName())
                 .build();
 
-        JobCommCmt jobCommCmt = saveDTO.toEntity(user, community);
+        JobCommCmt jobCommCmt = saveDTO.toEntity(user, userCommunity);
         jobCommCmtJPARepository.save(jobCommCmt);
 
         return new JobCommCmtResponse.SaveDTO(jobCommCmt);
