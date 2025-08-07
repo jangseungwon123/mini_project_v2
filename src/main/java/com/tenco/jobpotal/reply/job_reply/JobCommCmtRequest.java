@@ -29,8 +29,6 @@ public class JobCommCmtRequest {
 
     @Data
     public static class UpdateDTO {
-        @NotNull(message = "게시물 ID가 필요합니다.")
-        private Long postId;
 
         @NotBlank(message = "내용을 입력 해주세요.")
         @Size(min = 20, max = 100, message = "내용을 최소 20자 최대 100자로 입력 해주세요.")
