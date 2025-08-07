@@ -58,9 +58,9 @@ public class CompInfoService {
 
     // 기업정보 insert
     @Transactional
-    public CompInfo companyInfoInsert(CompUser compUser, CompInfoRequest.SaveDTO saveDTO) {
+    public CompInfo companyInfoInsert(CompInfoRequest.SaveDTO saveDTO, LoginUser loginUser, CompUser compUser) {
 
-        return compInfoJpaRepository.save(saveDTO.toEntity(compUser));
+        return compInfoJpaRepository.save(saveDTO.toEntity(loginUser,compUser));
     }
 
 

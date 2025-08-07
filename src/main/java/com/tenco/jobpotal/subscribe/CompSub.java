@@ -34,7 +34,7 @@ public class CompSub {
     @CreationTimestamp
     private Timestamp compSubDate;
 
-    public boolean isOwner(Long checkUserId){return this.compInfo.getCompId().equals(checkUserId);}
+    public boolean isOwner(Long checkUserId){return this.compInfo.getCompUser().getCompUserId().equals(checkUserId);}
 
     public String getTime() {return MyDateUtil.timestampFormat(compSubDate);}
 }

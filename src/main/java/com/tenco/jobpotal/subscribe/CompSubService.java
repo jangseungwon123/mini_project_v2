@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -24,9 +25,9 @@ public class CompSubService {
 
     @Transactional
     public CompSubResponse.SaveDTO save(CompSubRequest.SaveDTO saveDTO, LoginUser loginUser) {
-        CompInfo compInfo = compInfoJpaRepository.findById(loginUser.getId()).orElseThrow(() ->
+        CompInfo compInfo = compInfoJpaRepository.findByCompInfo(loginUser.getId()).orElseThrow(() ->
                 new Exception404("존재하지 않는 기업입니다."));
-        if (compSubJpaRepository.existsByCompanyIdAndUserId(saveDTO.getUserId(), compInfo.getCompId())){
+        if (compSubJpaRepository.existsByCompanyIdAndUserId( compInfo.getCompId(),saveDTO.getUserId())){
             throw new Exception403("이미 구독했습니다");
         }
         User user = userJpaRepository.findById(saveDTO.getUserId()).orElseThrow(() ->
@@ -42,9 +43,13 @@ public class CompSubService {
     }
 
     // 구독목록 조회 서비스
-    public List<CompSubResponse.SubListDTO> findAllByUserAndCompanyId(Long companyId) {
-        List<CompSubResponse.SubListDTO> compSubList = compSubJpaRepository.findAllByUserAndCompanyId(companyId);
-        return compSubList;
+    public List<CompSubResponse.SubListDTO> findAllByUserAndCompanyId(LoginUser loginUser) {
+        CompInfo compInfo = compInfoJpaRepository.findByCompInfo(loginUser.getId())
+                .orElseThrow(() -> new Exception404("해당 기업 정보를 찾을 수 없습니다."));
+        List<CompSub> compSubList = compSubJpaRepository.findAllByUserAndCompanyId(compInfo.getCompId());
+        return compSubList.stream()
+                .map(CompSubResponse.SubListDTO::new)
+                .collect(Collectors.toList());
     }
 
     // 구독 삭제

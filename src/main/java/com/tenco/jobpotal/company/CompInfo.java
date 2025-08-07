@@ -79,7 +79,6 @@ public class CompInfo {
         this.phoneNumber = updateDTO.getPhoneNumber();
         this.companyEmail = updateDTO.getCompanyEmail();
         this.companyAddress = updateDTO.getCompanyAddress();
-        this.companyImageId = updateDTO.getCompanyImageId();
     }
 
 

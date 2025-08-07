@@ -9,8 +9,9 @@ public class CompSubResponse {
 
     @Data
     public static class SubListDTO{
+        private Long compSubId;
         private Long compId;
-        private Long compUserId;
+        private Long userId;
         private String companyDesc;
         private String companyCeoName;
         private String homepageUrl;
@@ -21,8 +22,9 @@ public class CompSubResponse {
         private String compSubDate;
 
         public SubListDTO(CompSub compSub) {
+            this.compSubId = compSub.getCompSubId();
             this.compId = compSub.getCompInfo().getCompId();
-            this.compUserId = compSub.getUser().getUserId();
+            this.userId = compSub.getUser().getUserId();
             this.companyDesc = compSub.getCompInfo().getCompanyDesc();
             this.companyCeoName = compSub.getCompInfo().getCompanyCeoName();
             this.homepageUrl = compSub.getCompInfo().getHomepageUrl();
@@ -41,11 +43,13 @@ public class CompSubResponse {
         private Long compSubId;
         private Long userId;
         private Long compInfoId;
+        private Long compUserId;
 
         public SaveDTO(CompSub compSub) {
           this.compSubId = compSub.getCompSubId();
           this.userId = compSub.getUser().getUserId();
           this.compInfoId = compSub.getCompInfo().getCompId();
+          this.compUserId = compSub.getCompInfo().getCompUser().getCompUserId();
         }
     }
 
