@@ -53,7 +53,7 @@ public class ResumeRestController {
     }
 
     @Operation(summary = "이력서 수정")
-    @PostMapping("/resumes/{id}")
+    @PutMapping("/resumes/{id}")
     public ResponseEntity<?> update(@Valid @PathVariable(name = "id")Long id,
                                     @RequestBody ResumeRequest.UpdateDTO updateDTO,
                                     Errors errors,
