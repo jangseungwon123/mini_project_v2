@@ -31,6 +31,7 @@ public class AdminInfo {
     @Column(nullable = false)
     private String adminPhone;
 
+    @Builder
     public AdminInfo(Long adminId, String adminLoginId, String adminPassword, String adminName, String adminEmail, String adminPhone) {
         this.adminId = adminId;
         this.adminLoginId = adminLoginId;
@@ -40,13 +41,11 @@ public class AdminInfo {
         this.adminPhone = adminPhone;
     }
 
-//    public void update(AdminInfoRequest.UpdateDTO updateDTO) {
-//        this.adminId = adminId;
-//        this.adminLoginId = adminLoginId;
-//        this.adminPassword = adminPassword;
-//        this.adminName = adminName;
-//        this.adminEmail = adminEmail;
-//        this.adminPhone = adminPhone;
-//    }
+    public void update(AdminInfoRequest.UpdateDTO updateDTO) {
+        this.adminPassword = updateDTO.getNewPassword();
+        this.adminName = updateDTO.getAdminName();
+        this.adminEmail = updateDTO.getAdminEmail();
+        this.adminPhone = updateDTO.getAdminPhone();
+    }
 
 }
