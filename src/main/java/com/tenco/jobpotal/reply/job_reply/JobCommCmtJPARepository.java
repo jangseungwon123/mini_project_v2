@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface JobCommCmtJPARepository extends JpaRepository<JobCommCmt,Long> {
 
-    @Query("SELECT j FROM JobCommCmt j JOIN FETCH j.community c ORDER BY j.id DESC")
+    @Query("SELECT j FROM JobCommCmt j JOIN FETCH j.userCommunity c ORDER BY j.id DESC")
     Page<JobCommCmt> findAllJoinCommunity(Pageable pageable);
 
-    @Query("SELECT j FROM JobCommCmt j JOIN FETCH j.community c WHERE j.id = :id")
+    @Query("SELECT j FROM JobCommCmt j JOIN FETCH j.userCommunity c WHERE j.id = :id")
     Optional<JobCommCmt> findByIdJoinCommunity(@Param("id") Long id);
 
 }

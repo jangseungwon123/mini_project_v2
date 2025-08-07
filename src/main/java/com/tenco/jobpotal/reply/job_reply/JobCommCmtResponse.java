@@ -34,7 +34,7 @@ public class JobCommCmtResponse {
         @Builder
         public SaveDTO(JobCommCmt jobCommCmt) {
             this.jobCommCmtId = jobCommCmt.getJobCommCmtId();
-            this.postId = jobCommCmt.getCommunity().getPostId();
+            this.postId = jobCommCmt.getUserCommunity().getPostId();
             this.content = jobCommCmt.getContent();
             this.author = jobCommCmt.getUser().getUserNickname();
             this.createdAt = jobCommCmt.getCreatedAt().toString();
@@ -51,7 +51,7 @@ public class JobCommCmtResponse {
 
         public DetailDTO(JobCommCmt jobCommCmt, LoginUser loginUser) {
             this.jobCommCmtId = jobCommCmt.getJobCommCmtId();
-            this.postId = jobCommCmt.getCommunity().getPostId();
+            this.postId = jobCommCmt.getUserCommunity().getPostId();
             this.content = jobCommCmt.getContent();
             this.author = jobCommCmt.getUser().getUserNickname();
             this.createdAt = jobCommCmt.getCreatedAt().toString();
@@ -69,7 +69,7 @@ public class JobCommCmtResponse {
         @Builder
         public UpdateDTO(JobCommCmt jobCommCmt) {
             this.jobCommCmtId = jobCommCmt.getJobCommCmtId();
-            this.postId = jobCommCmt.getCommunity().getPostId();
+            this.postId = jobCommCmt.getUserCommunity().getPostId();
             this.content = jobCommCmt.getContent();
             this.author = jobCommCmt.getUser().getUserNickname();
             this.createdAt = jobCommCmt.getCreatedAt().toString();
