@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
 // 중간 테이블..
 
-@Table(name = "notice_info")
+@Table(name = "alarm_info")
 @Entity
 @NoArgsConstructor
 @Data
@@ -26,7 +26,6 @@ public class Alarm {
 
     @Column
     private boolean isRead;
-
 
     @CreationTimestamp
     private Timestamp createdAt;

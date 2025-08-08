@@ -4,10 +4,14 @@ import com.tenco.jobpotal.alarm.AlarmRequest;
 import com.tenco.jobpotal.alarm.AlarmService;
 import com.tenco.jobpotal.subscribe.CompSub;
 import com.tenco.jobpotal.subscribe.CompSubJpaRepository;
+import com.tenco.jobpotal.subscribe.UserSub;
+import com.tenco.jobpotal.subscribe.UserSubJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 
@@ -18,6 +22,7 @@ public class AlarmEventListener {
 
     private final AlarmService alarmService;
     private final CompSubJpaRepository compSubRepository;
+    private final UserSubJpaRepository userSubRepository;
 
     /**
      * 채용공고 작성 이벤트 처리
@@ -30,12 +35,12 @@ public class AlarmEventListener {
 
         try {
             // 해당 회사를 구독한 사용자들 조회
-            List<CompSub> subscribers = compSubRepository.findAllByUserAndCompanyId(event.getCompId());
+            List<UserSub> subscribers = userSubRepository.findAllByUserAndCompanyId(event.getCompId());
             
             log.info("구독자 수: {}", subscribers.size());
 
             // 포문으로 각 구독자에게 알람 생성
-            for (CompSub subs : subscribers) {
+            for (UserSub subs : subscribers) {
                 String alarmContent = String.format("%s에서 새로운 채용공고 '%s'가 등록되었습니다.",
                         event.getCompanyName(),// 구독 대상 회사의 이름이 %s에 포맷팅 됨.
                         event.getJobPostTitle());// 채용공고의 제목이 %s에 포맷팅됨
