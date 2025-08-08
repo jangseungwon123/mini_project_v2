@@ -1,42 +1,22 @@
-//package com.tenco.jobpotal.user.applInfo;
-//
-//import org.springframework.data.jpa.repository.Query;
-//import org.springframework.data.repository.query.Param;
-//
-//import java.util.List;
-//
-//public interface ApplInfoJpaRepository {
-//
-//    @Query("SELECT a FROM AppiInfo a " +
-//            "JOIN FETCH a.resume.user u " +
-//            "JOIN FETCH a.JobPost b " +
-//            "WHERE b.compUser.compUserId = :companyId")
-//    List<ApplInfo> findAllByBoardIdWithUser(@Param("companyId") Long companyId);
-//
-//    //
-//    @Query("SELECT a FROM AppiInfo a " +
-//            "JOIN FETCH a.resume.user u " +
-//            "JOIN FETCH a.JobPost b " +
-//            "WHERE b.compUser.compUserId = :companyId")
-//    ApplInfo findAllBy(@Param("companyId") Long companyId);
-//
-//
-//    @Query("SELECT a FROM AppiInfo a JOIN FETCH a.JobPost b WHERE a.resume.user.userId = :userId")
-//    List<ApplInfo> findAllByUserIdWithBoard(@Param("userId") Long userId);
-//
-//    //
-//    @Query("SELECT a FROM AppiInfo a JOIN FETCH a.JobPost b WHERE a.resume.user.userId = :userId")
-//    ApplInfo findById(@Param("userId") Long userId);
-//
-//
-//    @Query("SELECT COUNT(a) > 0 FROM AppiInfo a WHERE a.resume.userId = :userId AND a.JobPost.recruitId = :recruitId")
-//    boolean existsByUserIdAndBoardId(@Param("userId") Long userId, @Param("recruitId") Long recruitId);
-//
-//
-//    @Query("SELECT a FROM AppiInfo a WHERE a.resume.userId = :userId AND a.JobPost.recruitId = :recruitId")
-//    ApplInfo findByApplicationId(@Param("userId") Long userId, @Param("recruitId") Long recruitId);
-//
-//    @Query("SELECT a FROM Application a JOIN FETCH a.resume WHERE a.resume.userId = :userId AND a.applInfoId = :applInfoId")
-//    List<ApplInfo> findByUserIdAndAppiInfo(@Param("userId") Long userId, @Param("applInfoId") Long applInfoId);
-//
-//}
+package com.tenco.jobpotal.user.applInfo;
+
+import com.tenco.jobpotal.job_post.JobPost;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+public interface ApplInfoJpaRepository extends JpaRepository<ApplInfo, Long> {
+
+
+    @Query("select a from ApplInfo a where a.resume.user.userId = :userId and a.jobPost.recruitId = :jobPostId")
+    ApplInfo findByUserIdAndJobPostId(@Param("userId") Long userId, @Param("jobPostId") Long jobPostId);
+
+
+    List<ApplInfo> findByUserId(Long userId);
+
+    List<ApplInfo> findByCompId(Long comUserId);
+}
