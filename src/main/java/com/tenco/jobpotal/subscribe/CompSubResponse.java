@@ -18,7 +18,7 @@ public class CompSubResponse {
         private String phoneNumber;
         private String companyEmail;
         private String companyAddress;
-        private String companyImageId;
+        private String companyImageData;
         private String compSubDate;
 
         public SubListDTO(CompSub compSub) {
@@ -31,7 +31,7 @@ public class CompSubResponse {
             this.phoneNumber = compSub.getCompInfo().getPhoneNumber();
             this.companyEmail = compSub.getCompInfo().getCompanyEmail();
             this.companyAddress = compSub.getCompInfo().getCompanyAddress();
-            this.companyImageId = compSub.getCompInfo().getCompanyImageId();
+            this.companyImageData = compSub.getCompInfo().getCompanyImageData();
             this.compSubDate = compSub.getTime();
         }
     }
