@@ -37,7 +37,8 @@ public class CompInfo {
     private String companyEmail;
     private String companyAddress;
     // imgInfo 테이블의 key값을 가져오기 위함
-    private String companyImageId;
+    @Lob
+    private String companyImageData;
 
    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "companyInfo", cascade = CascadeType.REMOVE)
     // List<CompanyReview> reviews = new ArrayList<>(); // List 선언과 동시에 초기화
@@ -55,7 +56,7 @@ public class CompInfo {
     }
 
     @Builder
-    public CompInfo(Long compId, CompUser compUser, String companyName, String companyDesc, String companyCeoName, String homepageUrl, String phoneNumber, String companyEmail, String companyAddress, String companyImageId, String instId, Timestamp instDate, boolean isBoardOwner) {
+    public CompInfo(Long compId, CompUser compUser, String companyName, String companyDesc, String companyCeoName, String homepageUrl, String phoneNumber, String companyEmail, String companyAddress, String companyImageData, String instId, Timestamp instDate, boolean isBoardOwner) {
         this.compId = compId;
         this.compUser = compUser;
         this.companyName = companyName;
@@ -65,7 +66,7 @@ public class CompInfo {
         this.phoneNumber = phoneNumber;
         this.companyEmail = companyEmail;
         this.companyAddress = companyAddress;
-        this.companyImageId = companyImageId;
+        this.companyImageData = companyImageData;
         this.instId = instId;
         this.instDate = instDate;
         this.isBoardOwner = isBoardOwner;
@@ -79,6 +80,7 @@ public class CompInfo {
         this.phoneNumber = updateDTO.getPhoneNumber();
         this.companyEmail = updateDTO.getCompanyEmail();
         this.companyAddress = updateDTO.getCompanyAddress();
+        this.companyImageData = updateDTO.getCompanyImageData();
     }
 
 

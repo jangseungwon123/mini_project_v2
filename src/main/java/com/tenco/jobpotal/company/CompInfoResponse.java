@@ -1,6 +1,7 @@
 package com.tenco.jobpotal.company;
 
 import com.tenco.jobpotal.user.LoginUser;
+import jakarta.persistence.Lob;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ public class CompInfoResponse {
         private String phoneNumber;
         private String companyEmail;
         private String companyAddress;
-        private String companyImageId;
+        private String companyImageData;
 
         @Builder
         public MainDTO(CompInfo compInfo) {
@@ -28,7 +29,7 @@ public class CompInfoResponse {
             this.phoneNumber = compInfo.getPhoneNumber();
             this.companyEmail = compInfo.getCompanyEmail();
             this.companyAddress = compInfo.getCompanyAddress();
-            this.companyImageId = compInfo.getCompanyImageId();
+            this.companyImageData = compInfo.getCompanyImageData();
         }
     } // END OF INNER CLASS
 
@@ -44,6 +45,7 @@ public class CompInfoResponse {
         private String companyEmail;
         private String companyAddress;
         private String companyImageId;
+        private String companyImageData;
 
         //화면단에서 해당 유저의 게시물인지 확인 여부를 체크 해주기 위한 컬럼
         private boolean isCompInfoOwner;
@@ -58,7 +60,7 @@ public class CompInfoResponse {
             this.phoneNumber = compInfo.getPhoneNumber();
             this.companyEmail = compInfo.getCompanyEmail();
             this.companyAddress = compInfo.getCompanyAddress();
-            this.companyImageId = compInfo.getCompanyImageId();
+            this.companyImageData = compInfo.getCompanyImageData();
             this.isCompInfoOwner = loginUser != null && compInfo.isOwner(loginUser.getId());
         }
 
@@ -71,7 +73,7 @@ public class CompInfoResponse {
                     .phoneNumber(this.phoneNumber)
                     .companyEmail(this.companyEmail)
                     .companyAddress(this.companyEmail)
-                    .companyImageId(this.companyImageId)
+                    .companyImageData(this.companyImageData)
                     .build();
         }
     } // END OF INNER CLASS
