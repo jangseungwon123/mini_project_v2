@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.sql.Timestamp;
+// 중간 테이블..
 
 @Table(name = "notice_info")
 @Entity
@@ -26,6 +26,7 @@ public class Alarm {
 
     @Column
     private boolean isRead;
+
 
     @CreationTimestamp
     private Timestamp createdAt;

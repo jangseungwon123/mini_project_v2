@@ -2,6 +2,7 @@ package com.tenco.jobpotal.job_post;
 
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
+import com.tenco.jobpotal.alarm.event.JobPostCreatedEvent;
 import com.tenco.jobpotal.company.CompInfo;
 import com.tenco.jobpotal.company.CompInfoJpaRepository;
 import com.tenco.jobpotal.resume.SkillListJpaRepository;
@@ -9,6 +10,7 @@ import com.tenco.jobpotal.skill.SkillList;
 import com.tenco.jobpotal.user.LoginUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +26,7 @@ public class JobPostService {
     private final JobPostRepository jobPostRepository;
     private final CompInfoJpaRepository compInfoJpaRepository;
     private final SkillListJpaRepository skillListJpaRepository;
-
+    private final ApplicationEventPublisher eventPublisher;
 
     // 전체 목록 조회
     public List<JobPostResponseDTO> getAllJobPosts() {
@@ -55,6 +57,19 @@ public class JobPostService {
         JobPost savedJobPost = jobPostRepository.save(requestDTO.toEntity(companyInfo, skillList, loginUser));
 
         log.info("savedJobPost 값 확인 : {}",savedJobPost);
+        
+        // 채용공고 생성 이벤트 발행
+        JobPostCreatedEvent event = new JobPostCreatedEvent(
+                savedJobPost.getRecruitId(),
+                companyInfo.getCompId(),
+                companyInfo.getCompanyName(),
+                savedJobPost.getTitle()
+        );
+        eventPublisher.publishEvent(event);
+        
+        log.info("JobPostCreatedEvent 발행 완료 - 채용공고ID: {}, 회사: {}", 
+                savedJobPost.getRecruitId(), companyInfo.getCompanyName());
+        
         return new JobPostResponseDTO(savedJobPost);
     }
 
