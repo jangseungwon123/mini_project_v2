@@ -26,7 +26,7 @@ public class ApplInfo {
 
     // 공고
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "jop_post_id")
+    @JoinColumn(name = "job_post_id")
     private JobPost jobPost;
 
 

@@ -34,7 +34,7 @@ public class CompRatingService {
         if (!"합격".equals(applInfo.getStatus())){
             throw new Exception403("합격한 회사의 평가만 가능합니다.");
         }
-        compRatingJpaRepository.findByApplInfo_applInfo(applInfo.getApplInfoId())
+        compRatingJpaRepository.findByApplInfo_ApplInfoId(applInfo.getApplInfoId())
                 .ifPresent(compRating -> {throw new Exception400("이미 평가를 완료한 지원입니다.");});
 
         CompRating compRating = CompRating.builder()
