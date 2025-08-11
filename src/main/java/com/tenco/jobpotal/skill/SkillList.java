@@ -1,6 +1,7 @@
 package com.tenco.jobpotal.skill;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tenco.jobpotal.resume.UserSkillList;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -33,8 +34,9 @@ public class SkillList {
     private String skillDesc;
     private String instId;
 
-    @OneToMany(mappedBy = "skillList")
-    private List<UserSkillList> userSkills;
+    //@OneToMany(mappedBy = "skillList")
+    //@JsonIgnore
+    //private List<UserSkillList> userSkills;
 
     @CreationTimestamp
     private Timestamp instDate;
@@ -48,7 +50,7 @@ public class SkillList {
         this.skillName = skillName;
         this.skillDesc = skillDesc;
         this.instId = instId;
-        this.userSkills = userSkills;
+        //this.userSkills = userSkills;
         this.instDate = instDate;
     }
 }

@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.resume;
 
+import com.tenco.jobpotal.skill.SkillList;
 import com.tenco.jobpotal.user.normal.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -22,8 +23,15 @@ public class Resume {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    // skillListId
-    // userSkillListNo
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userSkillListId")
+    private UserSkillList userSkillList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SkillListId")
+    private SkillList skillList;
+
     @Column(nullable = false)
     private String name;
     @Column(nullable = false, length = 100)
@@ -52,10 +60,11 @@ public class Resume {
 
 
     @Builder
-    public Resume(Long resumeId,String name, User user, String title, String content, String phone, String address, String birth, String email, String gender, char isExperienced, char isShow, Timestamp instDate) {
+    public Resume(Long resumeId,String name, User user,UserSkillList userSkillList, String title, String content, String phone, String address, String birth, String email, String gender, char isExperienced, char isShow, Timestamp instDate) {
         this.resumeId = resumeId;
         this.name = name;
         this.user = user;
+        this.userSkillList = userSkillList;
         this.title = title;
         this.content = content;
         this.phone = phone;

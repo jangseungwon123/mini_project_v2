@@ -50,6 +50,18 @@ public class UserRestController {
         return ResponseEntity.ok(new ApiUtil<>(userDetail));
     }
 
+    @Operation(summary = "회원이 구독한 기업의 채용공고 스킬 매칭리스트 조회")
+    @GetMapping("/users/matchJobPost")
+    public ResponseEntity<?> getUserMatchingJobSkillFromComp(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
+        if (loginUser == null) {
+            throw new Exception401("인증 정보가 없습니다");
+        }
+
+        UserResponse.JobPostMatchListDTO userJobMatchListInfo = userService.jobMatchList(loginUser.getId());
+        return ResponseEntity.ok(new ApiUtil<>(userJobMatchListInfo));
+    }
+
+
     @Operation(summary = "회원정보 수정")
     @PutMapping("/users/{id}")
     public ResponseEntity<?> updateUser(@PathVariable(name = "id") Long id,

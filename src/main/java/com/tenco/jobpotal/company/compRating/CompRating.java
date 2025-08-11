@@ -1,11 +1,15 @@
-//package com.tenco.jobpotal.company.comp_rating;
+//package com.tenco.jobpotal.company.compRating;
 //
-//import com.tenco.jobpotal.user.appl_info.AppiInfo;
+//
+//import com.tenco.jobpotal.user.applInfo.ApplInfo;
 //import jakarta.persistence.*;
+//import lombok.AllArgsConstructor;
 //import lombok.Builder;
 //import lombok.Data;
 //import lombok.NoArgsConstructor;
 //
+//@Builder
+//@AllArgsConstructor
 //@NoArgsConstructor
 //@Data
 //@Entity
@@ -17,16 +21,10 @@
 //    private Long ratingId;
 //
 //    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private AppiInfo applInfoId;
+//    @JoinColumn(name = "applInfo_id")
+//    private ApplInfo applInfo;
 //
 //    @Column(nullable = false)
 //    private int score;
 //
-//    @Builder
-//    public CompRating(CompRating compRating) {
-//        this.ratingId = compRating.ratingId;
-//        this.applInfoId = compRating.applInfoId;
-//        this.score = compRating.score;
-//    }
 //}

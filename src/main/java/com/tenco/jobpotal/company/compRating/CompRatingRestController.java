@@ -1,20 +1,45 @@
-//package com.tenco.jobpotal.company.comp_rating;
+//package com.tenco.jobpotal.company.compRating;
 //
+//import com.tenco.jobpotal._core.common.ApiUtil;
+//import com.tenco.jobpotal._core.utils.Define;
 //import com.tenco.jobpotal.user.LoginUser;
+//import io.swagger.v3.oas.annotations.Operation;
+//import jakarta.validation.Valid;
 //import lombok.RequiredArgsConstructor;
+//import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;
 //import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.validation.Errors;
+//import org.springframework.web.bind.annotation.*;
 //
 //@RequiredArgsConstructor
-//@Controller
+//@RestController
+//@RequestMapping("/api")
 //public class CompRatingRestController {
 //
-//    private final CompRating compRating;
+//    private final CompRatingService compRatingService;
 //
-////    @PostMapping("/comprating")
-////    public ResponseEntity<?> save(){
-////        LoginUser loginUser = (LoginUser) LoginUser.
+//    @Operation(summary = "평점주기", description = "합격한 유저에 한해 평점을 주는 기능")
+//    @PostMapping("/comprating/save")
+//    public ResponseEntity<?> save(@Valid @RequestBody CompRatingRequest.SaveDTO saveDTO, Errors errors,
+//                                  @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser){
+//        compRatingService.save(saveDTO,loginUser);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>("평점을 남기셨습니다."));
+//    }
+//
+//    @Operation(summary = "평점수정", description = "부여한 평점을 수정하는 기능")
+//    @PutMapping("/comprating/update")
+//    public ResponseEntity<?> update(@Valid @RequestBody CompRatingRequest.UpdateDTO updateDTO, Errors errors,
+//                                    @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser){
+//        compRatingService.update(updateDTO, loginUser);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>("평점 수정 완료하셨습니다."));
+//    }
+//
+////    @Operation(summary = "평점 삭제" , description = "부여한 평정을 삭제하는 기능")
+////    @DeleteMapping("/comprating/update")
+////    public void delete(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser){
+////
+////
 ////    }
 //
 //

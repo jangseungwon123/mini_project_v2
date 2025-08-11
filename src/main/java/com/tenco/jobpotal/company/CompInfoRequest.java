@@ -4,6 +4,7 @@ package com.tenco.jobpotal.company;
 
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.comp.CompUser;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -29,6 +30,8 @@ public class CompInfoRequest {
         private String companyEmail;
         @NotEmpty(message = "회사 주소를 입력해주세요")
         private String companyAddress;
+        @Lob
+        private String companyImageData;
 
         public CompInfo toEntity(LoginUser loginUser, CompUser compUser) {
             return CompInfo.builder()
@@ -40,6 +43,7 @@ public class CompInfoRequest {
                     .phoneNumber(phoneNumber)
                     .companyEmail(companyEmail)
                     .companyAddress(companyAddress)
+                    .companyImageData(companyImageData)
                     .instId(loginUser.getLoginId())
                     .build();
         }
@@ -47,8 +51,7 @@ public class CompInfoRequest {
 
     @Data
     public static class UpdateDTO {
-        @NotNull(message = "회사 ID가 없습니다")
-        private Long companyId;
+
         @NotEmpty(message = "회사명을 입력 해주세요")
         private String companyName;
         @NotEmpty(message = "회사 설명을 입력 해주세요")
@@ -65,10 +68,10 @@ public class CompInfoRequest {
         private String companyEmail;
         @NotEmpty(message = "회사 주소를 입력해주세요")
         private String companyAddress;
+        private String companyImageData;
 
         public CompInfo toEntity(LoginUser loginUser, CompUser compUser) {
             return CompInfo.builder()
-                    .compId(companyId)
                     .compUser(compUser)
                     .companyName(companyName)
                     .companyDesc(companyDesc)
@@ -77,6 +80,7 @@ public class CompInfoRequest {
                     .phoneNumber(phoneNumber)
                     .companyEmail(companyEmail)
                     .companyAddress(companyAddress)
+                    .companyImageData(companyImageData)
                     .instId(loginUser.getLoginId())
                     .build();
         }
