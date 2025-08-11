@@ -25,12 +25,10 @@ public class Resume {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userSkillListId")
+    @JoinColumn(name = "user_skill_list_no")
     private UserSkillList userSkillList;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SkillListId")
-    private SkillList skillList;
+
 
     @Column(nullable = false)
     private String name;
