@@ -2,8 +2,10 @@ package com.tenco.jobpotal.resume;
 
 
 import com.tenco.jobpotal._core.errors.exception.Exception404;
+import com.tenco.jobpotal.skill.SkillList;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.normal.User;
+import com.tenco.jobpotal.user.normal.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,22 +22,28 @@ import java.util.List;
 public class ResumeService {
 
     private final ResumeJpaRepository resumeJpaRepository;
+    private final UserJpaRepository userJpaRepository;
+    private final SkillListJpaRepository skillListJpaRepository;
+    private final UserSkillListRepository userSkillListRepository;
 
     @Transactional
-    public ResumeResponse.SaveDTO save(
-            ResumeRequest.SaveDTO saveDTO, LoginUser loginUser){
-        User user = User.builder()
-                .userId(loginUser.getId())
-                .userName(loginUser.getName())
-                .userNickname(loginUser.getUserNickName())
+    public void save(ResumeRequest.SaveDTO saveDTO,LoginUser loginUser){
+        User user = userJpaRepository.findById(loginUser.getId())
+                .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다"));
+        Resume resume = resumeJpaRepository.save(saveDTO.toEntity(user));
+        SkillList skillList =skillListJpaRepository.findBySkillId(saveDTO.getSkillId())
+                .orElseThrow(() -> new Exception404("스킬을 찾을 수 없습니다."));
+        UserSkillList userSkillSetting = UserSkillList.builder()
+                .user(user)
+                .resume(resume)
+                .skillList(skillList)
+                .instId(saveDTO.getName())
                 .build();
-        Resume resume = saveDTO.toEntity(user);
-        Resume saveResume = resumeJpaRepository.save(resume);
-        return new ResumeResponse.SaveDTO(saveResume);
+        userSkillListRepository.save(userSkillSetting);
     }
 
     @Transactional
-    public ResumeResponse.UpdateDTO update(Long id,ResumeRequest.UpdateDTO updateDTO,
+    public ResumeResponse.UpdateDTO update(Long id, ResumeRequest.UpdateDTO updateDTO,
                                            LoginUser loginUser) {
         Resume resume = resumeJpaRepository.findByIdJoinUser(id).orElseThrow(() ->
                 new Exception404("해당 이력서가 존재하지 않습니다"));
@@ -44,21 +52,21 @@ public class ResumeService {
     }
 
     @Transactional
-    public void deleteById(Long id,LoginUser loginUser) {
+    public void deleteById(Long id, LoginUser loginUser) {
         Resume resume = resumeJpaRepository.findById(id).orElseThrow(() ->
                 new Exception404("삭제 하려는 게시글이 없습니다"));
         resumeJpaRepository.deleteById(id);
     }
 
-    public ResumeResponse.DetailDTO detail(Long id,LoginUser loginUser) {
+    public ResumeResponse.DetailDTO detail(Long id, LoginUser loginUser) {
 
         Resume resume = resumeJpaRepository.findByIdJoinUser(id).orElseThrow(
                 () -> new Exception404("이력서를 찾을 수 없습니다"));
-        return new ResumeResponse.DetailDTO(resume,loginUser);
+        return new ResumeResponse.DetailDTO(resume, loginUser);
     }
 
     public List<ResumeResponse.ResumeListResponseDTO> list(int page, int size) {
-        Pageable pageable = PageRequest.of(page,size, Sort.by("id").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         Page<Resume> resumePage = resumeJpaRepository.findAllJoinUser(pageable);
         List<ResumeResponse.ResumeListResponseDTO> resumeList = new ArrayList<>();
         for (Resume resume : resumePage.getContent()) {
