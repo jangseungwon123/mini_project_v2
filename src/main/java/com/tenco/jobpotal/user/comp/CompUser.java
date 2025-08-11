@@ -1,9 +1,13 @@
 package com.tenco.jobpotal.user.comp;
 
+import com.tenco.jobpotal._core.utils.MyDateUtil;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Data
@@ -36,9 +40,15 @@ public class CompUser {
 	@Column(nullable = false)
 	private String compRegNumber; // 사업자등록번호
 
+	@CreationTimestamp
+	private Timestamp createdAt;
+
+	public String getTime() {
+		return MyDateUtil.timestampFormat(createdAt);
+	}
 
 	@Builder
-	public CompUser(Long compUserId, String compUserLoginId, String compUserPassword, String compUserName, String compUserPhone, String compUserEmail, String compUserNickname, String compRegNumber) {
+	public CompUser(Long compUserId, String compUserLoginId, String compUserPassword, String compUserName, String compUserPhone, String compUserEmail, String compUserNickname, String compRegNumber , Timestamp createdAt) {
 		this.compUserId = compUserId;
 		this.compUserLoginId = compUserLoginId;
 		this.compUserPassword = compUserPassword;
@@ -47,6 +57,7 @@ public class CompUser {
 		this.compUserEmail = compUserEmail;
 		this.compUserNickname = compUserNickname;
 		this.compRegNumber = compRegNumber;
+		this.createdAt = createdAt;
 	}
 
 	public void update(CompUserRequest.UpdateDTO updateDTO) {

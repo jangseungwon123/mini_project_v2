@@ -16,6 +16,7 @@ public class CompUserResponse {
 		private String compUserEmail;
 		private String compUserNickname;
 		private String compRegNumber; // 사업자등록번호
+		private String compUserCreatedTime;
 
 		@Builder
 		public JoinDTO(CompUser compUser) {
@@ -27,6 +28,7 @@ public class CompUserResponse {
 			this.compUserEmail = compUser.getCompUserEmail();
 			this.compUserNickname = compUser.getCompUserNickname();
 			this.compRegNumber = compUser.getCompRegNumber();
+			this.createdAt = compUser.getCreatedAt().toString();
 		}
 	}
 
