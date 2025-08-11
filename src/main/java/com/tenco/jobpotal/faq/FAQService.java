@@ -1,4 +1,6 @@
 package com.tenco.jobpotal.faq;
+import com.tenco.jobpotal._core.errors.exception.Exception404;
+import com.tenco.jobpotal.user.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +16,11 @@ public class FAQService {
 
     // FAQ 등록
     @Transactional
-    public FAQResponseDTO create(FAQRequestDTO dto) {
+    public FAQResponseDTO create(FAQRequestDTO dto, LoginUser loginUser) {
         FAQInfo entity = new FAQInfo();
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
-        entity.setInstId(dto.getInstId());
+        entity.setInstId(loginUser.getLoginId()); // [보안] 서버에서 로그인한 사용자의 ID를 설정
 
         FAQInfo saved = faqRepository.save(entity);
 
@@ -36,7 +38,7 @@ public class FAQService {
     // 특정 FAQ 1개 조회
     public FAQResponseDTO getById(Long faqId) {
         FAQInfo entity = faqRepository.findById(faqId)
-                .orElseThrow(() -> new IllegalArgumentException("FAQ Not Found"));
+                .orElseThrow(() -> new Exception404("해당 FAQ를 찾을 수 없습니다."));
         return toDTO(entity);
     }
 
@@ -55,8 +57,7 @@ public class FAQService {
     @Transactional
     public FAQResponseDTO update(Long faqId, FAQRequestDTO dto) {
         FAQInfo entity = faqRepository.findById(faqId)
-                .orElseThrow(() -> new IllegalArgumentException("FAQ Not Found"));
-
+                .orElseThrow(() -> new Exception404("해당 FAQ를 찾을 수 없습니다."));
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
         // 등록자는 수정하지 않는다고 가정
@@ -67,7 +68,7 @@ public class FAQService {
     @Transactional
     public void delete(Long faqId) {
         if (!faqRepository.existsById(faqId)) {
-            throw new IllegalArgumentException("FAQ Not Found");
+            throw new Exception404("해당 FAQ를 찾을 수 없습니다.");
         }
         faqRepository.deleteById(faqId);
     }

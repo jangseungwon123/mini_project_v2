@@ -6,5 +6,4 @@ import lombok.Data;
 public class FAQRequestDTO {
     private String title;
     private String content;
-    private String instId;
 }

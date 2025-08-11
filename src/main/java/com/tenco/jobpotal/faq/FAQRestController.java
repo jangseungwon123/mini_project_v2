@@ -22,8 +22,8 @@ public class FAQRestController {
         if (!loginUser.isAdmin()) {
             throw new Exception403("FAQ를 등록할 권한이 없습니다.");
         }
-        // TODO: 반환 타입을 명시적으로 지정하는 것이 좋습니다. (예: FAQResponseDTO)
-        var createdFaq = faqService.create(dto);
+        // [개선] var 대신 명시적인 타입 사용으로 가독성 향상
+        FAQResponseDTO createdFaq = faqService.create(dto, loginUser);
         // [개선] 생성 성공 시 201 Created 상태 코드 반환
         return ResponseEntity.status(HttpStatus.CREATED).body(createdFaq);
     }
