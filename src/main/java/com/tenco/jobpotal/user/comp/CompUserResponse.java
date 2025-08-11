@@ -28,7 +28,7 @@ public class CompUserResponse {
 			this.compUserEmail = compUser.getCompUserEmail();
 			this.compUserNickname = compUser.getCompUserNickname();
 			this.compRegNumber = compUser.getCompRegNumber();
-		//	this.createdAt = compUser.getCreatedAt().toString();
+			this.createdAt = compUser.getCreatedAt().toString();
 		}
 	}
 
