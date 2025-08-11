@@ -20,9 +20,9 @@ public class FAQInfo {
     private String title;
     private String content;
 
-    private String instId;
+    private String instId; // 등록자
     @CreationTimestamp
-    private Timestamp instDate;
+    private Timestamp instDate; // 등록일
 
     public FAQInfo(Long faqId, String title, String content, String instId, Timestamp instDate) {
         this.faqId = faqId;
