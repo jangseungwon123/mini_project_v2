@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.user.normal;
 
+import jakarta.persistence.Lob;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ public class UserResponse {
         private String userBirth;
         private String userGender;
         private String userNickname;
+        private String userImageData;
 
         @Builder
         public JoinDTO(User user) {
@@ -27,6 +29,7 @@ public class UserResponse {
             this.userBirth = user.getUserBirth();
             this.userGender = user.getUserGender();
             this.userNickname = user.getUserNickname();
+            this.userImageData = user.getUserImageData();
         }
     }
 
@@ -49,6 +52,7 @@ public class UserResponse {
         private String userAddress;
         private String userPhone;
         private String userNickname;
+        private String userImageData;
 
         @Builder
         public UpdateDTO(User user) {
@@ -57,6 +61,7 @@ public class UserResponse {
             this.userAddress = user.getUserAddress();
             this.userPhone = user.getUserPhone();
             this.userNickname = user.getUserNickname();
+            this.userImageData = user.getUserImageData();
         }
     }
 
@@ -71,6 +76,7 @@ public class UserResponse {
         private String userBirth;
         private String userGender;
         private String userNickname;
+        private String userImageData;
 
         @Builder
         public DetailDTO(User user) {
@@ -82,6 +88,7 @@ public class UserResponse {
             this.userBirth = user.getUserBirth();
             this.userGender = user.getUserGender();
             this.userNickname = user.getUserNickname();
+            this.userImageData = user.getUserImageData();
         }
     }
 
@@ -96,6 +103,7 @@ public class UserResponse {
         private String userBirth;
         private String userGender;
         private String userNickname;
+        private String userImageData;
 
         @Builder
         public JobPostMatchListDTO(User user) {
@@ -107,6 +115,7 @@ public class UserResponse {
             this.userBirth = user.getUserBirth();
             this.userGender = user.getUserGender();
             this.userNickname = user.getUserNickname();
+            this.userImageData = user.getUserImageData();
         }
     }
 
