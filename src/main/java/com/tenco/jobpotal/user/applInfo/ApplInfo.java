@@ -57,13 +57,13 @@ public class ApplInfo {
         return MyDateUtil.timestampFormat(createdAt);
     }
 
-    public ApplInfo(Long applInfoId, Resume resume, JobPost jobPost, String status, Timestamp createdAt, boolean isApplInfoOwner, boolean isAccepted) {
-        this.applInfoId = applInfoId;
-        this.resume = resume;
-        this.jobPost = jobPost;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.isApplInfoOwner = isApplInfoOwner;
-        this.isAccepted = isAccepted;
-    }
+//    public ApplInfo(Long applInfoId, Resume resume, JobPost jobPost, String status, Timestamp createdAt, boolean isApplInfoOwner, boolean isAccepted) {
+//        this.applInfoId = applInfoId;
+//        this.resume = resume;
+//        this.jobPost = jobPost;
+//        this.status = status;
+//        this.createdAt = createdAt;
+//        this.isApplInfoOwner = isApplInfoOwner;
+//        this.isAccepted = isAccepted;
+//    }
 }

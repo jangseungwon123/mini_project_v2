@@ -20,7 +20,7 @@ public interface CompInfoJpaRepository extends JpaRepository<CompInfo, Long> {
     @Query("SELECT ci FROM CompInfo ci WHERE ci.compUser.compUserId = :compUserId")
     Optional<CompInfo> findByCompInfo(Long compUserId);
 
-    @Query("SELECT c FROM c join fetch c.compUser WHERE c.compId = :compId")
+    @Query("SELECT c FROM CompInfo c join fetch c.compUser WHERE c.compId = :compId")
     Optional<CompInfo> findByCompId(@Param("compId") Long compId);
 
 }

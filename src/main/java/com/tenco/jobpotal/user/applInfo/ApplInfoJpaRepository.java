@@ -16,9 +16,11 @@ public interface ApplInfoJpaRepository extends JpaRepository<ApplInfo, Long> {
     ApplInfo findByUserIdAndJobPostId(@Param("userId") Long userId, @Param("jobPostId") Long jobPostId);
 
 
-    List<ApplInfo> findByUserId(Long userId);
+    @Query("select a from ApplInfo a where a.resume.user.userId = :userId")
+    List<ApplInfo> findByUserId(@Param("userId") Long userId);
 
-    List<ApplInfo> findByCompId(Long comUserId);
+    @Query("select a from ApplInfo a where a.jobPost.compInfo.compUser.compUserId = :comUserId")
+    List<ApplInfo> findByCompId(@Param("comUserId") Long comUserId);
 
 //    List<ApplInfo> deleteByApplyId(Long userId, Long id);
 }
