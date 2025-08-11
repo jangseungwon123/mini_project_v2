@@ -57,4 +57,15 @@ public class CompRatingService {
        return new CompRatingResponse.UpdateDTO(compRating);
     }
 
+    @Transactional
+    public void delete(Long ratingId, LoginUser loginUser){
+        CompRating compRating = compRatingJpaRepository.findById(ratingId)
+                .orElseThrow(() -> new Exception404("존재하지 않는 평점입니다."));
+        if (!compRating.getApplInfo().getResume().getUser().getUserId().equals(loginUser.getId())){
+            throw new Exception403("자신이 평가한 평점만 삭제 가능합니다.");
+        }
+        compRatingJpaRepository.delete(compRating);
+    }
+
+
 }
