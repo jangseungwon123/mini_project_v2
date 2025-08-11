@@ -40,6 +40,8 @@ public class ResumeService {
                 .instId(saveDTO.getName())
                 .build();
         userSkillListRepository.save(userSkillSetting);
+        // userResume 업데이트 처리
+        resume.setUserSkillList(userSkillSetting);
     }
 
     @Transactional
