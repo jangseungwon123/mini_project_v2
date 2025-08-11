@@ -4,6 +4,7 @@ import com.tenco.jobpotal._core.errors.exception.Exception400;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal.user.comp.CompUser;
 import com.tenco.jobpotal.user.LoginUser;
+import com.tenco.jobpotal.user.comp.CompUserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,8 @@ public class CompInfoService {
     private static final Logger log = LoggerFactory.getLogger(CompInfoService.class);
 
     private final CompInfoJpaRepository compInfoJpaRepository;
+    private final CompUserJpaRepository compUserJpaRepository;
+
 
     //기업목록 조회(페이지)
     public List<CompInfoResponse.MainDTO> findAllCompanyInfo(int page, int size, String keyword) {
@@ -59,7 +62,8 @@ public class CompInfoService {
     // 기업정보 insert
     @Transactional
     public CompInfo companyInfoInsert(CompInfoRequest.SaveDTO saveDTO, LoginUser loginUser, CompUser compUser) {
-
+        CompUser foundCompUser = compUserJpaRepository.findById(compUser.getCompUserId())
+                .orElseThrow(() -> new Exception404("존재하지 않는 유저입니다."));
         return compInfoJpaRepository.save(saveDTO.toEntity(loginUser,compUser));
     }
 

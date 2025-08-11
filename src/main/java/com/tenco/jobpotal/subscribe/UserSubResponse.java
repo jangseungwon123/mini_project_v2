@@ -16,7 +16,7 @@ public class UserSubResponse {
         private String phoneNumber;
         private String companyEmail;
         private String companyAddress;
-        private String companyImageId;
+        private String companyImageData;
         private String userSubDate;
 
         public SubListDTO(UserSub userSub) {
@@ -30,7 +30,7 @@ public class UserSubResponse {
             this.phoneNumber = compInfo.getPhoneNumber();
             this.companyEmail = compInfo.getCompanyEmail();
             this.companyAddress = compInfo.getCompanyAddress();
-            this.companyImageId = compInfo.getCompanyImageId();
+            this.companyImageData = compInfo.getCompanyImageData();
             this.userSubDate = userSub.getTime();
         }
     }

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -18,5 +19,8 @@ public interface CompInfoJpaRepository extends JpaRepository<CompInfo, Long> {
 
     @Query("SELECT ci FROM CompInfo ci WHERE ci.compUser.compUserId = :compUserId")
     Optional<CompInfo> findByCompInfo(Long compUserId);
+
+    @Query("SELECT c FROM c join fetch c.compUser WHERE c.compId = :compId")
+    Optional<CompInfo> findByCompId(@Param("compId") Long compId);
 
 }
