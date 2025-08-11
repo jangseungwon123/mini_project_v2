@@ -32,7 +32,7 @@ public class AdminInfoService {
         adminInfoJpaRepository.findById(loginUser.getId()).orElseThrow(() ->
             new Exception403("관리자 생성 권한이 없습니다.")
         );
-        adminInfoJpaRepository.findByAdminLoginId(joinDTO.getAdminLoginId())
+        adminInfoJpaRepository.findByAdminJoinId(joinDTO.getAdminLoginId())
                 .ifPresent(adminInfo1 -> {
                     throw new Exception400("이미 존재하는 관리자ID 입니다.");
                 });
@@ -43,13 +43,14 @@ public class AdminInfoService {
     // 로그인
     public String login(AdminInfoRequest.LoginDTO loginDTO){
         AdminInfo adminInfo = adminInfoJpaRepository
-                .findByAdminLoginId(loginDTO.getAdminLoginId()).orElseThrow(() ->{
+                .findByAdminLoginId(loginDTO.getAdminLoginId(), loginDTO.getAdminPassword()).orElseThrow(() ->{
                     throw new Exception401("아이디 또는 비밀번호가 틀렸어요");
                         });
         LoginUser loginUser =LoginUser.builder()
                 .id(adminInfo.getAdminId())
                 .name(adminInfo.getAdminName())
                 .loginId(adminInfo.getAdminLoginId())
+                .isCompany(false)
                 .isAdmin(true) // TODO 임시값 추후 role 부여 할 예정임
                 .build();
 
