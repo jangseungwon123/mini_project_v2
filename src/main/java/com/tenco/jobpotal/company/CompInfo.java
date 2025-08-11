@@ -23,7 +23,7 @@ public class CompInfo {
     private Long compId;
 
     @OneToOne
-    @JoinColumn(name = "comp_user_id")
+    @JoinColumn(name = "comp_user_id", nullable = false)
     private CompUser compUser;
 
     @Column(nullable = false)
