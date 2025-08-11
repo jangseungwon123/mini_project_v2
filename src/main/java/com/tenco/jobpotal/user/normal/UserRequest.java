@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.user.normal;
 
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -42,6 +43,8 @@ public class UserRequest {
         @NotEmpty(message = "주민번호를 입력해주세요")
         @Pattern(regexp = "^\\d{6}-\\d{7}$", message = "주민번호 형식으로 작성해주세요")
         private String userCivilSerial;
+        @Lob
+        private String userImageData;
 
         public User toEntity() {
             return User.builder()
@@ -55,6 +58,7 @@ public class UserRequest {
                     .userGender(userGender)
                     .userNickname(userNickname)
                     .userCivilSerial(userCivilSerial)
+                    .userImageData(userImageData)
                     .build();
         }
     }
@@ -95,6 +99,8 @@ public class UserRequest {
         @NotEmpty(message = "닉네임을 입력해주세요")
         @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,20}$", message = "한글/영문/숫자 조합 2~20자 이내로 작성해주세요")
         private String userNickname;
+        @Lob
+        private String userImageData;
     }
 
     // 마이페이지용 DTO

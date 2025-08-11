@@ -43,6 +43,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String userCivilSerial;
 
+    @Lob
+    private String userImageData;
     @Column(nullable = false, columnDefinition = "CHAR(1)")
     private String userGender;
 
@@ -53,7 +55,9 @@ public class User {
     private Boolean isCompanyUserYn = false;
 
     @Builder
-    public User(Boolean isCompanyUserYn, Long userId, String userName, String userLoginId, String userPassword, String userEmail, String userAddress, String userPhone, String userBirth, String userGender, String userNickname, String userCivilSerial) {
+    public User(Boolean isCompanyUserYn, Long userId, String userName, String userLoginId, String userPassword,
+                String userEmail, String userAddress, String userPhone, String userBirth, String userGender,
+                String userNickname, String userCivilSerial, String userImageData) {
         this.userId = userId;
         this.userName = userName;
         this.userLoginId = userLoginId;
@@ -66,6 +70,7 @@ public class User {
         this.userNickname = userNickname;
         this.userCivilSerial = userCivilSerial;
         this.isCompanyUserYn = isCompanyUserYn;
+        this.userImageData = userImageData;
     }
 
     public void update(UserRequest.UpdateDTO updateDTO) {
@@ -75,5 +80,6 @@ public class User {
         this.userAddress = updateDTO.getUserAddress();
         this.userPhone = updateDTO.getUserPhone();
         this.userNickname = updateDTO.getUserNickname();
+        this.userImageData = updateDTO.getUserImageData();
     }
 }

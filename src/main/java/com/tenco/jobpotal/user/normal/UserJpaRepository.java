@@ -9,8 +9,12 @@ import java.util.Optional;
 public interface UserJpaRepository extends JpaRepository<User, Long> {
 
     // 아이디로 사용자 조회 (로그인용)
-    @Query("SELECT u FROM User u WHERE u.userLoginId = :userLoginId ")
-    Optional<User> findByUserLoginId(@Param("userLoginId") String userLoginId);
+//    @Query("SELECT u FROM User u WHERE u.userLoginId = :userLoginId ")
+//    Optional<User> findByUserLoginId(@Param("userLoginId") String userLoginId);
+
+    @Query("SELECT u FROM User u WHERE u.userLoginId = :userLoginId AND u.userPassword = :userPassword")
+    Optional<User> findByUserLoginIdAndUserPassword(@Param("userLoginId") String userLoginId, @Param("userPassword") String userPassword);
+
 
     // 아이디로 사용자 조회 (마이페이지용)
     @Query("SELECT u FROM User u WHERE u.userLoginId = :userLoginId ")
