@@ -36,14 +36,15 @@ public class User {
     @Column(nullable = false)
     private String userBirth;
 
-    @Column(nullable = false, columnDefinition = "CHAR(1)")
-    private String userGender;
 
     @Column(nullable = false)
     private String userNickname;
 
     @Column(unique = true, nullable = false)
     private String userCivilSerial;
+
+    @Column(nullable = false, columnDefinition = "CHAR(1)")
+    private String userGender;
 
 //    @OneToMany(mappedBy = "user")
 //    private List<UserSkillList> userSkills;

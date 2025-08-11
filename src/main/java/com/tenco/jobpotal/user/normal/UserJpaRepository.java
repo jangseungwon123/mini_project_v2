@@ -12,6 +12,10 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.userLoginId = :userLoginId ")
     Optional<User> findByUserLoginId(@Param("userLoginId") String userLoginId);
 
+    // 아이디로 사용자 조회 (마이페이지용)
+    @Query("SELECT u FROM User u WHERE u.userLoginId = :userLoginId ")
+    Optional<UserRequest.MyProfileDTO> findProfileDtoById(@Param("userId") Long userId);
+
     // 아이디, 주민번호, 이메일로 사용자 조회(중복 체크용)
     @Query("SELECT u FROM User u WHERE u.userLoginId = :userLoginId OR u.userCivilSerial = :userCivilSerial OR u.userEmail = :userEmail")
     Optional<User> findByUserExists(@Param("userLoginId") String userLoginId,

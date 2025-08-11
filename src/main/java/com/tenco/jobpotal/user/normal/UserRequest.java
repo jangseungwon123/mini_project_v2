@@ -96,4 +96,21 @@ public class UserRequest {
         @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,20}$", message = "한글/영문/숫자 조합 2~20자 이내로 작성해주세요")
         private String userNickname;
     }
+
+    // 마이페이지용 DTO
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyProfileDTO {
+        private String userName;
+        private String userLoginId;
+        private String userEmail;
+        private String userAddress;
+        private String userPhone;
+        private String userBirth;
+        private String userNickname;
+
+    }
 }
