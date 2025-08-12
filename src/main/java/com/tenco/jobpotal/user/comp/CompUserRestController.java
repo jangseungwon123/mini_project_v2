@@ -31,6 +31,7 @@ public class CompUserRestController {
 	@PostMapping("/api/compUsers/login")
 	public ResponseEntity<?> login(@Valid @RequestBody CompUserRequest.LoginDTO loginDTO, Errors errors) {
 		String jwtToken = compUserService.login(loginDTO);
+		System.out.println("1111111111111111111111111111");
 		return ResponseEntity.ok()
 				.header(Define.AUTH, Define.BEARER + jwtToken)
 				.body(new ApiUtil<>(jwtToken));

@@ -61,6 +61,9 @@ public class JwtUtil {
         String loginId = decodedJWT.getClaim("loginId").asString();
         String userNickName = decodedJWT.getClaim("userNickName").asString();
         boolean isCompany = decodedJWT.getClaim("isCompany").asBoolean();
+        boolean isAdmin = decodedJWT.getClaim("isAdmin").asBoolean();
+
+
 
         return LoginUser.builder()
                 .id(id)
@@ -68,6 +71,7 @@ public class JwtUtil {
                 .loginId(loginId)
                 .userNickName(userNickName)
                 .isCompany(isCompany)
+                .isAdmin(isAdmin)
                 .build();
     }
 
