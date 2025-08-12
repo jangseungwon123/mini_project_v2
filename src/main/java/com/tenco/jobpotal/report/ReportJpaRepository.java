@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ReportJpaRepository extends JpaRepository<Report, Long> {
 
 	// 1. Find list of all reports by user id
-	@Query("select r from Report where r.user.userId = :userId order by r.createdAt desc")
+	@Query("select r from Report r where r.user.userId = :userId order by r.createdAt desc")
 	List<Report> findAllByUserId(@Param("userId") Long userId);
 
 	// 2. Find list of all reports by user community id
