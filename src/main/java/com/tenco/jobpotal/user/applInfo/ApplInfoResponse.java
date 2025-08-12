@@ -10,13 +10,13 @@ public class ApplInfoResponse {
     public static class SaveDTO{
         private Long applInfoId;
         private Long resumeId;
-        private Long jopPostId;
+        private Long jobPostId;
         private String status;
 
         public SaveDTO(ApplInfo applInfo) {
             this.applInfoId = applInfo.getApplInfoId();
             this.resumeId = applInfo.getResume().getResumeId();
-            this.jopPostId = applInfo.getJobPost().getRecruitId();
+            this.jobPostId = applInfo.getJobPost().getRecruitId();
             this.status = applInfo.getStatus();
         }
     }
@@ -83,7 +83,7 @@ public class ApplInfoResponse {
     public static class statusDTO{
         private Long applInfoId;
         private Long resumeId;
-        private Long jopPostId;
+        private Long jobPostId;
         private String status;
         boolean isApplInfoOwner;
         boolean isAccepted;
@@ -94,7 +94,7 @@ public class ApplInfoResponse {
         public statusDTO(ApplInfo applInfo) {
             this.applInfoId = applInfo.getApplInfoId();
             this.resumeId = applInfo.getResume().getResumeId();
-            this.jopPostId = applInfo.getJobPost().getRecruitId();
+            this.jobPostId = applInfo.getJobPost().getRecruitId();
             this.status = applInfo.getStatus();
             this.isApplInfoOwner = applInfo.isApplInfoOwner();
             this.isAccepted = applInfo.isAccepted();

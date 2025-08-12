@@ -36,7 +36,7 @@ public class CompRatingRestController {
     }
 
     @Operation(summary = "평점 삭제" , description = "부여한 평정을 삭제하는 기능")
-    @DeleteMapping("/comprating/{ratingId}/update")
+    @DeleteMapping("/comprating/{ratingId}/delete")
     public ResponseEntity<?> delete(@PathVariable(name = "ratingId") Long ratingId,
             @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser){
         compRatingService.delete(ratingId,loginUser);

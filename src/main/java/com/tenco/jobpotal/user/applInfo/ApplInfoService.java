@@ -30,7 +30,7 @@ import java.util.List;
 public class ApplInfoService {
 
     private final ApplInfoJpaRepository applInfoJpaRepository;
-    private final JobPostRepository jopPostJpaRepository;
+    private final JobPostRepository jobPostRepository;
     private final ResumeJpaRepository resumeJpaRepository;
     private final CompInfoJpaRepository compInfoJpaRepository;
     private final UserJpaRepository userJpaRepository;
@@ -44,7 +44,7 @@ public class ApplInfoService {
         if (!resume.getUser().getUserId().equals(loginUser.getId())) {
             throw new Exception403("자신의 이력서로만 지원할 수 있습니다.");
         }
-        JobPost jobPost = jopPostJpaRepository.findById(saveDTO.getJopPostId())
+        JobPost jobPost = jobPostRepository.findById(saveDTO.getJopPostId())
                 .orElseThrow(() -> new Exception500("존재하지 않는 채용 공고입니다."));
         ApplInfo existApplInfo = applInfoJpaRepository.findByUserIdAndJobPostId(loginUser.getId(), saveDTO.getJopPostId());
         if (existApplInfo != null) {
@@ -61,26 +61,18 @@ public class ApplInfoService {
 
 
     @Transactional
-    public ApplInfoResponse.UpdateStatusDTO updateStatus(ApplInfoRequest.UpdateStatusDTO updateStatusDTO, String status, LoginUser loginUser) {
-        JobPost jobPost = jopPostJpaRepository.findByJobPostId(updateStatusDTO.getJopPostId())
-                .orElseThrow(() -> new Exception404("존재하지 않는..."));
-        CompInfo compInfo = compInfoJpaRepository.findByCompId(jobPost.getCompInfo().getCompId())
-                .orElseThrow(() -> new Exception404("존재하지 않는 채용 공고입니다."));
-        if (!compInfo.getCompUser().getCompUserId().equals(loginUser.getId())) {
-            throw new Exception403("자신의 공고만 확인 가능합니다.");
+    public void updateStatus(Long applyId, String status, LoginUser loginUser) {
+        ApplInfo applInfo = applInfoJpaRepository.findById(applyId)
+                .orElseThrow(() -> new Exception404("존재하지 않는 지원 정보입니다."));
+        if(!applInfo.getJobPost().getCompInfo().getCompUser().getCompUserId().equals(loginUser.getId())){
+            throw new Exception403("해당 지원서의 상태를 변경할 권한이 없습니다.");
         }
-        Resume resume = resumeJpaRepository.findById(updateStatusDTO.getResumeId())
-                .orElseThrow(() -> new Exception404("선택한 이력서를 찾을 수 없습니다."));
 
         if (!"합격".equals(status) && !"불합격".equals(status)) {
             throw new Exception400("잘못된 상태 값입니다. '합격' 또는 '불합격'만 가능합니다.");
         }
-        ApplInfo applInfo = ApplInfo.builder()
-                .resume(resume)
-                .jobPost(jobPost)
-                .status(status)
-                .build();
-        return new ApplInfoResponse.UpdateStatusDTO(applInfo);
+        applInfo.setStatus(status);
+
     }
 
     // [사용자]가 자신의 지원 목록을 조회할 때 사용하는 DTO

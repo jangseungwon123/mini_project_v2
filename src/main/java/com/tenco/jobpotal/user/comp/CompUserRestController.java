@@ -44,6 +44,9 @@ public class CompUserRestController {
 		if (loginUser == null) {
 			throw new Exception401("로그인이 필요합니다");
 		}
+		if (!compUserId.equals(loginUser.getId())) {
+			throw new Exception403("본인 정보만 조회가능합니다.");
+		}
 		CompUserResponse.DetailDTO compUserDetail =
 				compUserService.findCompUserByCompUserId(loginUser.getId());
 		return ResponseEntity.ok(new ApiUtil<>(compUserDetail));

@@ -46,14 +46,14 @@ public class ApplInfoRequest {
         private Long resumeId;
         @NotNull(message = "채용공고 ID는 필수입니다.")
         @Positive(message = "공고 ID는 양수여야 합니다.")
-        private Long jopPostId;
+        private Long jobPostId;
         private String status;
 
         public ApplInfo toEntity( String status , ApplInfo applInfo) {
             return ApplInfo.builder()
                     .applInfoId(applInfo.getApplInfoId())
                     .resume(Resume.builder().resumeId(resumeId).build())
-                    .jobPost(JobPost.builder().recruitId(jopPostId).build())
+                    .jobPost(JobPost.builder().recruitId(jobPostId).build())
                     .status(status)
                     .build();
         }
