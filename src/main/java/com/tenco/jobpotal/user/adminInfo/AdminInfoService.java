@@ -50,8 +50,8 @@ public class AdminInfoService {
                 .id(adminInfo.getAdminId())
                 .name(adminInfo.getAdminName())
                 .loginId(adminInfo.getAdminLoginId())
-                .isCompany(false)
                 .isAdmin(true) // TODO 임시값 추후 role 부여 할 예정임
+                .isCompany(false)
                 .build();
 
         String jwt = JwtUtil.create(loginUser);

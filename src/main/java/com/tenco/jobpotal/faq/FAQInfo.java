@@ -1,6 +1,7 @@
 package com.tenco.jobpotal.faq;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,15 +21,16 @@ public class FAQInfo {
     private String title;
     private String content;
 
-    private String instId; // 등록자
-    @CreationTimestamp
-    private Timestamp instDate; // 등록일
+//    private String instId; // 등록자
+//    @CreationTimestamp
+//    private Timestamp instDate; // 등록일
 
-    public FAQInfo(Long faqId, String title, String content, String instId, Timestamp instDate) {
+    @Builder
+    public FAQInfo(Long faqId, String title, String content) {
         this.faqId = faqId;
         this.title = title;
         this.content = content;
-        this.instId = instId;
-        this.instDate = instDate;
+//        this.instId = instId;
+//        this.instDate = instDate;
     }
 }

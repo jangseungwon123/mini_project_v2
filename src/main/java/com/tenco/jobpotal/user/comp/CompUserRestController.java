@@ -31,6 +31,7 @@ public class CompUserRestController {
 	@PostMapping("/api/compUsers/login")
 	public ResponseEntity<?> login(@Valid @RequestBody CompUserRequest.LoginDTO loginDTO, Errors errors) {
 		String jwtToken = compUserService.login(loginDTO);
+		System.out.println("1111111111111111111111111111");
 		return ResponseEntity.ok()
 				.header(Define.AUTH, Define.BEARER + jwtToken)
 				.body(new ApiUtil<>(jwtToken));
@@ -43,6 +44,9 @@ public class CompUserRestController {
 			@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
 		if (loginUser == null) {
 			throw new Exception401("로그인이 필요합니다");
+		}
+		if (!compUserId.equals(loginUser.getId())) {
+			throw new Exception403("본인 정보만 조회가능합니다.");
 		}
 		CompUserResponse.DetailDTO compUserDetail =
 				compUserService.findCompUserByCompUserId(loginUser.getId());

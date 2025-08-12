@@ -29,12 +29,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         , "/api/compUsers/login"
                         , "/api/company/list"
                         , "/api/company/{id:\\d+}"
-                        , "/api/login"
-                        , "/api/logout"
-                        , "/api/join"
-                        , "/api/community/list"
-                        , "/api/comp-community/list"
-                        , "/api/admins/login"
+                        ,"/api/login"
+                        ,"/api/logout"
+                        ,"/api/join"
+                        ,"/api/community/list"
+                        ,"/api/comp-community/list"
+                        ,"/api/admins/login"
                 );
 
     }
@@ -46,7 +46,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/api-test/**")
                 // .allowedOrigins("https://api.kakao.com:8080") 특정 도메인만 등록 가능
                 .allowedOrigins("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedMethods("GET","POST","PUT","DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(false); // 인증이 필요한 경우 true
 

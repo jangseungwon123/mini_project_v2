@@ -34,7 +34,7 @@ public class CompRatingService {
         if (!"합격".equals(applInfo.getStatus())){
             throw new Exception403("합격한 회사의 평가만 가능합니다.");
         }
-        compRatingJpaRepository.findByApplInfo_applInfo(applInfo.getApplInfoId())
+        compRatingJpaRepository.findByApplInfo_ApplInfoId(applInfo.getApplInfoId())
                 .ifPresent(compRating -> {throw new Exception400("이미 평가를 완료한 지원입니다.");});
 
         CompRating compRating = CompRating.builder()
@@ -47,14 +47,13 @@ public class CompRatingService {
     }
 
     @Transactional
-    public CompRatingResponse.UpdateDTO update(CompRatingRequest.UpdateDTO updateDTO, LoginUser loginUser){
-       CompRating compRating = compRatingJpaRepository.findById(updateDTO.getRatingId())
-               .orElseThrow(() -> new Exception404("존재하지 않는 평점입니다."));
+    public void update(Long ratingId, int score, LoginUser loginUser){
+       CompRating compRating = compRatingJpaRepository.findById(ratingId)
+               .orElseThrow(() -> new Exception404("존재하지 않는 평가입니다."));
        if(!compRating.getApplInfo().getResume().getUser().getUserId().equals(loginUser.getId())){
            throw new Exception403("자신이 평가한 평점만 수정 가능합니다.");
        }
-       compRating.setScore(updateDTO.getScore());
-       return new CompRatingResponse.UpdateDTO(compRating);
+       compRating.setScore(score);
     }
 
     @Transactional

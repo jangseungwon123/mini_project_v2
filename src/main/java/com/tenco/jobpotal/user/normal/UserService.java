@@ -57,7 +57,7 @@ public class UserService {
     // 로그인
     public String login(UserRequest.LoginDTO loginDTO) {
         User user = userJpaRepository
-                .findByUserLoginId(loginDTO.getUserLoginId())
+                .findByUserLoginIdAndUserPassword(loginDTO.getUserLoginId(), loginDTO.getUserPassword())
                 .orElseThrow(() -> {
                     throw new Exception401("아이디 또는 비밀번호가 틀렸어요");
                 });
