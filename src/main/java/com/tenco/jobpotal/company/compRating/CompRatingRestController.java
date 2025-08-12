@@ -31,7 +31,7 @@ public class CompRatingRestController {
     @PutMapping("/comprating/update")
     public ResponseEntity<?> update(@Valid @RequestBody CompRatingRequest.UpdateDTO updateDTO, Errors errors,
                                     @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser){
-        compRatingService.update(updateDTO, loginUser);
+        compRatingService.update(updateDTO.getRatingId(), updateDTO.getScore(), loginUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>("평점 수정 완료하셨습니다."));
     }
 

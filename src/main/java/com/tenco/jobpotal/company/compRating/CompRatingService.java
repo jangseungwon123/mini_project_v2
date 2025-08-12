@@ -47,14 +47,13 @@ public class CompRatingService {
     }
 
     @Transactional
-    public CompRatingResponse.UpdateDTO update(CompRatingRequest.UpdateDTO updateDTO, LoginUser loginUser){
-       CompRating compRating = compRatingJpaRepository.findById(updateDTO.getRatingId())
-               .orElseThrow(() -> new Exception404("존재하지 않는 평점입니다."));
+    public void update(Long ratingId, int score, LoginUser loginUser){
+       CompRating compRating = compRatingJpaRepository.findById(ratingId)
+               .orElseThrow(() -> new Exception404("존재하지 않는 평가입니다."));
        if(!compRating.getApplInfo().getResume().getUser().getUserId().equals(loginUser.getId())){
            throw new Exception403("자신이 평가한 평점만 수정 가능합니다.");
        }
-       compRating.setScore(updateDTO.getScore());
-       return new CompRatingResponse.UpdateDTO(compRating);
+       compRating.setScore(score);
     }
 
     @Transactional
