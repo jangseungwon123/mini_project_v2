@@ -55,4 +55,10 @@ public class ReportRestController {
 		return ResponseEntity.ok(new ApiUtil<>(null));
 	}
 
+	@Operation(summary = "내 신고 내역 목록 조회")
+	@GetMapping("/reports/my-reports")
+	public ResponseEntity<?> myReportList(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
+		List<ReportResponse.MyReportListDTO> responseDTO = reportService.findByUserId(loginUser.getId());
+		return ResponseEntity.ok(new ApiUtil<>(responseDTO));
+	}
 }

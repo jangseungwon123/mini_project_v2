@@ -62,4 +62,20 @@ public class ReportResponse {
 			this.createdAt = report.getCreatedAt();
 		}
 	}
+
+	@Data
+	public static class MyReportListDTO {
+		private Long reportId;
+		private Long reportPostId;
+		private String reportedPostTitle;
+		private Timestamp createdAt;
+
+		@Builder
+		public MyReportListDTO(Report report) {
+			this.reportId = report.getReportId();
+			this.reportPostId = report.getUserCommunity().getPostId();
+			this.reportedPostTitle = report.getUserCommunity().getTitle();
+			this.createdAt = report.getCreatedAt();
+		}
+	}
 }

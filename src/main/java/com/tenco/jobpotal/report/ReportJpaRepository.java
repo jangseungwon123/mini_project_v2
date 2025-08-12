@@ -19,4 +19,7 @@ public interface ReportJpaRepository extends JpaRepository<Report, Long> {
 
 	// 사용자 ID(userId)와 게시글 ID(postId)를 동시에 만족하는 신고 내역이 있는지 조회합니다.
 	Optional<Report> findByUser_UserIdAndUserCommunity_PostId(Long userId, Long postId);
+
+	// 사용자의 ID 로 신고 내역을 조회
+	List<Report> findByUser_UserId(Long userId);
 }

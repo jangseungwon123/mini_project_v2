@@ -72,4 +72,13 @@ public class ReportService {
 				.orElseThrow(() -> new Exception404("해당 신고 내역을 찾을수 없습니다"));
 		reportJpaRepository.delete(report);
 	}
+
+	@Transactional
+	public List<ReportResponse.MyReportListDTO> findByUserId(Long userId) {
+		// 사용자 ID로 해당 유저의 신고 내역을 모두 조회
+		List<Report> myReportList = reportJpaRepository.findByUser_UserId(userId);
+		return myReportList.stream()
+				.map(ReportResponse.MyReportListDTO::new)
+				.collect(Collectors.toList());
+	}
 }
