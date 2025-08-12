@@ -9,6 +9,7 @@ public class ReportResponse {
 
 
 	// 신고하기(저장)
+	@Data
 	public static class SaveDTO{
 		private Long reportId;
 		private Long postId;
@@ -26,11 +27,11 @@ public class ReportResponse {
 
 	@Data
 	public static class FindAllDTO {
-		private Long reportId;
-		private String reporterNickname;
-		private Long reportedPostId;
-		private String reportedPostTitle;
-		private Timestamp createdAt;
+		private Long reportId;            // 신고 ID
+		private String reporterNickname;  // 신고자 닉네임
+		private Long reportedPostId;      // 신고된 게시글 ID
+		private String reportedPostTitle; // 신고된 게시글 제목
+		private Timestamp createdAt;      // 신고 생성일
 
 		@Builder
 		public FindAllDTO(Report report) {
@@ -38,6 +39,26 @@ public class ReportResponse {
 			this.reporterNickname = report.getUser().getUserNickname();
 			this.reportedPostId = report.getUserCommunity().getPostId();
 			this.reportedPostTitle = report.getUserCommunity().getTitle();
+			this.createdAt = report.getCreatedAt();
+		}
+	}
+
+	@Data
+	public static class DetailDTO {
+		private Long reportId;
+		private String reporterNickname;
+		private Long reportedPostId;
+		private String reportedPostTitle;
+		private String reportedPostContent;
+		private Timestamp createdAt;
+
+		@Builder
+		public DetailDTO(Report report) {
+			this.reportId = report.getReportId();
+			this.reporterNickname = report.getUser().getUserNickname();
+			this.reportedPostId = report.getUserCommunity().getPostId();
+			this.reportedPostTitle = report.getUserCommunity().getTitle();
+			this.reportedPostContent = report.getUserCommunity().getContent();
 			this.createdAt = report.getCreatedAt();
 		}
 	}

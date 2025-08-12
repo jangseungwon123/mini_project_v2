@@ -12,7 +12,7 @@ public class ReportRequest {
 		private Long postId;
 		private Long userId;
 
-		public Report toEntity(Report report, UserCommunity userCommunity, User user){
+		public Report toEntity(Report report, UserCommunity userCommunity, User user) {
 			return Report.builder()
 					.reportId(reportId)
 					.userCommunity(UserCommunity.builder().postId(postId).build())
