@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -57,7 +59,7 @@ public class UserRestController {
             throw new Exception401("인증 정보가 없습니다");
         }
 
-        UserResponse.JobPostMatchListDTO userJobMatchListInfo = userService.jobMatchList(loginUser.getId());
+        List<UserResponse.JobPostMatchListDTO> userJobMatchListInfo = userService.jobMatchList(loginUser.getId());
         return ResponseEntity.ok(new ApiUtil<>(userJobMatchListInfo));
     }
 

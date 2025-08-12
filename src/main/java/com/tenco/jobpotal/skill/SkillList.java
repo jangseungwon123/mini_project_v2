@@ -2,6 +2,7 @@ package com.tenco.jobpotal.skill;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tenco.jobpotal.job_post.JobPost;
 import com.tenco.jobpotal.resume.UserSkillList;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -42,15 +43,25 @@ public class SkillList {
     private Timestamp instDate;
 
     @Builder
-
-    public SkillList(Long skillListNo, Long skillGrpId, Long skillId, String skillName, String skillDesc, String instId, List<UserSkillList> userSkills, Timestamp instDate) {
+    public SkillList(Long skillListNo, Long skillGrpId, Long skillId, String skillName, String skillDesc, String instId, Timestamp instDate) {
         this.skillListNo = skillListNo;
         this.skillGrpId = skillGrpId;
         this.skillId = skillId;
         this.skillName = skillName;
         this.skillDesc = skillDesc;
         this.instId = instId;
-        //this.userSkills = userSkills;
         this.instDate = instDate;
+    }
+
+    public SkillList toEntity(JobPost jobPost) {
+        return SkillList.builder()
+                .skillListNo(jobPost.getSkillList().getSkillListNo())
+                .skillGrpId(jobPost.getSkillList().getSkillGrpId())
+                .skillId(jobPost.getSkillList().getSkillId())
+                .skillName(jobPost.getSkillList().getSkillName())
+                .skillDesc(jobPost.getSkillList().getSkillDesc())
+                .instId(jobPost.getSkillList().getInstId())
+                .instDate(jobPost.getSkillList().getInstDate())
+                .build();
     }
 }

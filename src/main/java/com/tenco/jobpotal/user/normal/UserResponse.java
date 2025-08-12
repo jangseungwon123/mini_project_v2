@@ -1,8 +1,14 @@
 package com.tenco.jobpotal.user.normal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tenco.jobpotal.company.CompInfo;
+import com.tenco.jobpotal.job_post.JobPost;
+import com.tenco.jobpotal.skill.SkillList;
 import jakarta.persistence.Lob;
 import lombok.Builder;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 public class UserResponse {
 
@@ -95,27 +101,31 @@ public class UserResponse {
     // 회원과 관심기업 매칭 공고 조회 응답 DTO
     @Data
     public static class JobPostMatchListDTO {
-        private String userName;
-        private String userLoginId;
-        private String userEmail;
-        private String userAddress;
-        private String userPhone;
-        private String userBirth;
-        private String userGender;
-        private String userNickname;
-        private String userImageData;
+        private Long recruitId;
+        private Long compId;
+        private SkillList skillList;
+        private String title;
+        private String content;
+        private String requireCareerYears;
+        private String employmentType;
+        private String instId;
+        private LocalDateTime instDate;
+        private LocalDateTime postedAt;
+        private LocalDateTime deadline;
 
         @Builder
-        public JobPostMatchListDTO(User user) {
-            this.userName = user.getUserName();
-            this.userLoginId = user.getUserLoginId();
-            this.userEmail = user.getUserEmail();
-            this.userAddress = user.getUserAddress();
-            this.userPhone = user.getUserPhone();
-            this.userBirth = user.getUserBirth();
-            this.userGender = user.getUserGender();
-            this.userNickname = user.getUserNickname();
-            this.userImageData = user.getUserImageData();
+        public JobPostMatchListDTO(JobPost jobPost) {
+            this.recruitId = jobPost.getRecruitId();
+            this.compId = jobPost.getCompInfo().getCompId();
+            this.skillList = jobPost.getSkillList();
+            this.title = jobPost.getTitle();
+            this.content = jobPost.getContent();
+            this.requireCareerYears = jobPost.getRequireCareerYears();
+            this.employmentType = jobPost.getEmploymentType();
+            this.instId = jobPost.getInstId();
+            this.instDate = jobPost.getInstDate();
+            this.postedAt = jobPost.getPostedAt();
+            this.deadline = jobPost.getDeadline();
         }
     }
 
