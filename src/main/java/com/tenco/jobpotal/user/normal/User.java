@@ -36,8 +36,6 @@ public class User {
     @Column(nullable = false)
     private String userBirth;
 
-    @Column(nullable = false, columnDefinition = "CHAR(1)")
-    private String userGender;
 
     @Column(nullable = false)
     private String userNickname;
@@ -47,6 +45,11 @@ public class User {
 
     @Lob
     private String userImageData;
+    @Column(nullable = false, columnDefinition = "CHAR(1)")
+    private String userGender;
+
+//    @OneToMany(mappedBy = "user")
+//    private List<UserSkillList> userSkills;
 
     @Transient
     private Boolean isCompanyUserYn = false;

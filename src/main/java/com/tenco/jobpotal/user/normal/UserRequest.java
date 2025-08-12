@@ -102,4 +102,20 @@ public class UserRequest {
         @Lob
         private String userImageData;
     }
+
+    // 마이페이지용 DTO
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyProfileDTO {
+        private String userName;
+        private String userLoginId;
+        private String userEmail;
+        private String userAddress;
+        private String userPhone;
+        private String userBirth;
+        private String userNickname;
+
+    }
 }

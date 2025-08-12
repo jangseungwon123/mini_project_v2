@@ -1,10 +1,11 @@
 package com.tenco.jobpotal.community.userCommunity;
 
 import com.tenco.jobpotal.user.LoginUser;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class UserCommunityResponse {
 
@@ -68,5 +69,21 @@ public class UserCommunityResponse {
 
 
 
+    // 마이 페이지용 값 전달 DTO
+    @AllArgsConstructor
+    @Getter
+    public static class MyPostResponse {
+        private Long postId;
+        private String title;
+        private Timestamp instDate;
+
+        public static MyPostResponse fromEntity(UserCommunity userCommunity) {
+            return new MyPostResponse(
+                    userCommunity.getPostId(),
+                    userCommunity.getTitle(),
+                    userCommunity.getInstDate()
+            );
+        }
+    }
 
 }
