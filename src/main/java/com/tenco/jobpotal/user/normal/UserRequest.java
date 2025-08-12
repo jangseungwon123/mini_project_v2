@@ -104,7 +104,6 @@ public class UserRequest {
     }
 
     // 마이페이지용 DTO
-
     @Data
     @Builder
     @NoArgsConstructor

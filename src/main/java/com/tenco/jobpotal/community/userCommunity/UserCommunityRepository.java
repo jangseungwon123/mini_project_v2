@@ -15,7 +15,8 @@ public interface UserCommunityRepository extends JpaRepository<UserCommunity, Lo
     @Query("SELECT c FROM UserCommunity c LEFT JOIN FETCH c.user u")
     Page<UserCommunity> findAllWithUser(Pageable pageable);
 
-    @Query("SELECT c FROM UserCommunity c LEFT JOIN FETCH c.user u WHERE u.userId : =userID")
+    //마이페이지용
+    @Query("SELECT c FROM UserCommunity c LEFT JOIN FETCH c.user u WHERE u.userId = :userId")
     Page<UserCommunity> findAllWithUserByUserId(@Param("userId") Long userId, Pageable pageable);
 
 }
