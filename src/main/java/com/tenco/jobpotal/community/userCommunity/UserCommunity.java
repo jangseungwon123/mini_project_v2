@@ -51,11 +51,11 @@ public class UserCommunity {
         this.postPassword = postPassword;
         this.user = user;
     }
-    public void update(UserCommunityRequest.UpdateDTO updateDTO){
-        this.title = updateDTO.getTitle();
-        this.content = updateDTO.getContent();
-        this.instId = updateDTO.getInstId();
-        this.postPassword = updateDTO.getPostPassword();
+    public void update(UserCommunityRequest.UserCommunityUpdateDTO userCommunityUpdateDTO){
+        this.title = userCommunityUpdateDTO.getTitle();
+        this.content = userCommunityUpdateDTO.getContent();
+        this.instId = userCommunityUpdateDTO.getInstId();
+        this.postPassword = userCommunityUpdateDTO.getPostPassword();
 
     }
 

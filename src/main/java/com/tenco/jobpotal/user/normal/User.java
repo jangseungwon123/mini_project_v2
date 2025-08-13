@@ -73,7 +73,17 @@ public class User {
         this.userImageData = userImageData;
     }
 
-    public void update(UserRequest.UpdateDTO updateDTO) {
+    public void update(UserRequest.UpdateProfileRequestDTO updateProfileRequestDTO) {
+        this.userName = updateProfileRequestDTO.getUserName();
+        this.userPassword = updateProfileRequestDTO.getUserPassword();
+        this.userEmail = updateProfileRequestDTO.getUserEmail();
+        this.userAddress = updateProfileRequestDTO.getUserAddress();
+        this.userPhone = updateProfileRequestDTO.getUserPhone();
+        this.userNickname = updateProfileRequestDTO.getUserNickname();
+        this.userImageData = updateProfileRequestDTO.getUserImageData();
+    }
+
+    public void profileUpdate(UserRequest.UpdateProfileRequestDTO updateDTO) {
         this.userName = updateDTO.getUserName();
         this.userPassword = updateDTO.getUserPassword();
         this.userEmail = updateDTO.getUserEmail();

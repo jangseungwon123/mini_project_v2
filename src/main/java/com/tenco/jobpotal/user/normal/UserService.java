@@ -5,16 +5,11 @@ import com.tenco.jobpotal._core.errors.exception.Exception401;
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal._core.utils.JwtUtil;
-import com.tenco.jobpotal.company.CompInfo;
-import com.tenco.jobpotal.company.CompInfoJpaRepository;
-import com.tenco.jobpotal.company.CompInfoResponse;
 import com.tenco.jobpotal.job_post.JobPost;
 import com.tenco.jobpotal.job_post.JobPostRepository;
-import com.tenco.jobpotal.job_post.JobPostResponseDTO;
 import com.tenco.jobpotal.resume.Resume;
 import com.tenco.jobpotal.resume.ResumeJpaRepository;
 import com.tenco.jobpotal.skill.SkillList;
-import com.tenco.jobpotal.subscribe.UserSub;
 import com.tenco.jobpotal.subscribe.UserSubJpaRepository;
 import com.tenco.jobpotal.subscribe.UserSubResponse;
 import com.tenco.jobpotal.user.LoginUser;
@@ -26,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -87,7 +81,7 @@ public class UserService {
 
     //회원 정보 수정
     @Transactional
-    public UserResponse.UpdateDTO updateById(Long requestUserId, Long loginUserId, UserRequest.UpdateDTO updateDTO) {
+    public UserResponse.UpdateDTO updateById(Long requestUserId, Long loginUserId, UserRequest.UpdateProfileRequestDTO updateProfileRequestDTO) {
         if (!requestUserId.equals(loginUserId)) {
             throw new Exception403("본인 정보만 수정 가능합니다");
         }
@@ -99,7 +93,7 @@ public class UserService {
 //        updateDTO.setUserPassword(hashedPassword);
 
 
-        selectedUser.update(updateDTO);
+        selectedUser.update(updateProfileRequestDTO);
         return new UserResponse.UpdateDTO(selectedUser);
     }
 

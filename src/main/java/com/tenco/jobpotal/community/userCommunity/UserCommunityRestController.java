@@ -71,14 +71,14 @@ public class UserCommunityRestController {
     // 게시글 수정
     @PutMapping("/community/{id}/update")
     public ResponseEntity<?> CommunityUpdate(@PathVariable(name = "id") Long postId,
-                                             @RequestBody UserCommunityRequest.UpdateDTO updateDTO,
+                                             @RequestBody UserCommunityRequest.UserCommunityUpdateDTO userCommunityUpdateDTO,
                                              @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
         log.info(">> 게시글 수정 시작 << id: {}", postId);
 
         if (loginUser.isCompany()) {
             throw new Exception400("일반회원만 접근 가능합니다.");
         }
-        userCommunityService.communityUpdate(postId, updateDTO, loginUser);
+        userCommunityService.communityUpdate(postId, userCommunityUpdateDTO, loginUser);
         return ResponseEntity.ok(new ApiUtil<>("수정 완료"));
     }
 

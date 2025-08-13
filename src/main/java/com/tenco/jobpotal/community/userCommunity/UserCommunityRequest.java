@@ -25,7 +25,7 @@ public class UserCommunityRequest {
     }
 
     @Data
-    public static class UpdateDTO {
+    public static class UserCommunityUpdateDTO {
         private String title;
         private String content;
         private String instId;

@@ -68,11 +68,11 @@ public class UserRestController {
     @PutMapping("/users/{id}")
     public ResponseEntity<?> updateUser(@PathVariable(name = "id") Long id,
                                         @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser,
-                                        @Valid @RequestBody UserRequest.UpdateDTO updateDTO, Errors errors) {
+                                        @Valid @RequestBody UserRequest.UpdateProfileRequestDTO updateProfileRequestDTO, Errors errors) {
         if (loginUser == null) {
             throw new Exception401("인증 정보가 없습니다");
         }
-        UserResponse.UpdateDTO updateUser = userService.updateById(id, loginUser.getId(), updateDTO);
+        UserResponse.UpdateDTO updateUser = userService.updateById(id, loginUser.getId(), updateProfileRequestDTO);
         return ResponseEntity.ok().body(new ApiUtil<>(updateUser));
     }
 

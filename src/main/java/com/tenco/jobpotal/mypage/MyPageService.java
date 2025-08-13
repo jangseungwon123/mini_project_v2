@@ -8,30 +8,46 @@ import com.tenco.jobpotal.community.userCommunity.UserCommunityRepository;
 import com.tenco.jobpotal.community.userCommunity.UserCommunityResponse;
 import com.tenco.jobpotal.subscribe.UserSubJpaRepository;
 import com.tenco.jobpotal.user.LoginUser;
+import com.tenco.jobpotal.user.normal.User;
 import com.tenco.jobpotal.user.normal.UserJpaRepository;
 import com.tenco.jobpotal.user.normal.UserRequest;
+import com.tenco.jobpotal.user.normal.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 // Summary = 요약
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
 
-    UserSubJpaRepository userSubJpaRepository;
+
     private final UserJpaRepository userJpaRepository;
-    CompCommunityRepository compCommunityRepository;
+
     private final UserCommunityRepository userCommunityRepository;
-    AlarmJpaRepository alarmJpaRepository;
+
 
     // 내 정보 ->
-    public UserRequest.MyProfileDTO getProfile(Long userId) {
-        return userJpaRepository.findProfileDtoById(userId)
-                .orElseThrow(() -> new Exception404("프로필 정보를 찾을 수 없습니다"));
+    public UserResponse.MyProfileDTO myProfile(LoginUser loginUser) {
+        Optional<User> user = userJpaRepository.findById(loginUser.getId()); // --> 이것은 User 반환 --> user를 dto로 변환하기
+
+        return user.map(UserResponse.MyProfileDTO::fromEntity)
+                .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
     }
 
+    // 내 정보 수정
+    @Transactional
+    public void myProfileUpdate(LoginUser loginUser, UserRequest.UpdateProfileRequestDTO updateDTO) {
+        User user = userJpaRepository.findById(loginUser.getId())
+                .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
+
+        user.profileUpdate(updateDTO);
+    }
 
     // 내가 쓴 글 조회-필요한것 : 나[세션]의 id , usercommunity에 따로 쿼리 만들기
 
@@ -40,6 +56,17 @@ public class MyPageService {
                 userCommunityRepository.findAllWithUserByUserId(loginUser.getId(), pageable);
 
         return userCommunities.map(UserCommunityResponse.MyPostResponse::fromEntity);
+    }
+    // 회원 탈퇴 기능
+    public ResponseEntity<String> deleteUser(LoginUser loginUser) {
+        User user = userJpaRepository.findById(loginUser.getId())
+                .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
+        // 사용자 삭제
+        userJpaRepository.delete(user);
+        //Todo 알림, 구독 등 관련 데이터 삭제 - 필요할까 ??
+//        alarmJpaRepository.deleteAllByUserId(loginUser.getId());
+//        userSubJpaRepository.deleteAllByUserId(loginUser.getId());
+        return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
     }
 
 }

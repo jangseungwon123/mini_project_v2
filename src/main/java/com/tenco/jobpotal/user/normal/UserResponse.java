@@ -5,11 +5,11 @@ import com.tenco.jobpotal.company.CompInfo;
 import com.tenco.jobpotal.job_post.JobPost;
 import com.tenco.jobpotal.skill.SkillList;
 import jakarta.persistence.Lob;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Builder
 public class UserResponse {
 
     // 회원가입 후 응답 DTO
@@ -52,8 +52,10 @@ public class UserResponse {
 
     // 회원 정보 수정 후 응답 DTO
     @Data
+    @NoArgsConstructor
     public static class  UpdateDTO {
         private String userName;
+        private String userPassword;
         private String userEmail;
         private String userAddress;
         private String userPhone;
@@ -61,8 +63,10 @@ public class UserResponse {
         private String userImageData;
 
         @Builder
+
         public UpdateDTO(User user) {
             this.userName = user.getUserName();
+            this.userPassword = user.getUserPassword();
             this.userEmail = user.getUserEmail();
             this.userAddress = user.getUserAddress();
             this.userPhone = user.getUserPhone();
@@ -129,4 +133,34 @@ public class UserResponse {
         }
     }
 
+    // 응답 DTO (읽기 전용)
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class MyProfileDTO {
+        private String userName;
+        private String userLoginId;
+        private String userEmail;
+        private String userAddress;
+        private String userPhone;
+        private String userBirth;
+        private String userNickname;
+        private String userGender;
+        private Boolean companyUser;
+
+        // 엔티티 -> DTO 변환
+        public static MyProfileDTO fromEntity(User user) {
+            return MyProfileDTO.builder()
+                    .userName(user.getUserName())
+                    .userLoginId(user.getUserLoginId())
+                    .userEmail(user.getUserEmail())
+                    .userAddress(user.getUserAddress())
+                    .userPhone(user.getUserPhone())
+                    .userBirth(user.getUserBirth())
+                    .userNickname(user.getUserNickname())
+                    .userGender(user.getUserGender())
+                    .companyUser(Boolean.TRUE.equals(user.getIsCompanyUserYn()))
+                    .build();
+        }
+    }
 }

@@ -45,7 +45,7 @@ public class UserCommunityService {
 
     // 게시글 수정
     @Transactional
-    public UserCommunity communityUpdate(Long postId, UserCommunityRequest.UpdateDTO updateDTO, LoginUser loginUser) {
+    public UserCommunity communityUpdate(Long postId, UserCommunityRequest.UserCommunityUpdateDTO userCommunityUpdateDTO, LoginUser loginUser) {
         // 게시글 조회
         UserCommunity userCommunity = userCommunityRepository.findById(postId).orElseThrow(() ->
                 new Exception404("해당 게시글이 존재하지 않습니다.")
@@ -57,7 +57,7 @@ public class UserCommunityService {
         }
 
         // 수정된 내용으로 게시글 업데이트
-        userCommunity.update(updateDTO);
+        userCommunity.update(userCommunityUpdateDTO);
         return userCommunity;
     }
 
