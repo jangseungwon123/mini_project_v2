@@ -3,7 +3,7 @@ package com.tenco.jobpotal.report;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal._core.errors.exception.Exception500;
 import com.tenco.jobpotal.community.userCommunity.UserCommunity;
-import com.tenco.jobpotal.community.userCommunity.UserCommunityRepository;
+import com.tenco.jobpotal.community.userCommunity.UserCommunityJpaRepository;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.normal.User;
 import com.tenco.jobpotal.user.normal.UserJpaRepository;
@@ -20,7 +20,7 @@ public class ReportService {
 
 	private final ReportJpaRepository reportJpaRepository;
 	private final UserJpaRepository userJpaRepository;
-	private final UserCommunityRepository userCommunityRepository;
+	private final UserCommunityJpaRepository userCommunityJpaRepository;
 
 	// 신고하기 기능
 	@Transactional
@@ -32,7 +32,7 @@ public class ReportService {
 
 		User user = userJpaRepository.findById(loginUser.getId())
 				.orElseThrow(() -> new Exception404("존재하지 않는 유저입니다."));
-		UserCommunity userCommunity = userCommunityRepository.findById(createDTO.getPostId())
+		UserCommunity userCommunity = userCommunityJpaRepository.findById(createDTO.getPostId())
 				.orElseThrow(() -> new Exception404("존재하지 않는 게시글입니다."));
 
 		Report report = Report.builder()

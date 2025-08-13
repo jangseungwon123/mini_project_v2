@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/my-page")
 @RequiredArgsConstructor
 @Validated
-public class MyPageController {
+public class MyPageRestController {
     private final UserJpaRepository userJpaRepository;
     private final MyPageService myPageService;
 

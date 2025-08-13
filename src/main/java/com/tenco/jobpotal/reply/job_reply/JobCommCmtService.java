@@ -3,7 +3,7 @@ package com.tenco.jobpotal.reply.job_reply;
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal.community.userCommunity.UserCommunity;
-import com.tenco.jobpotal.community.userCommunity.UserCommunityRepository;
+import com.tenco.jobpotal.community.userCommunity.UserCommunityJpaRepository;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.normal.User;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.List;
 public class JobCommCmtService {
 
     private final JobCommCmtJPARepository jobCommCmtJPARepository;
-    private final UserCommunityRepository userCommunityRepository;
+    private final UserCommunityJpaRepository userCommunityJpaRepository;
 
 
     public List<JobCommCmtResponse.JobCommCmtListDTO> list(int page, int size) {
@@ -50,7 +50,7 @@ public class JobCommCmtService {
     @Transactional
     public JobCommCmtResponse.SaveDTO save(JobCommCmtRequest.SaveDTO saveDTO, LoginUser loginUser) {
 
-        UserCommunity userCommunity = userCommunityRepository.findById(saveDTO.getPostId())
+        UserCommunity userCommunity = userCommunityJpaRepository.findById(saveDTO.getPostId())
                 .orElseThrow(() -> new Exception404("존재하지 않는 게시글에는 댓글을 작성할 수 없습니다."));
 
         User user = User.builder()

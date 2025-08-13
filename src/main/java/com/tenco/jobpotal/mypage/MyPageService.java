@@ -1,12 +1,9 @@
 package com.tenco.jobpotal.mypage;
 
 import com.tenco.jobpotal._core.errors.exception.Exception404;
-import com.tenco.jobpotal.alarm.AlarmJpaRepository;
-import com.tenco.jobpotal.community.compCommunity.CompCommunityRepository;
 import com.tenco.jobpotal.community.userCommunity.UserCommunity;
-import com.tenco.jobpotal.community.userCommunity.UserCommunityRepository;
+import com.tenco.jobpotal.community.userCommunity.UserCommunityJpaRepository;
 import com.tenco.jobpotal.community.userCommunity.UserCommunityResponse;
-import com.tenco.jobpotal.subscribe.UserSubJpaRepository;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.normal.User;
 import com.tenco.jobpotal.user.normal.UserJpaRepository;
@@ -29,7 +26,7 @@ public class MyPageService {
 
     private final UserJpaRepository userJpaRepository;
 
-    private final UserCommunityRepository userCommunityRepository;
+    private final UserCommunityJpaRepository userCommunityJpaRepository;
 
 
     // 내 정보 ->
@@ -53,7 +50,7 @@ public class MyPageService {
 
     public Page<UserCommunityResponse.MyPostResponse> myPosts(LoginUser loginUser, Pageable pageable) {
         Page<UserCommunity> userCommunities =
-                userCommunityRepository.findAllWithUserByUserId(loginUser.getId(), pageable);
+                userCommunityJpaRepository.findAllWithUserByUserId(loginUser.getId(), pageable);
 
         return userCommunities.map(UserCommunityResponse.MyPostResponse::fromEntity);
     }
