@@ -66,5 +66,13 @@ public class CompRatingService {
         compRatingJpaRepository.delete(compRating);
     }
 
+    public CompRatingResponse.AvgScoreDTO getAverageScore(Long compUserId){
+        compUserJpaRepository.findById(compUserId)
+                .orElseThrow(() -> new Exception404("존재하지 않는 회사입니다."));
+        Double avgScore = compRatingJpaRepository.findAverageScoreBycompUserId(compUserId);
+        String message = (avgScore == null) ? "평점 등록되지 않은 회사입니다." : "기업의 평균 평점입니다.";
+        return new CompRatingResponse.AvgScoreDTO(compUserId, avgScore ,message );
+    }
+
 
 }

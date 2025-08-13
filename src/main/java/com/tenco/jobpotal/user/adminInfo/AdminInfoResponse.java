@@ -34,14 +34,12 @@ public class AdminInfoResponse {
     // 회원 정보 수정 후 응답 DTO
     @Data
     public static class UpdateDTO {
-        private String adminName;
-        private String adminEmail;
-        private String adminPhone;
+        private String currentPassword;
+        private String newPassword;
 
         public UpdateDTO(AdminInfo adminInfo) {
-            this.adminName = adminInfo.getAdminName();
-            this.adminEmail = adminInfo.getAdminEmail();
-            this.adminPhone = adminInfo.getAdminPhone();
+            this.currentPassword= adminInfo.getAdminPassword();
+            this.newPassword = adminInfo.getAdminPassword();
         }
     }
 
@@ -54,10 +52,10 @@ public class AdminInfoResponse {
         private String adminPhone;
 
         public DetailDTO(AdminInfo adminInfo) {
-            this.adminLoginId = adminLoginId;
-            this.adminName = adminName;
-            this.adminEmail = adminEmail;
-            this.adminPhone = adminPhone;
+            this.adminLoginId = adminInfo.getAdminLoginId();
+            this.adminName = adminInfo.getAdminName();
+            this.adminEmail = adminInfo.getAdminEmail();
+            this.adminPhone = adminInfo.getAdminPhone();
         }
     }
 

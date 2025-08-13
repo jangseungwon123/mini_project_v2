@@ -41,11 +41,4 @@ public class AdminInfo {
         this.adminPhone = adminPhone;
     }
 
-    public void update(AdminInfoRequest.UpdateDTO updateDTO) {
-        this.adminPassword = updateDTO.getNewPassword();
-        this.adminName = updateDTO.getAdminName();
-        this.adminEmail = updateDTO.getAdminEmail();
-        this.adminPhone = updateDTO.getAdminPhone();
-    }
-
 }

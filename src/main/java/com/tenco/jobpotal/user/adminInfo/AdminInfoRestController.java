@@ -60,12 +60,9 @@ public class AdminInfoRestController {
     @PutMapping("/admins/{id}")
     public ResponseEntity<?> updateAdminInfo(@PathVariable(name = "id") Long id,
                                              @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser,
-                                             @Valid @RequestBody AdminInfoRequest.UpdateDTO updateDTO){
-        if (loginUser == null){
-            throw new Exception401("인증 정보가 없습니다.");
-        }
-        AdminInfoResponse.UpdateDTO updateAdminInfo = adminInfoService.updateByAdmin(id, loginUser.getId(), updateDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(updateAdminInfo));
+                                             @Valid @RequestBody AdminInfoRequest.UpdateDTO updateDTO, Errors errors){
+        adminInfoService.updateByAdmin(id, updateDTO, loginUser);
+        return ResponseEntity.ok().body(new ApiUtil<>("수정되었습니다."));
     }
 
     @Operation(summary = "로그아웃", description = "관리자 로그아웃")
@@ -73,6 +70,16 @@ public class AdminInfoRestController {
     public ResponseEntity<?> adminLogout() {
         return ResponseEntity.ok(new ApiUtil<>("로그아웃 성공"));
     }
+
+    @Operation(summary = "계정 삭제" , description = "관리자 계정 삭제")
+    @DeleteMapping("/admins/{id}/delect")
+    public ResponseEntity<?> adminDelete(@PathVariable(name = "id") Long id,
+            @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser){
+        adminInfoService.deleteByAdmin(loginUser, id);
+        return ResponseEntity.ok(new ApiUtil<>("삭제 완료"));
+    }
+
+
 
 
 
