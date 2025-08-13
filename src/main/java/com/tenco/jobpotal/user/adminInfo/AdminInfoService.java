@@ -58,6 +58,7 @@ public class AdminInfoService {
         return jwt;
     }
     // 내 정보 조회
+
     public AdminInfoResponse.DetailDTO findByMyId( LoginUser loginUser) {
         if(loginUser == null){
             throw new Exception403("로그인 정보가 없습니다.");

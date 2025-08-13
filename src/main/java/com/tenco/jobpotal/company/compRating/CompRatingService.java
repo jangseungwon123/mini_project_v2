@@ -4,6 +4,7 @@ package com.tenco.jobpotal.company.compRating;
 import com.tenco.jobpotal._core.errors.exception.Exception400;
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
+import com.tenco.jobpotal.resume.Resume;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.applInfo.ApplInfo;
 import com.tenco.jobpotal.user.applInfo.ApplInfoJpaRepository;
