@@ -18,10 +18,10 @@ public class JobCommCmtRequest {
         @Size(min = 20, max = 100, message = "내용을 최소 20자 최대 100자로 입력 해주세요.")
         private String content;
 
-        public JobCommCmt toEntity(User loginUser, UserCommunity userCommunity) {
+        public JobCommCmt toEntity(User user, UserCommunity userCommunity) {
             return JobCommCmt.builder()
                     .content(content.trim())
-                    .user(loginUser)
+                    .user(user)
                     .userCommunity(userCommunity)
                     .build();
         }
@@ -34,13 +34,12 @@ public class JobCommCmtRequest {
         @Size(min = 20, max = 100, message = "내용을 최소 20자 최대 100자로 입력 해주세요.")
         private String content;
 
-        public JobCommCmt toEntity(User loginUser, UserCommunity userCommunity) {
-            return JobCommCmt.builder()
-                    .content(content.trim())
-                    .user(loginUser)
-                    .userCommunity(userCommunity)
-                    .build();
-        }
+//        public JobCommCmt toEntity(User user, UserCommunity userCommunity) {
+//            return JobCommCmt.builder()
+//                    .content(content.trim())
+//                    .user(user)
+//                    .userCommunity(userCommunity)
+//                    .build();
+//        }
     }
-
 }

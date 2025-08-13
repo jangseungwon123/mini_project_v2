@@ -17,7 +17,7 @@ public class JobCommCmtResponse {
         public JobCommCmtListDTO(JobCommCmt jobCommCmt) {
             this.jobCommCmtId = jobCommCmt.getJobCommCmtId();
             this.content = jobCommCmt.getContent();
-            this.author = jobCommCmt.getUser().getUserNickname();
+            this.author = jobCommCmt.getWriterName();
             this.createdAt = jobCommCmt.getCreatedAt().toString();
         }
     }

@@ -29,7 +29,7 @@ public class JobCommCmtService {
     public List<JobCommCmtResponse.JobCommCmtListDTO> list(int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<JobCommCmt> jobCommCmtPage = jobCommCmtJPARepository.findAllJoinCommunity(pageable);
+        Page<JobCommCmt> jobCommCmtPage = jobCommCmtJPARepository.findAllJoinUserCommunity(pageable);
         List<JobCommCmtResponse.JobCommCmtListDTO> jobCommCmtList = new ArrayList<>();
 
         for (JobCommCmt jobCommCmt : jobCommCmtPage.getContent()) {
@@ -41,7 +41,7 @@ public class JobCommCmtService {
 
     public JobCommCmtResponse.DetailDTO detail(Long id, LoginUser loginUser) {
 
-        JobCommCmt jobCommCmt = jobCommCmtJPARepository.findByIdJoinCommunity(id).orElseThrow(
+        JobCommCmt jobCommCmt = jobCommCmtJPARepository.findByIdJoinUserCommunity(id).orElseThrow(
                 () -> new Exception404("댓글을 찾을 수 없습니다"));
 
         return new JobCommCmtResponse.DetailDTO(jobCommCmt, loginUser);
@@ -56,7 +56,7 @@ public class JobCommCmtService {
         User user = User.builder()
                 .userId(loginUser.getId())
                 .userName(loginUser.getName())
-                .userEmail(loginUser.getUserNickName())
+                .userNickname(loginUser.getUserNickName())
                 .build();
 
         JobCommCmt jobCommCmt = saveDTO.toEntity(user, userCommunity);
@@ -82,7 +82,7 @@ public class JobCommCmtService {
     @Transactional
     public JobCommCmtResponse.UpdateDTO update(Long id, JobCommCmtRequest.UpdateDTO updateDTO, LoginUser loginUser) {
 
-        JobCommCmt jobCommCmt = jobCommCmtJPARepository.findByIdJoinCommunity(id).orElseThrow(() ->
+        JobCommCmt jobCommCmt = jobCommCmtJPARepository.findByIdJoinUserCommunity(id).orElseThrow(() ->
                 new Exception404("해당 댓글이 존재하지 않습니다"));
 
         if (!jobCommCmt.isOwner(loginUser.getId())) {

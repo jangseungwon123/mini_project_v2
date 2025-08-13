@@ -41,7 +41,7 @@ public class JobCommCmtRestController {
 
     @Operation(summary = "구직자 커뮤니티 댓글 저장 기능")
     @PostMapping("/jobcommcmts")
-    public ResponseEntity<?> save(@Valid @RequestBody JobCommCmtRequest.SaveDTO saveDTO, Errors errors,
+    public ResponseEntity<?> save(@Valid @RequestBody JobCommCmtRequest.SaveDTO saveDTO,
                                   @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
 
         JobCommCmtResponse.SaveDTO saveJobCommCmt = jobCommCmtService.save(saveDTO, loginUser);
@@ -53,7 +53,6 @@ public class JobCommCmtRestController {
     @PutMapping("/jobcommcmts/{id}")
     public ResponseEntity<?> update(@Valid @PathVariable(name = "id")Long id,
                                     @RequestBody JobCommCmtRequest.UpdateDTO updateDTO,
-                                    Errors errors,
                                     @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser){
         JobCommCmtResponse.UpdateDTO updateJobCommCmt = jobCommCmtService.update(id,updateDTO,loginUser);
         return ResponseEntity.ok(new ApiUtil<>(updateJobCommCmt));

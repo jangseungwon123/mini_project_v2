@@ -25,7 +25,7 @@ public class JobCommCmt {
      @JoinColumn(name = "user_id",nullable = false)
      private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 성능상의 문제로 프로젝트에선 LAZY 전략만 사용
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private UserCommunity userCommunity;
 
