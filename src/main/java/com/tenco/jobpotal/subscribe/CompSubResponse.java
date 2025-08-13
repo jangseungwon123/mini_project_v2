@@ -12,26 +12,19 @@ public class CompSubResponse {
         private Long compSubId;
         private Long compId;
         private Long userId;
-        private String companyDesc;
-        private String companyCeoName;
-        private String homepageUrl;
-        private String phoneNumber;
-        private String companyEmail;
-        private String companyAddress;
-        private String companyImageData;
+        private String userEmail;
+        private String userBirth;
+        private String userGender;
+
         private String compSubDate;
 
         public SubListDTO(CompSub compSub) {
             this.compSubId = compSub.getCompSubId();
             this.compId = compSub.getCompInfo().getCompId();
             this.userId = compSub.getUser().getUserId();
-            this.companyDesc = compSub.getCompInfo().getCompanyDesc();
-            this.companyCeoName = compSub.getCompInfo().getCompanyCeoName();
-            this.homepageUrl = compSub.getCompInfo().getHomepageUrl();
-            this.phoneNumber = compSub.getCompInfo().getPhoneNumber();
-            this.companyEmail = compSub.getCompInfo().getCompanyEmail();
-            this.companyAddress = compSub.getCompInfo().getCompanyAddress();
-            this.companyImageData = compSub.getCompInfo().getCompanyImageData();
+            this.userEmail = compSub.getUser().getUserEmail();
+            this.userBirth = compSub.getUser().getUserBirth();
+            this.userGender = compSub.getUser().getUserGender();
             this.compSubDate = compSub.getTime();
         }
     }
