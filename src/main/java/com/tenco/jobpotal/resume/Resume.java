@@ -23,12 +23,9 @@ public class Resume {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_skill_list_no")
     private UserSkillList userSkillList;
-//    private List<UserSkillList> userSkillList;
-
-
 
     @Column(nullable = false)
     private String name;
@@ -56,9 +53,8 @@ public class Resume {
     private Timestamp instDate;
 
 
-
     @Builder
-    public Resume(Long resumeId,String name, User user,UserSkillList userSkillList, String title, String content, String phone, String address, String birth, String email, String gender, char isExperienced, char isShow, Timestamp instDate) {
+    public Resume(Long resumeId, String name, User user, UserSkillList userSkillList, String title, String content, String phone, String address, String birth, String email, String gender, char isExperienced, char isShow, Timestamp instDate) {
         this.resumeId = resumeId;
         this.name = name;
         this.user = user;
