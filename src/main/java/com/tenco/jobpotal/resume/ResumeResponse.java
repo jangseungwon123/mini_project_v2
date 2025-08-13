@@ -79,7 +79,7 @@ public class ResumeResponse {
         private String gender;
         private char isExperienced;
 
-        @Builder
+
         public DetailDTO(Resume resume, LoginUser loginUser) {
             this.resumeId = resume.getResumeId();
             this.name = resume.getName();

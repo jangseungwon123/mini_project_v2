@@ -20,4 +20,7 @@ public interface ResumeJpaRepository extends JpaRepository<Resume,Long> {
     @Query("SELECT r FROM Resume r JOIN FETCH r.user u ORDER BY r.id DESC")
     Page<Resume> findAllJoinUser(Pageable pageable);
 
+    @Query("SELECT r FROM Resume r JOIN FETCH r.userSkillList WHERE r.id = :id")
+    Optional<Resume> findByIdWithSkillList(@Param("id") Long id);
+
 }

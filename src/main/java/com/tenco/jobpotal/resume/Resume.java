@@ -1,6 +1,5 @@
 package com.tenco.jobpotal.resume;
 
-import com.tenco.jobpotal.skill.SkillList;
 import com.tenco.jobpotal.user.normal.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -27,6 +26,7 @@ public class Resume {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_skill_list_no")
     private UserSkillList userSkillList;
+//    private List<UserSkillList> userSkillList;
 
 
 
