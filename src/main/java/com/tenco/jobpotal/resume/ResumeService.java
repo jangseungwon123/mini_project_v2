@@ -7,6 +7,7 @@ import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.normal.User;
 import com.tenco.jobpotal.user.normal.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,60 +17,70 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class ResumeService {
 
     private final ResumeJpaRepository resumeJpaRepository;
-    private final UserJpaRepository userJpaRepository;
     private final SkillListJpaRepository skillListJpaRepository;
     private final UserSkillListRepository userSkillListRepository;
-
-//    @Transactional
-//    public void save(ResumeRequest.SaveDTO saveDTO,LoginUser loginUser){
-//        // 1. 사용자 인증
-//        User user = userJpaRepository.findById(loginUser.getId())
-//                .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다"));
-//
-//        // 2. 이력서 본문 저장
-//        Resume resume = resumeJpaRepository.save(saveDTO.toEntity(user));
-//
-//        // 3. 스킬 리스트 처리
-//        if (saveDTO.getSkillId() != null && !saveDTO.getSkillId().isEmpty()) {
-//            // 3.1. 요청된 skillId에 해당하는 SkillList 엔티티들을 한 번에 조회
-//            List<SkillList> skills = skillListJpaRepository.findAllBySkillIdIn(saveDTO.getSkillId());
-//            if (skills.size() != saveDTO.getSkillId().size()) {
-//                throw new Exception404("존재하지 않는 스킬이 포함되어 있습니다.");
-//            }
-//
-//            List<UserSkillList> userSkillLists = skills.stream().map(skill ->
-//                    UserSkillList.builder()
-//                            .user(user)
-//                            .resume(resume)
-//                            .skillList(skill)
-//                            .instId(loginUser.getName()) // DTO의 name 대신 로그인 유저 이름 사용 권장
-//                            .build()
-//            ).collect(Collectors.toList());
-//
-//            userSkillListRepository.saveAll(userSkillLists);
-//        }
-//    }
+    private final UserJpaRepository userJpaRepository;
 
     @Transactional
-    public ResumeResponse.UpdateDTO update(Long id, ResumeRequest.UpdateDTO updateDTO,
-                                           LoginUser loginUser) {
+    public void save(ResumeRequest.SaveDTO saveDTO,LoginUser loginUser ) {
+        User user = userJpaRepository.findById(loginUser.getId()).orElseThrow(
+                () -> new Exception404("사용자를 찾을 수 없습니다."));
+        Resume resume = resumeJpaRepository.save(saveDTO.toEntity(user));
+        SkillList SkillStack = skillListJpaRepository.findBySkillId(saveDTO.getSkillId()).orElseThrow(
+                () -> new Exception404("스킬을 찾을 수 없습니다."));
 
+        UserSkillList userSkillSetting = UserSkillList.builder()
+                .user(user)
+                .resume(resume)
+                .skillList(SkillStack)
+                .instId(saveDTO.getName())
+                .build();
+
+        userSkillListRepository.save(userSkillSetting);
+
+        resume.setUserSkillList(userSkillSetting);
+    }
+
+
+
+    @Transactional
+    public void update(Long id, ResumeRequest.UpdateDTO updateDTO,
+                                           LoginUser loginUser) {
+        User user = userJpaRepository.findById(loginUser.getId()).orElseThrow(() ->
+                new Exception404("사용자를 찾지 못했습니다"));
+        log.info("user 조회 및 확인 : {}", user );
         Resume resume = resumeJpaRepository.findByIdJoinUser(id).orElseThrow(() ->
                 new Exception404("해당 이력서가 존재하지 않습니다"));
 
-        SkillList skillList = skillListJpaRepository.findBySkillId(updateDTO.getSkillId())
+        SkillList skillStack = skillListJpaRepository.findBySkillId(updateDTO.getSkillId())
                 .orElseThrow(() -> new Exception404("스킬을 찾을 수 없습니다."));
 
+        // 이력서 수정 진행
         resume.update(updateDTO);
 
-        return new ResumeResponse.UpdateDTO(resume);
+        log.info("if 체킹 전");
+        if (!resume.getUserSkillList().getSkillList().getSkillId().equals(updateDTO.getSkillId())) {
+            log.info("if 체크 시작");
+            UserSkillList userSkillSetting = UserSkillList.builder()
+                    .user(user)
+                    .resume(resume)
+                    .skillList(skillStack)
+                    .instId(updateDTO.getName())
+                    .build();
+            log.info("빌더 객체 생성 완료");
+            //더티체킹을 통해 SKILL 정보 업데이트
+            resume.setUserSkillList(userSkillSetting);
+            log.info("resume userSkillList 업데이트 완료");
+        }
+        log.info("전체 업데이트 완료");
     }
 
     @Transactional
@@ -83,6 +94,8 @@ public class ResumeService {
 
         Resume resume = resumeJpaRepository.findByIdJoinUser(id).orElseThrow(
                 () -> new Exception404("이력서를 찾을 수 없습니다"));
+
+
         return new ResumeResponse.DetailDTO(resume, loginUser);
     }
 

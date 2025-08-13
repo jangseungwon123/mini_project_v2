@@ -6,6 +6,7 @@ import com.tenco.jobpotal.user.LoginUser;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -40,27 +41,15 @@ public class ResumeRestController {
     }
 
 
-//    @Operation(summary = "이력서 저장")
-//    @PostMapping("/resumes")
-//    public ResponseEntity<?> save(@Valid @RequestBody ResumeRequest.SaveDTO saveDTO,
-//                                  Errors errors,
-//                                  @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser) {
-//
-//        ResumeResponse.SaveDTO saveResume = resumeService.save(saveDTO,loginUser);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(saveResume));
-//    }
+    @Operation(summary = "이력서 저장")
+    @PostMapping("/resumes")
+    public ResponseEntity<?> save(@Valid @RequestBody ResumeRequest.SaveDTO saveDTO,
+                                  Errors errors,
+                                  @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser) {
 
-//    @Operation(summary = "이력서 저장")
-//    @PostMapping("/resumes")
-//    public ResponseEntity<?> save(@Valid @RequestBody ResumeRequest.SaveDTO saveDTO,
-//                                  Errors errors,
-//                                  @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser) {
-//
-//        // 1. loginUser.getId() -> saveDto.setUserId(loginUser.getId);
-//        // 2. 서비스단에서 loginUser 객체에 있는 id값을 활용해서 User 조회.
-//        resumeService.save(saveDTO,loginUser);
-//        return ResponseEntity.ok(new ApiUtil<>("이력서 저장 완료"));
-//    }
+        resumeService.save(saveDTO,loginUser);
+        return ResponseEntity.ok(new ApiUtil<>("이력서 저장 완료"));
+    }
 
     @Operation(summary = "이력서 수정")
     @PutMapping("/resumes/{id}")
@@ -69,8 +58,8 @@ public class ResumeRestController {
                                     Errors errors,
                                     @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser) {
 
-        ResumeResponse.UpdateDTO updateResume = resumeService.update(id, updateDTO, loginUser);
-        return ResponseEntity.ok(new ApiUtil<>(updateResume));
+        resumeService.update(id,updateDTO,loginUser);
+        return ResponseEntity.ok(new ApiUtil<>("이력서 수정 완료"));
     }
 
     @Operation(summary = "이력서 삭제")
