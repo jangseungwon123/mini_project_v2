@@ -83,15 +83,40 @@ public class AdminInfoService {
     }
 
 
-    // 관리자 정보 조회
-    public AdminInfoResponse.UpdateDTO updateByAdmin(Long requestAdminId, Long loginAdminId, AdminInfoRequest.UpdateDTO updateDTO) {
-        if (!requestAdminId.equals(loginAdminId)) {
-            throw new Exception403("본인 정보만 수정 가능합니다");
+    // 관리자 정보 수정
+    @Transactional
+    public void updateByAdmin(Long adminId, AdminInfoRequest.UpdateDTO updateDTO, LoginUser loginUser) {
+        if(!loginUser.getId().equals(adminId)){
+            throw new Exception403("자신의 비밀번호만 수정할 수 있습니다");}
+        AdminInfo adminInfo = adminInfoJpaRepository.findById(adminId).orElseThrow(() -> {
+            throw new Exception403("해당 관리자를 찾을 수 없습니다.");});
+        if(!adminInfo.getAdminPassword().equals(updateDTO.getCurrentPassword())){
+            throw new Exception400("비밀번호가 일치하지 않습니다. 다시 입력해주세요");
         }
-        AdminInfo selectedAdmin = adminInfoJpaRepository.findById(requestAdminId).orElseThrow(() -> {
-            throw new Exception404("사용자를 찾을 수 없습니다") ;
-        });
-        selectedAdmin.update(updateDTO);
-        return new AdminInfoResponse.UpdateDTO(selectedAdmin);
+        if(adminInfo.getAdminPassword().equals(updateDTO.getNewPassword())){
+            throw new Exception400("같은 비밀번호로 바꿀 수 없습니다.");
+        }
+        adminInfo.setAdminPassword(updateDTO.getNewPassword());
     }
+
+    @Transactional
+    public void deleteByAdmin(LoginUser loginUser, Long adminId) {
+    AdminInfo adminInfo = adminInfoJpaRepository.findById(adminId)
+            .orElseThrow(() -> new Exception404("존재하지 않는 관리자입니다."));
+    if (!adminInfo.getAdminId().equals(loginUser.getId())) {
+        throw new Exception403("본인 계정만 삭제할 수 있습니다.");
+    }
+        adminInfoJpaRepository.delete(adminInfo);
+    }
+//    public AdminInfoResponse.UpdateDTO updateByAdmin(Long requestAdminId, Long loginAdminId, AdminInfoRequest.UpdateDTO updateDTO) {
+//        if (!requestAdminId.equals(loginAdminId)) {
+//            throw new Exception403("본인 정보만 수정 가능합니다");
+//        }
+//        AdminInfo selectedAdmin = adminInfoJpaRepository.findById(requestAdminId).orElseThrow(() -> {
+//            throw new Exception404("사용자를 찾을 수 없습니다") ;
+//        });
+//        selectedAdmin.update(updateDTO);
+//        return new AdminInfoResponse.UpdateDTO(selectedAdmin);
+//    }
+
 }
