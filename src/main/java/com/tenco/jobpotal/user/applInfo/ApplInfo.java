@@ -1,12 +1,17 @@
 package com.tenco.jobpotal.user.applInfo;
+
 import com.tenco.jobpotal._core.utils.MyDateUtil;
 import com.tenco.jobpotal.job_post.JobPost;
 import com.tenco.jobpotal.resume.Resume;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,8 +34,6 @@ public class ApplInfo {
     @JoinColumn(name = "job_post_id")
     private JobPost jobPost;
 
-
-
     // 합/불 정보
     @Column(nullable = false)
     private String status = "대기";
@@ -39,31 +42,22 @@ public class ApplInfo {
     @CreationTimestamp
     private Timestamp createdAt;
 
-
     @Transient
     private boolean isApplInfoOwner;
-    public boolean isOwner(Long checkUserId){
+
+    public boolean isOwner(Long checkUserId) {
         return this.resume.getUser().getUserId().equals(checkUserId);
     }
 
     @Transient
     private boolean isAccepted;
+
     public boolean isAccepted() {
         return "합격".equals(this.status);
     }
 
-
-    public String getTime(){
+    public String getTime() {
         return MyDateUtil.timestampFormat(createdAt);
     }
 
-//    public ApplInfo(Long applInfoId, Resume resume, JobPost jobPost, String status, Timestamp createdAt, boolean isApplInfoOwner, boolean isAccepted) {
-//        this.applInfoId = applInfoId;
-//        this.resume = resume;
-//        this.jobPost = jobPost;
-//        this.status = status;
-//        this.createdAt = createdAt;
-//        this.isApplInfoOwner = isApplInfoOwner;
-//        this.isAccepted = isAccepted;
-//    }
 }

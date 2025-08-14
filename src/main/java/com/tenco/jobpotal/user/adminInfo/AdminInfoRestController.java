@@ -2,15 +2,11 @@ package com.tenco.jobpotal.user.adminInfo;
 
 import com.tenco.jobpotal._core.common.ApiUtil;
 import com.tenco.jobpotal._core.errors.exception.Exception401;
-import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.utils.Define;
 import com.tenco.jobpotal.user.LoginUser;
-import com.tenco.jobpotal.user.normal.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -27,28 +23,28 @@ public class AdminInfoRestController {
     @PostMapping("/admins/join")
     public ResponseEntity<?> adminJoin(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser,
                                        @Valid @RequestBody AdminInfoRequest.AdminJoinDTO joinDTO,
-                                       Errors errors){
+                                       Errors errors) {
         if (loginUser == null) {
             throw new Exception401("인증 정보가 없습니다");
         }
-        AdminInfoResponse.JoinDTO joinAdmin = adminInfoService.join(joinDTO,loginUser);
+        AdminInfoResponse.JoinDTO joinAdmin = adminInfoService.join(joinDTO, loginUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiUtil<>(joinAdmin));
     }
 
     @Operation(summary = "로그인", description = "관리자 로그인")
     @PostMapping("/admins/login")
-    public ResponseEntity<?> adminLogin(@Valid @RequestBody AdminInfoRequest.LoginDTO loginDTO, Errors errors){
+    public ResponseEntity<?> adminLogin(@Valid @RequestBody AdminInfoRequest.LoginDTO loginDTO, Errors errors) {
         String jwtToken = adminInfoService.login(loginDTO);
         return ResponseEntity.ok()
-                .header("Authorization", "Bearer " +jwtToken)
+                .header("Authorization", "Bearer " + jwtToken)
                 .body(new ApiUtil<>(null));
     }
 
     @Operation(summary = "관리자 조회", description = "자신의 정보 또는 다른 관리자의 정보를 조회한다.")
     @GetMapping("/admins/{id}")
     public ResponseEntity<?> getAdminInfo(@PathVariable(name = "id") Long id,
-                                         @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser){
-        if (loginUser == null){
+                                          @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
+        if (loginUser == null) {
             throw new Exception401("인증 정보가 없습니다");
         }
         AdminInfoResponse.DetailDTO adminDetail = adminInfoService.findByTargetId(id, loginUser);
@@ -59,8 +55,8 @@ public class AdminInfoRestController {
     @Operation(summary = "관리자 정보 수정", description = "관리자 정보를 수정한다.")
     @PutMapping("/admins/{id}")
     public ResponseEntity<?> updateAdminInfo(@PathVariable(name = "id") Long id,
-                                             @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser,
-                                             @Valid @RequestBody AdminInfoRequest.UpdateDTO updateDTO, Errors errors){
+                                             @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser,
+                                             @Valid @RequestBody AdminInfoRequest.UpdateDTO updateDTO, Errors errors) {
         adminInfoService.updateByAdmin(id, updateDTO, loginUser);
         return ResponseEntity.ok().body(new ApiUtil<>("수정되었습니다."));
     }
@@ -71,16 +67,13 @@ public class AdminInfoRestController {
         return ResponseEntity.ok(new ApiUtil<>("로그아웃 성공"));
     }
 
-    @Operation(summary = "계정 삭제" , description = "관리자 계정 삭제")
+    @Operation(summary = "계정 삭제", description = "관리자 계정 삭제")
     @DeleteMapping("/admins/{id}/delect")
     public ResponseEntity<?> adminDelete(@PathVariable(name = "id") Long id,
-            @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser){
+                                         @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
         adminInfoService.deleteByAdmin(loginUser, id);
         return ResponseEntity.ok(new ApiUtil<>("삭제 완료"));
     }
-
-
-
 
 
 }

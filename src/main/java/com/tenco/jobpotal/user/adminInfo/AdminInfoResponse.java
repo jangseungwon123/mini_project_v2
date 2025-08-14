@@ -38,7 +38,7 @@ public class AdminInfoResponse {
         private String newPassword;
 
         public UpdateDTO(AdminInfo adminInfo) {
-            this.currentPassword= adminInfo.getAdminPassword();
+            this.currentPassword = adminInfo.getAdminPassword();
             this.newPassword = adminInfo.getAdminPassword();
         }
     }
