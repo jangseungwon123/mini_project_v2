@@ -51,8 +51,8 @@ public class JobCommCmtRestController {
 
     @Operation(summary = "구직자 커뮤니티 댓글 수정")
     @PutMapping("/jobcommcmts/{id}")
-    public ResponseEntity<?> update(@Valid @PathVariable(name = "id")Long id,
-                                    @RequestBody JobCommCmtRequest.UpdateDTO updateDTO,
+    public ResponseEntity<?> update(@PathVariable(name = "id")Long id,
+                                    @Valid @RequestBody JobCommCmtRequest.UpdateDTO updateDTO,
                                     @RequestAttribute(Define.LOGIN_USER)LoginUser loginUser){
         JobCommCmtResponse.UpdateDTO updateJobCommCmt = jobCommCmtService.update(id,updateDTO,loginUser);
         return ResponseEntity.ok(new ApiUtil<>(updateJobCommCmt));

@@ -34,6 +34,7 @@ public class ResumeService {
         User user = userJpaRepository.findById(loginUser.getId()).orElseThrow(
                 () -> new Exception404("사용자를 찾을 수 없습니다."));
         Resume resume = resumeJpaRepository.save(saveDTO.toEntity(user));
+        if (resume == null){ throw new Exception404("이력서를 찾을 수 없습니다");}
         SkillList SkillStack = skillListJpaRepository.findBySkillId(saveDTO.getSkillId()).orElseThrow(
                 () -> new Exception404("스킬을 찾을 수 없습니다."));
 
