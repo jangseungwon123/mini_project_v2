@@ -21,7 +21,7 @@ public class ResumeRestController {
     private final ResumeService resumeService;
 
     @Operation(summary = "이력서 목록조회")
-    @GetMapping("/")
+    @GetMapping("/resumes")
     public ResponseEntity<ApiUtil<List<ResumeResponse.ResumeListResponseDTO>>> resumeList(
             @RequestParam(name = "page",defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "5")int size){
