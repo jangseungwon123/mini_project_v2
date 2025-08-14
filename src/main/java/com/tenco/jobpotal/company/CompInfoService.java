@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -64,6 +65,13 @@ public class CompInfoService {
     public CompInfo companyInfoInsert(CompInfoRequest.SaveDTO saveDTO, LoginUser loginUser, CompUser compUser) {
         CompUser foundCompUser = compUserJpaRepository.findById(compUser.getCompUserId())
                 .orElseThrow(() -> new Exception404("존재하지 않는 유저입니다."));
+
+        Optional<CompInfo> compInfo = compInfoJpaRepository.findByCompInfo(foundCompUser.getCompUserId());
+
+        if (compInfo.isPresent()) {
+            throw new Exception400("이미 해당 기업회원으로 등록한 기업 정보가 있습니다.");
+        }
+
         return compInfoJpaRepository.save(saveDTO.toEntity(loginUser,compUser));
     }
 
@@ -102,48 +110,4 @@ public class CompInfoService {
 
         compInfoJpaRepository.deleteById(id);
     }
-
-    /*
-    public Page<CompanyReview> findCompanyReviewByCompanyId(Pageable pageable, Long companyId) {
-
-        log.info("기업 리뷰 조회 서비스 시작");
-
-        return companyReviewJpaRepository.findReviewsJoinCompanyInfo(pageable, companyId);
-    }
-
-    public List<CompanyReview> findCompanyReviewByCompanyId(Long companyId) {
-
-        log.info("기업 리뷰 조회 서비스 시작");
-
-        return companyReviewJpaRepository.findReviewsJoinCompanyInfo(companyId);
-    }
-
-    public Long countReviewsByUserId(Long id) {
-        log.info("기업 리뷰 작성 여부 확인 시작");
-
-        return companyReviewJpaRepository.countByUserId(id);
-    }
-
-    @Transactional
-    public void companyReviewInsert(CompanyReview saveReview) {
-
-        log.info("기업 리뷰 등록 서비스 시작");
-
-        companyReviewJpaRepository.save(saveReview);
-    }
-
-    @Transactional
-    public void companyReviewDelete(Long reviewId) {
-        log.info("기업 리뷰 삭제 서비스 시작");
-
-        companyReviewJpaRepository.deleteById(reviewId);
-    }
-
-    // 기업 정보 등록여부 조회
-    // 기업 등록 시 한 사람 당 하나의 기업 정보를 등록 할 수 있음
-    public CompanyInfo findCompanyInfoByUserId(Long compUserId) {
-
-        return companyJpaRepository.findCompanyInfoByCompUserId(compUserId);
-    }
-    */
 }
