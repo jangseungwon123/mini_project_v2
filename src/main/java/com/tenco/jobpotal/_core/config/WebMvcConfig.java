@@ -29,26 +29,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         , "/api/compUsers/login"
                         , "/api/company/list"
                         , "/api/company/{id:\\d+}"
-<<<<<<< HEAD
                         ,"/api/login"
                         ,"/api/logout"
+                        ,"/api/compUsers/logout"
+                        ,"/admins/logout"
                         ,"/api/join"
                         ,"/api/community/list"
                         ,"/api/comp-community/list"
                         ,"/api/admins/login"
                         ,"/api/faq"
                         ,"/api/faq/{id:\\d+}"
-=======
-                        , "/api/login"
-                        , "/api/logout"
-                        , "/api/compUsers/logout"
-                        , "/admins/logout"
-                        , "/api/join"
-                        , "/api/community/list"
-                        , "/api/comp-community/list"
-                        , "/api/admins/login"
-                        , "/api/comprating/{id:\\d+}/average"
->>>>>>> 72c650570547450b8fde2649f06d3505e3859dd6
+                        ,"/api/comprating/{id:\\d+}/average"
                 );
 
     }
