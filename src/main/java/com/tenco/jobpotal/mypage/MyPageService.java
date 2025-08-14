@@ -72,7 +72,7 @@ public class MyPageService {
         //userSubJpaRepository.deleteAllById(user.getUserId());
         return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
     }
-
+// 내가 스크랩한 공고
 
 
 

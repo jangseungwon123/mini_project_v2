@@ -18,7 +18,7 @@ public class CompCommunityRequest {
                     .compUser(compUser)
                     .title(title)
                     .content(content)
-                    .instId(instId)
+                    .instId(compUser.getCompUserLoginId())
                     .postPassword(postPassword)
                     .build();
         }
