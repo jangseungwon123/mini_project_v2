@@ -5,6 +5,7 @@ import com.tenco.jobpotal._core.errors.exception.Exception400;
 import com.tenco.jobpotal._core.utils.Define;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.normal.User;
+import com.tenco.jobpotal.user.normal.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class UserCommunityRestController {
                                           @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
 
         if(loginUser.isCompany()){
-            new Exception400("일반회원만 접근 가능합니다.");
+            throw new Exception400("일반회원만 접근 가능합니다.");
         }
         log.info(">> 게시글 조회 시작 << id: {}", id);
         // 게시글 조회 서비스 호출
@@ -71,14 +72,14 @@ public class UserCommunityRestController {
     // 게시글 수정
     @PutMapping("/community/{id}/update")
     public ResponseEntity<?> CommunityUpdate(@PathVariable(name = "id") Long postId,
-                                             @RequestBody UserCommunityRequest.UpdateDTO updateDTO,
+                                             @RequestBody UserCommunityRequest.UserCommunityUpdateDTO userCommunityUpdateDTO,
                                              @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
         log.info(">> 게시글 수정 시작 << id: {}", postId);
 
         if (loginUser.isCompany()) {
             throw new Exception400("일반회원만 접근 가능합니다.");
         }
-        userCommunityService.communityUpdate(postId, updateDTO, loginUser);
+        userCommunityService.communityUpdate(postId, userCommunityUpdateDTO, loginUser);
         return ResponseEntity.ok(new ApiUtil<>("수정 완료"));
     }
 
@@ -87,6 +88,13 @@ public class UserCommunityRestController {
     @DeleteMapping("/community/{id}/delete")
     public ResponseEntity<?> deleteCommunity(@PathVariable(name = "id") Long postId,
                                              @RequestAttribute(value = Define.LOGIN_USER, required = false) LoginUser loginUser) {
+        //삭제할 게시글 조회
+        log.info(">> 게시글 삭제 시작 << id: {}", postId);
+        if (loginUser.isCompany()) {
+            throw new Exception400("일반회원만 접근 가능합니다.");
+        }
+        // 게시글이 존재하지 않으면 예외 처리
+        UserCommunityResponse.DetailDTO detailDTO = userCommunityService.findById(postId, loginUser);
         userCommunityService.deletePost(postId);
         return ResponseEntity.ok(new ApiUtil<>("삭제 완료"));
     }

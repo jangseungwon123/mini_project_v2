@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface UserCommunityRepository extends JpaRepository<UserCommunity, Long> {
+public interface UserCommunityJpaRepository extends JpaRepository<UserCommunity, Long> {
 
 
     Page<UserCommunity> findAll(Pageable pageable);

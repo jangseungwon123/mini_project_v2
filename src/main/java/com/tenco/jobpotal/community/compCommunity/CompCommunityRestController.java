@@ -63,7 +63,7 @@ public class CompCommunityRestController {
         }
         CompUser compUser = loginUser.toCompUser();
         CompCommunity compCommunity = compCommunityService.savePost(compUser, saveDTO);
-        return ResponseEntity.ok(new ApiUtil<>(compCommunity));
+        return ResponseEntity.ok(new ApiUtil<>(CompCommunityResponse.SaveDTO.fromEntity(compCommunity)));
     }
 
     // 게시글 수정

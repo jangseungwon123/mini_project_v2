@@ -16,21 +16,21 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserCommunityService {
 
-    private final UserCommunityRepository userCommunityRepository;
+    private final UserCommunityJpaRepository userCommunityJpaRepository;
 
     // 전체 게시글 조회
 
     @Transactional(readOnly = true)
     public Page<UserCommunityResponse.ListDTO> findAllPosts(Pageable pageable, LoginUser loginUser) {
         log.info("전체 게시글 조회 서비스 시작");
-        Page<UserCommunity> userCommunities = userCommunityRepository.findAllWithUser(pageable);
+        Page<UserCommunity> userCommunities = userCommunityJpaRepository.findAllWithUser(pageable);
         return userCommunities.map(community -> UserCommunityResponse.ListDTO.fromEntity(community, loginUser));
     }
 
     // 단일 게시글 조회
 
     public UserCommunityResponse.DetailDTO findById(Long postId, LoginUser loginUser) {
-        UserCommunity userCommunity = userCommunityRepository.findById(postId).orElseThrow(() ->
+        UserCommunity userCommunity = userCommunityJpaRepository.findById(postId).orElseThrow(() ->
                 new Exception404("해당 게시글이 존재하지 않습니다.")
         );
 
@@ -40,14 +40,14 @@ public class UserCommunityService {
     // 게시글 생성
     @Transactional
     public UserCommunity savePost(User user, UserCommunityRequest.SaveDTO saveDTO) {
-        return userCommunityRepository.save(saveDTO.toEntity(user));
+        return userCommunityJpaRepository.save(saveDTO.toEntity(user));
     }
 
     // 게시글 수정
     @Transactional
-    public UserCommunity communityUpdate(Long postId, UserCommunityRequest.UpdateDTO updateDTO, LoginUser loginUser) {
+    public UserCommunity communityUpdate(Long postId, UserCommunityRequest.UserCommunityUpdateDTO userCommunityUpdateDTO, LoginUser loginUser) {
         // 게시글 조회
-        UserCommunity userCommunity = userCommunityRepository.findById(postId).orElseThrow(() ->
+        UserCommunity userCommunity = userCommunityJpaRepository.findById(postId).orElseThrow(() ->
                 new Exception404("해당 게시글이 존재하지 않습니다.")
         );
 
@@ -57,14 +57,14 @@ public class UserCommunityService {
         }
 
         // 수정된 내용으로 게시글 업데이트
-        userCommunity.update(updateDTO);
+        userCommunity.update(userCommunityUpdateDTO);
         return userCommunity;
     }
 
     // 게시글 삭제
     @Transactional
     public void deletePost(Long postId) {
-        userCommunityRepository.deleteById(postId);
+        userCommunityJpaRepository.deleteById(postId);
     }
 
 }

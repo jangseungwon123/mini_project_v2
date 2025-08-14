@@ -79,7 +79,7 @@ public class UserRequest {
 
     // 회원 정보 수정용 DTO
     @Data
-    public static class UpdateDTO {
+    public static class UpdateProfileRequestDTO {
         @NotEmpty(message = "이름을 입력해주세요")
         @Pattern(regexp = "^[가-힣a-zA-Z]{2,20}$", message = "한글/영문 2~20자 이내로 작성해주세요")
         private String userName;
@@ -103,7 +103,7 @@ public class UserRequest {
         private String userImageData;
     }
 
-    // 마이페이지용 DTO
+    // 마이페이지- 프로필 조회용 DTO
     @Data
     @Builder
     @NoArgsConstructor

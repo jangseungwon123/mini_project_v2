@@ -19,6 +19,7 @@ public class ResumeResponse {
         private String birth;
         private String email;
         private String gender;
+        private Long skillId;
         private char isExperienced;
         private char isShow;
 
@@ -32,6 +33,7 @@ public class ResumeResponse {
             this.birth = resume.getBirth();
             this.email = resume.getEmail();
             this.gender = resume.getGender();
+            this.skillId = resume.getUserSkillList().getSkillList().getSkillId();
             this.isExperienced = resume.getIsExperienced();
             this.isShow = resume.getIsShow();
         }
@@ -48,6 +50,7 @@ public class ResumeResponse {
         private String birth;
         private String email;
         private String gender;
+        private Long skillId;
         private char isExperienced;
         private char isShow;
 
@@ -61,6 +64,7 @@ public class ResumeResponse {
             this.birth = resume.getBirth();
             this.email = resume.getEmail();
             this.gender = resume.getGender();
+            this.skillId = resume.getUserSkillList().getSkillList().getSkillId();
             this.isExperienced = resume.getIsExperienced();
             this.isShow = resume.getIsShow();
         }
@@ -77,9 +81,10 @@ public class ResumeResponse {
         private String birth;
         private String email;
         private String gender;
+        private Long skillId;
         private char isExperienced;
 
-        @Builder
+
         public DetailDTO(Resume resume, LoginUser loginUser) {
             this.resumeId = resume.getResumeId();
             this.name = resume.getName();
@@ -90,6 +95,7 @@ public class ResumeResponse {
             this.birth = resume.getBirth();
             this.email = resume.getEmail();
             this.gender = resume.getGender();
+            this.skillId = resume.getUserSkillList().getSkillList().getSkillId();
             this.isExperienced = resume.getIsExperienced();
         }
     }

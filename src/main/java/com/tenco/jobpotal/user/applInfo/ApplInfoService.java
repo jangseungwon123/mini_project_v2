@@ -67,7 +67,9 @@ public class ApplInfoService {
         if(!applInfo.getJobPost().getCompInfo().getCompUser().getCompUserId().equals(loginUser.getId())){
             throw new Exception403("해당 지원서의 상태를 변경할 권한이 없습니다.");
         }
-
+        if(!"지원완료".equals(applInfo.getStatus())){
+            throw new Exception400("이미 합격 또는 불합격 처리된 지원서는 상태를 변경할 수 없습니다.");
+        }
         if (!"합격".equals(status) && !"불합격".equals(status)) {
             throw new Exception400("잘못된 상태 값입니다. '합격' 또는 '불합격'만 가능합니다.");
         }

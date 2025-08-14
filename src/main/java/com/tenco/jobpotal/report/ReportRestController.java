@@ -35,24 +35,30 @@ public class ReportRestController {
 
 	@Operation(summary = "관리자 신고 목록 조회", description = "관리자가 전체 신고 목록을 조회하는 기능")
 	@GetMapping("/admin/reports")
-	public ResponseEntity<?> reportList() {
-		List<ReportResponse.FindAllDTO> responseDTO = reportService.findAll();
+	public ResponseEntity<?> reportList(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
+		List<ReportResponse.FindAllDTO> responseDTO = reportService.findAll(loginUser);
 		return ResponseEntity.ok(new ApiUtil<>(responseDTO));
 	}
 
 	@Operation(summary = "관리자 신고 상세 조회", description = "관리자가 신고 내역을 상세 조회하는 기능")
 	@GetMapping("/admin/reports/{reportId}")
 	public ResponseEntity<?> reportDetail(
-			@PathVariable Long reportId) {
-		ReportResponse.DetailDTO responseDTO = reportService.findById(reportId);
+			@PathVariable Long reportId, @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
+		ReportResponse.DetailDTO responseDTO = reportService.findById(reportId, loginUser);
 		return ResponseEntity.ok(new ApiUtil<>(responseDTO));
 	}
 
 	@Operation(summary = "관리자 신고 내역 삭제")
 	@DeleteMapping("/admin/reports/{reportId}")
-	public ResponseEntity<?> reportDelete(@PathVariable Long reportId) {
-		reportService.deleteReport(reportId);
+	public ResponseEntity<?> reportDelete(@PathVariable Long reportId, @RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
+		reportService.deleteReport(reportId, loginUser);
 		return ResponseEntity.ok(new ApiUtil<>(null));
 	}
 
+	@Operation(summary = "내 신고 내역 목록 조회")
+	@GetMapping("/my-reports")
+	public ResponseEntity<?> myReportList(@RequestAttribute(Define.LOGIN_USER) LoginUser loginUser) {
+		List<ReportResponse.MyReportListDTO> responseDTO = reportService.findByUserId(loginUser.getId());
+		return ResponseEntity.ok(new ApiUtil<>(responseDTO));
+	}
 }

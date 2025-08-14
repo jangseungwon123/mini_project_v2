@@ -1,9 +1,14 @@
 package com.tenco.jobpotal.user.normal;
 
+import com.tenco.jobpotal.alarm.Alarm;
+import com.tenco.jobpotal.community.userCommunity.UserCommunity;
+import com.tenco.jobpotal.subscribe.UserSub;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -51,6 +56,15 @@ public class User {
 //    @OneToMany(mappedBy = "user")
 //    private List<UserSkillList> userSkills;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserCommunity> userCommunities;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserSub> userSubs;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Alarm> alarms;
+
     @Transient
     private Boolean isCompanyUserYn = false;
 
@@ -73,7 +87,17 @@ public class User {
         this.userImageData = userImageData;
     }
 
-    public void update(UserRequest.UpdateDTO updateDTO) {
+    public void update(UserRequest.UpdateProfileRequestDTO updateProfileRequestDTO) {
+        this.userName = updateProfileRequestDTO.getUserName();
+        this.userPassword = updateProfileRequestDTO.getUserPassword();
+        this.userEmail = updateProfileRequestDTO.getUserEmail();
+        this.userAddress = updateProfileRequestDTO.getUserAddress();
+        this.userPhone = updateProfileRequestDTO.getUserPhone();
+        this.userNickname = updateProfileRequestDTO.getUserNickname();
+        this.userImageData = updateProfileRequestDTO.getUserImageData();
+    }
+
+    public void profileUpdate(UserRequest.UpdateProfileRequestDTO updateDTO) {
         this.userName = updateDTO.getUserName();
         this.userPassword = updateDTO.getUserPassword();
         this.userEmail = updateDTO.getUserEmail();

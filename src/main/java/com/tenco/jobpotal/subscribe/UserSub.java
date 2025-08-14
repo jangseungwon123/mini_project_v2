@@ -12,6 +12,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
+import static jakarta.persistence.CascadeType.REMOVE;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +26,7 @@ public class UserSub {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSubId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = REMOVE)
     @JoinColumn(name = "user_id")
     private User user;
 

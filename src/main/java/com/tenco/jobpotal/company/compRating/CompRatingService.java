@@ -4,6 +4,7 @@ package com.tenco.jobpotal.company.compRating;
 import com.tenco.jobpotal._core.errors.exception.Exception400;
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
+import com.tenco.jobpotal.resume.Resume;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.applInfo.ApplInfo;
 import com.tenco.jobpotal.user.applInfo.ApplInfoJpaRepository;
@@ -64,6 +65,14 @@ public class CompRatingService {
             throw new Exception403("자신이 평가한 평점만 삭제 가능합니다.");
         }
         compRatingJpaRepository.delete(compRating);
+    }
+
+    public CompRatingResponse.AvgScoreDTO getAverageScore(Long compUserId){
+        compUserJpaRepository.findById(compUserId)
+                .orElseThrow(() -> new Exception404("존재하지 않는 회사입니다."));
+        Double avgScore = compRatingJpaRepository.findAverageScoreBycompUserId(compUserId);
+        String message = (avgScore == null) ? "평점 등록되지 않은 회사입니다." : "기업의 평균 평점입니다.";
+        return new CompRatingResponse.AvgScoreDTO(compUserId, avgScore ,message );
     }
 
 

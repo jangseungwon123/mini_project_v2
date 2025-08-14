@@ -16,4 +16,5 @@ public interface AlarmJpaRepository extends JpaRepository <Alarm, Long>{
 
     @Query("SELECT COUNT(a) FROM Alarm a WHERE a.user.userId = :userId AND a.isRead = false")
     Long countUnreadByUserId(@Param("userId") Long userId);
+
 }

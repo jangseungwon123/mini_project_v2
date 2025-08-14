@@ -1,8 +1,8 @@
 package com.tenco.jobpotal.resume;
 
-import com.tenco.jobpotal.skill.SkillList;
 import com.tenco.jobpotal.user.normal.User;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -66,6 +66,10 @@ public class ResumeRequest {
         @NotEmpty(message = "제목은 필수입니다")
         @Size(min = 1, max = 100, message = "제목은 1~100자 이내로 작성해주세요")
         private String title;
+
+        @NotNull(message = "스킬 선택은 필수 입니다.")
+        private Long skillId;
+
         @NotEmpty(message = "내용은 필수입니다")
         @Size(min = 1, max = 1000, message = "내용은 1~5000자 이내로 작성해주세요")
         private String content;

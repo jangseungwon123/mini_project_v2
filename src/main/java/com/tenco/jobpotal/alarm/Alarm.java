@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
+
+import static jakarta.persistence.CascadeType.REMOVE;
 // 중간 테이블..
 
 @Table(name = "alarm_info")
@@ -17,7 +19,7 @@ public class Alarm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long alarmId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = REMOVE)
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 

@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
+import static jakarta.persistence.CascadeType.REMOVE;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -20,8 +22,8 @@ public class CompCommunity {
     @Column(name = "post_id")
     private Long postId;
 
-    @JoinColumn(name = "compUser_id", nullable = true)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "compUser_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = REMOVE)
     private CompUser compUser; // 게시글 작성자 정보
 
     @Column(length = 8)

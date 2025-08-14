@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
+import static jakarta.persistence.CascadeType.REMOVE;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -20,8 +22,8 @@ public class UserCommunity {
     @Column(name = "post_id")
     private Long postId;
 
-    @JoinColumn(name = "user_id", nullable = true)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = REMOVE)
     private User user; // 게시글 작성자 정보
 
     @Column(length = 8)
@@ -51,11 +53,11 @@ public class UserCommunity {
         this.postPassword = postPassword;
         this.user = user;
     }
-    public void update(UserCommunityRequest.UpdateDTO updateDTO){
-        this.title = updateDTO.getTitle();
-        this.content = updateDTO.getContent();
-        this.instId = updateDTO.getInstId();
-        this.postPassword = updateDTO.getPostPassword();
+    public void update(UserCommunityRequest.UserCommunityUpdateDTO userCommunityUpdateDTO){
+        this.title = userCommunityUpdateDTO.getTitle();
+        this.content = userCommunityUpdateDTO.getContent();
+        this.instId = userCommunityUpdateDTO.getInstId();
+        this.postPassword = userCommunityUpdateDTO.getPostPassword();
 
     }
 

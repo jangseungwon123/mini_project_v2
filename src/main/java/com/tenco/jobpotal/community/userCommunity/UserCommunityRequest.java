@@ -3,6 +3,8 @@ package com.tenco.jobpotal.community.userCommunity;
 import com.tenco.jobpotal.user.normal.User;
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 public class UserCommunityRequest {
 
 
@@ -12,20 +14,21 @@ public class UserCommunityRequest {
         private String content;
         private String instId;
         private String postPassword;
+        private Timestamp instDate;
 
         public UserCommunity toEntity(User user) {
             return UserCommunity.builder()
                     .user(user)
                     .title(title)
                     .content(content)
-                    .instId(instId)
+                    .instId(user.getUserLoginId())
                     .postPassword(postPassword)
                     .build();
         }
     }
 
     @Data
-    public static class UpdateDTO {
+    public static class UserCommunityUpdateDTO {
         private String title;
         private String content;
         private String instId;
