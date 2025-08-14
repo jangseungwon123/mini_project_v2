@@ -2,9 +2,6 @@ package com.tenco.jobpotal.user.applInfo;
 
 import com.tenco.jobpotal.job_post.JobPost;
 import com.tenco.jobpotal.resume.Resume;
-import com.tenco.jobpotal.user.LoginUser;
-import com.tenco.jobpotal.user.comp.CompUser;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -49,7 +46,7 @@ public class ApplInfoRequest {
         private Long jobPostId;
         private String status;
 
-        public ApplInfo toEntity( String status , ApplInfo applInfo) {
+        public ApplInfo toEntity(String status, ApplInfo applInfo) {
             return ApplInfo.builder()
                     .applInfoId(applInfo.getApplInfoId())
                     .resume(Resume.builder().resumeId(resumeId).build())
@@ -63,7 +60,7 @@ public class ApplInfoRequest {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class DeleteDTO{
+    public static class DeleteDTO {
         private Long applInfoId;
         private Long resumeId;
         private Long jobPostId;

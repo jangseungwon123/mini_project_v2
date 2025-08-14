@@ -1,7 +1,5 @@
 package com.tenco.jobpotal.user.adminInfo;
 
-import com.tenco.jobpotal.user.comp.CompUser;
-import com.tenco.jobpotal.user.normal.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,9 +17,4 @@ public interface AdminInfoJpaRepository extends JpaRepository<AdminInfo, Long> {
     Optional<AdminInfo> findByAdminLoginId(@Param("adminLoginId") String adminLoginId,
                                            @Param("adminPassword") String adminPassword);
 
-    // 아이디, 이름, 이메일로 사용자 조회(중복 체크용)
-    @Query("SELECT a FROM AdminInfo a WHERE a.adminLoginId = :adminLoginId OR a.adminName = :adminName OR a.adminEmail = :adminEmail")
-    Optional<User> findByUserExists(@Param("adminLoginId") String adminLoginId,
-                                    @Param("adminName") String adminName,
-                                    @Param("adminEmail") String adminEmail);
 }

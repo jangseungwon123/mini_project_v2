@@ -6,31 +6,26 @@ import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.errors.exception.Exception404;
 import com.tenco.jobpotal._core.utils.JwtUtil;
 import com.tenco.jobpotal.user.LoginUser;
-import com.tenco.jobpotal.user.normal.User;
-import com.tenco.jobpotal.user.normal.UserResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AdminInfoService {
 
-     private final AdminInfoJpaRepository adminInfoJpaRepository;
+    private final AdminInfoJpaRepository adminInfoJpaRepository;
 
-     // 관리자 회원가입
+    // 관리자 회원가입
     @Transactional
-    public AdminInfoResponse.JoinDTO join(AdminInfoRequest.AdminJoinDTO joinDTO, LoginUser loginUser){
+    public AdminInfoResponse.JoinDTO join(AdminInfoRequest.AdminJoinDTO joinDTO, LoginUser loginUser) {
         // 동일한 아이디 있는지 확인(중복체크)
-        if(loginUser == null){
+        if (loginUser == null) {
             throw new Exception403("로그인 정보가 없습니다.");
         }
         adminInfoJpaRepository.findById(loginUser.getId()).orElseThrow(() ->
-            new Exception403("관리자 생성 권한이 없습니다.")
+                new Exception403("관리자 생성 권한이 없습니다.")
         );
         adminInfoJpaRepository.findByAdminJoinId(joinDTO.getAdminLoginId())
                 .ifPresent(adminInfo1 -> {
@@ -41,12 +36,12 @@ public class AdminInfoService {
     }
 
     // 로그인
-    public String login(AdminInfoRequest.LoginDTO loginDTO){
+    public String login(AdminInfoRequest.LoginDTO loginDTO) {
         AdminInfo adminInfo = adminInfoJpaRepository
-                .findByAdminLoginId(loginDTO.getAdminLoginId(), loginDTO.getAdminPassword()).orElseThrow(() ->{
+                .findByAdminLoginId(loginDTO.getAdminLoginId(), loginDTO.getAdminPassword()).orElseThrow(() -> {
                     throw new Exception401("아이디 또는 비밀번호가 틀렸어요");
-                        });
-        LoginUser loginUser =LoginUser.builder()
+                });
+        LoginUser loginUser = LoginUser.builder()
                 .id(adminInfo.getAdminId())
                 .name(adminInfo.getAdminName())
                 .loginId(adminInfo.getAdminLoginId())
@@ -57,21 +52,10 @@ public class AdminInfoService {
         String jwt = JwtUtil.create(loginUser);
         return jwt;
     }
-    // 내 정보 조회
 
-    public AdminInfoResponse.DetailDTO findByMyId( LoginUser loginUser) {
-        if(loginUser == null){
-            throw new Exception403("로그인 정보가 없습니다.");
-        }
-        AdminInfo myId = adminInfoJpaRepository.findById(loginUser.getId()).orElseThrow(() -> {
-            throw new Exception404("회원 정보를 찾을 수 없습니다");
-        });
-        return new AdminInfoResponse.DetailDTO(myId);
-    }
-
-    // (다른 )관리자 정보 상세 조회
-    public AdminInfoResponse.DetailDTO findByTargetId( Long targetAdminId, LoginUser loginUser) {
-        if(loginUser == null){
+    //관리자 정보 상세 조회
+    public AdminInfoResponse.DetailDTO findByTargetId(Long targetAdminId, LoginUser loginUser) {
+        if (loginUser == null) {
             throw new Exception403("로그인 정보가 없습니다.");
         }
         adminInfoJpaRepository.findById(loginUser.getId()).orElseThrow(() ->
@@ -83,18 +67,19 @@ public class AdminInfoService {
         return new AdminInfoResponse.DetailDTO(selectedAdminInfoUser);
     }
 
-
     // 관리자 정보 수정
     @Transactional
     public void updateByAdmin(Long adminId, AdminInfoRequest.UpdateDTO updateDTO, LoginUser loginUser) {
-        if(!loginUser.getId().equals(adminId)){
-            throw new Exception403("자신의 비밀번호만 수정할 수 있습니다");}
+        if (!loginUser.getId().equals(adminId)) {
+            throw new Exception403("자신의 비밀번호만 수정할 수 있습니다");
+        }
         AdminInfo adminInfo = adminInfoJpaRepository.findById(adminId).orElseThrow(() -> {
-            throw new Exception403("해당 관리자를 찾을 수 없습니다.");});
-        if(!adminInfo.getAdminPassword().equals(updateDTO.getCurrentPassword())){
+            throw new Exception403("해당 관리자를 찾을 수 없습니다.");
+        });
+        if (!adminInfo.getAdminPassword().equals(updateDTO.getCurrentPassword())) {
             throw new Exception400("비밀번호가 일치하지 않습니다. 다시 입력해주세요");
         }
-        if(adminInfo.getAdminPassword().equals(updateDTO.getNewPassword())){
+        if (adminInfo.getAdminPassword().equals(updateDTO.getNewPassword())) {
             throw new Exception400("같은 비밀번호로 바꿀 수 없습니다.");
         }
         adminInfo.setAdminPassword(updateDTO.getNewPassword());
@@ -102,22 +87,11 @@ public class AdminInfoService {
 
     @Transactional
     public void deleteByAdmin(LoginUser loginUser, Long adminId) {
-    AdminInfo adminInfo = adminInfoJpaRepository.findById(adminId)
-            .orElseThrow(() -> new Exception404("존재하지 않는 관리자입니다."));
-    if (!adminInfo.getAdminId().equals(loginUser.getId())) {
-        throw new Exception403("본인 계정만 삭제할 수 있습니다.");
-    }
+        AdminInfo adminInfo = adminInfoJpaRepository.findById(adminId)
+                .orElseThrow(() -> new Exception404("존재하지 않는 관리자입니다."));
+        if (!adminInfo.getAdminId().equals(loginUser.getId())) {
+            throw new Exception403("본인 계정만 삭제할 수 있습니다.");
+        }
         adminInfoJpaRepository.delete(adminInfo);
     }
-//    public AdminInfoResponse.UpdateDTO updateByAdmin(Long requestAdminId, Long loginAdminId, AdminInfoRequest.UpdateDTO updateDTO) {
-//        if (!requestAdminId.equals(loginAdminId)) {
-//            throw new Exception403("본인 정보만 수정 가능합니다");
-//        }
-//        AdminInfo selectedAdmin = adminInfoJpaRepository.findById(requestAdminId).orElseThrow(() -> {
-//            throw new Exception404("사용자를 찾을 수 없습니다") ;
-//        });
-//        selectedAdmin.update(updateDTO);
-//        return new AdminInfoResponse.UpdateDTO(selectedAdmin);
-//    }
-
 }
