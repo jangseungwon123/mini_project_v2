@@ -8,6 +8,28 @@ import java.sql.Timestamp;
 
 public class CompCommunityResponse {
 
+    // 게시글 작성 응답 DTO 설계
+    @Data
+    @Builder
+    public static class SaveDTO {
+        private Long postId;
+        private String title;
+        private String content;
+        private String instId;
+        private Timestamp instDate; // 게시글 작성 시간
+        private String postPassword; // 게시글 비밀번호
+
+        public static SaveDTO fromEntity(CompCommunity compCommunity) {
+            return SaveDTO.builder()
+                    .postId(compCommunity.getPostId())
+                    .title(compCommunity.getTitle())
+                    .content(compCommunity.getContent())
+                    .instId(compCommunity.getInstId())
+                    .instDate(compCommunity.getInstDate())
+                    .postPassword(compCommunity.getPostPassword())
+                    .build();
+        }
+    }
     //전체 게시글 조회 응답 DTO 설계
     @Data
     @Builder
@@ -16,7 +38,6 @@ public class CompCommunityResponse {
         private String title;
         private String content;
         private String instId;
-        private Timestamp instDate;
         private String writerCompanyName; // 작성자 회사명
         private boolean isPostOwner; // 게시글 작성자 여부
 
@@ -26,7 +47,6 @@ public class CompCommunityResponse {
                     .title(compCommunity.getTitle())
                     .content(compCommunity.getContent())
                     .instId(compCommunity.getInstId())
-                    .instDate(compCommunity.getInstDate())
                     .writerCompanyName(compCommunity.getCompUser() != null ? compCommunity.getCompUser().getCompUserName() : "탈퇴한 회사")
                     .isPostOwner(loginUser != null && compCommunity.getCompUser() != null &&
                                compCommunity.getCompUser().getCompUserId().equals(loginUser.getId()))
@@ -41,7 +61,6 @@ public class CompCommunityResponse {
         private String title;
         private String content;
         private String instId;
-        private String instDate;
         private boolean isPostOwner; // 화면단에서 해당 기업의 게시물인지 확인 여부를 체크 해주기 위한 컬럼
 
         @Builder

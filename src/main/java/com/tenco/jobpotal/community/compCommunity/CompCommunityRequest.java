@@ -12,6 +12,7 @@ public class CompCommunityRequest {
         private String instId;
         private String postPassword;
 
+
         public CompCommunity toEntity(CompUser compUser) {
             return CompCommunity.builder()
                     .compUser(compUser)

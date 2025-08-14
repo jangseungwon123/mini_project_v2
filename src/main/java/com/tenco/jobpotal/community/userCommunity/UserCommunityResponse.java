@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 public class UserCommunityResponse {
 
+
     //전체 게시글 조회 응답 DTO 설계
     @Data
     @Builder
@@ -54,6 +55,7 @@ public class UserCommunityResponse {
             this.title = userCommunity.getTitle();
             this.content = userCommunity.getContent();
             this.instId = userCommunity.getInstId();
+            this.instDate = userCommunity.getInstDate().toString(); //
             this.isPostOwner = loginUser != null && userCommunity.isOwner(loginUser.getId());
         }
 

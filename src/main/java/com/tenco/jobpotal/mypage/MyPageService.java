@@ -1,14 +1,17 @@
 package com.tenco.jobpotal.mypage;
 
 import com.tenco.jobpotal._core.errors.exception.Exception404;
+import com.tenco.jobpotal.alarm.AlarmJpaRepository;
 import com.tenco.jobpotal.community.userCommunity.UserCommunity;
 import com.tenco.jobpotal.community.userCommunity.UserCommunityJpaRepository;
 import com.tenco.jobpotal.community.userCommunity.UserCommunityResponse;
+import com.tenco.jobpotal.subscribe.UserSubJpaRepository;
 import com.tenco.jobpotal.user.LoginUser;
 import com.tenco.jobpotal.user.normal.User;
 import com.tenco.jobpotal.user.normal.UserJpaRepository;
 import com.tenco.jobpotal.user.normal.UserRequest;
 import com.tenco.jobpotal.user.normal.UserResponse;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +28,8 @@ public class MyPageService {
 
 
     private final UserJpaRepository userJpaRepository;
+    private final AlarmJpaRepository alarmJpaRepository;
+    private final UserSubJpaRepository userSubJpaRepository;
 
     private final UserCommunityJpaRepository userCommunityJpaRepository;
 
@@ -54,16 +59,21 @@ public class MyPageService {
 
         return userCommunities.map(UserCommunityResponse.MyPostResponse::fromEntity);
     }
+
+
+
     // 회원 탈퇴 기능
     public ResponseEntity<String> deleteUser(LoginUser loginUser) {
         User user = userJpaRepository.findById(loginUser.getId())
                 .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
         // 사용자 삭제
         userJpaRepository.delete(user);
-        //Todo 알림, 구독 등 관련 데이터 삭제 - 필요할까 ??
-//        alarmJpaRepository.deleteAllByUserId(loginUser.getId());
-//        userSubJpaRepository.deleteAllByUserId(loginUser.getId());
+        //alarmJpaRepository.delete
+        //userSubJpaRepository.deleteAllById(user.getUserId());
         return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
     }
+
+
+
 
 }
