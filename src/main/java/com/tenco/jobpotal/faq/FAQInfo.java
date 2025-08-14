@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.faq;
 
+import com.tenco.jobpotal.user.adminInfo.AdminInfo;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -21,16 +22,19 @@ public class FAQInfo {
     private String title;
     private String content;
 
-//    private String instId; // 등록자
-//    @CreationTimestamp
-//    private Timestamp instDate; // 등록일
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private AdminInfo adminInfo; // 작성자 (AdminInfo 엔티티 참조)
+
+    @CreationTimestamp
+    private Timestamp createdAt; // 등록일
 
     @Builder
-    public FAQInfo(Long faqId, String title, String content) {
+    public FAQInfo(Long faqId, String title, String content, AdminInfo adminInfo, Timestamp createdAt) {
         this.faqId = faqId;
         this.title = title;
         this.content = content;
-//        this.instId = instId;
-//        this.instDate = instDate;
+        this.adminInfo = adminInfo;
+        this.createdAt = createdAt;
     }
 }

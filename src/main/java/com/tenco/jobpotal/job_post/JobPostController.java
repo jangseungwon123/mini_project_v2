@@ -1,5 +1,6 @@
 package com.tenco.jobpotal.job_post;
 
+import com.tenco.jobpotal._core.common.ApiUtil;
 import com.tenco.jobpotal._core.errors.exception.Exception403;
 import com.tenco.jobpotal._core.utils.Define;
 import com.tenco.jobpotal.user.LoginUser;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Map;
 import java.util.List;
 
 @RestController
@@ -64,11 +66,12 @@ public class JobPostController {
 
     // 게시글 삭제
     @DeleteMapping("/delete/{recruitId}")
-    public ResponseEntity<Void> deleteJobPost(@PathVariable Long recruitId,
+    public ResponseEntity<?> deleteJobPost(@PathVariable Long recruitId,
                                               @RequestAttribute(value = Define.LOGIN_USER) LoginUser loginUser) {
         // 서비스 계층에 로그인 정보를 넘겨 권한을 확인하도록 합니다.
         jobPostService.deleteJobPost(recruitId, loginUser);
-        return ResponseEntity.noContent().build();
+        System.out.println("### deleteJobPost: 새 코드가 실행되었습니다! ###"); // 진단용 로그 추가
+        return ResponseEntity.ok(new ApiUtil<>("채용공고 삭제가 완료 되었습니다."));
     }
 
 
